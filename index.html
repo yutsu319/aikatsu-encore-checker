@@ -190,10 +190,10 @@ main{padding:12px 12px 8px; max-width:980px; margin:0 auto}
 .result-line b{color:#d6337a}
 
 /* ---------- card grid ---------- */
-.card-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px}
-@media(min-width:480px){ .card-grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
-@media(min-width:760px){ .card-grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
-@media(min-width:980px){ .card-grid{grid-template-columns:repeat(5,minmax(0,1fr))} }
+.card-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+@media(min-width:480px){ .card-grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media(min-width:760px){ .card-grid{grid-template-columns:repeat(5,minmax(0,1fr))} }
+@media(min-width:980px){ .card-grid{grid-template-columns:repeat(6,minmax(0,1fr))} }
 .ccard{
   position:relative; background:#fff; border:2px solid var(--line); border-radius:14px; overflow:hidden;
   box-shadow:0 3px 10px rgba(255,140,180,.12); transition:transform .12s, box-shadow .2s, border-color .2s;
@@ -226,7 +226,7 @@ main{padding:12px 12px 8px; max-width:980px; margin:0 auto}
 .ccard .meta .cat{color:var(--ink-2)}
 .ccard .row2{display:flex; align-items:center; gap:4px; margin-top:6px}
 .stepper{display:flex; align-items:center; gap:0; border:1.5px solid var(--line); border-radius:99px; overflow:hidden; background:#fff8fb; flex:1}
-.stepper button{border:none; background:none; width:34px; min-height:32px; font-size:15px; font-weight:900; color:#c2417c; display:grid; place-items:center}
+.stepper button{border:none; background:none; width:30px; min-height:32px; font-size:15px; font-weight:900; color:#c2417c; display:grid; place-items:center}
 .stepper button:disabled{color:#e6c6d5}
 .stepper .num{flex:1; text-align:center; font-size:12px; font-weight:900; font-variant-numeric:tabular-nums; color:var(--ink)}
 .stepper .num.zero{color:#bda3b0}
@@ -1393,18 +1393,39 @@ function thumbOf(c){
 function thumbSrc(c){ return THUMB_DIR + encodeURIComponent(c.id) + '.jpg'; }
 function loadThumbs(list, onProgress){
   const need = list.filter(c => MASTER_IDS.has(c.id) && !thumbs.has(c.id));
-  if(!need.length){ if(onProgress) onProgress(list.length, list.length); return Promise.resolve(); }
-  let done = 0;
   const total = need.length;
+  if(!need.length){ if(onProgress) onProgress(list.length, list.length); return Promise.resolve(); }
   if(onProgress) onProgress(0, total);
-  return Promise.all(need.map(c => new Promise(resolve => {
-    const im = new Image();
-    im.decoding = 'async';
-    const fin = ok => { thumbs.set(c.id, ok ? im : null); done++; if(onProgress) onProgress(done, total); resolve(); };
-    im.onload = () => fin(im.naturalWidth > 0);
-    im.onerror = () => fin(false);
-    im.src = thumbSrc(c);
-  })));
+  // 一度に全部を読みにいくと端末によっては画像が落ちるので、少しずつ読む
+  const LIMIT = 6;
+  let idx = 0, active = 0, done = 0;
+  return new Promise(resolve => {
+    const pump = () => {
+      while(active < LIMIT && idx < total){
+        const c = need[idx++];
+        active++;
+        const im = new Image();
+        im.decoding = 'async';
+        let tries = 0;
+        const fin = ok => {
+          thumbs.set(c.id, ok ? im : null);
+          active--; done++;
+          if(onProgress) onProgress(done, total);
+          if(done >= total) resolve(); else pump();
+        };
+        im.onload = () => { if(im.naturalWidth > 0) fin(true); else retry(); };
+        im.onerror = () => retry();
+        const retry = () => {
+          if(tries < 1){                     // 一度だけ読み直す（一時的な失敗対策）
+            tries++;
+            setTimeout(() => { im.src = thumbSrc(c) + '?r=' + tries; }, 150);
+          } else fin(false);
+        };
+        im.src = thumbSrc(c);
+      }
+    };
+    pump();
+  });
 }
 
 const pct1 = p => (p >= 100 ? '100' : (Math.round(p * 10) / 10).toFixed(1));
@@ -1671,6 +1692,15 @@ function drawCardTile(ctx, c, x, y, w, h, n, showCount, noImg){
   rr(ctx, x, y, w, artH, r); ctx.clip();
   if(im && im.naturalWidth && im.naturalHeight){
     ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, w, artH);
+    // 横長の画像は、同じ絵をうっすら敷いてから全体が入るように描く（空白が目立たない）
+    const imAspect = im.naturalWidth / im.naturalHeight;
+    if(imAspect > (w / artH) * 1.15){
+      const cs = Math.max(w / im.naturalWidth, artH / im.naturalHeight);
+      ctx.globalAlpha = own ? 0.16 : 0.1;
+      ctx.drawImage(im, x + (w - im.naturalWidth * cs) / 2, y + (artH - im.naturalHeight * cs) / 2,
+        im.naturalWidth * cs, im.naturalHeight * cs);
+      ctx.globalAlpha = 1;
+    }
     const sc = Math.min(w / im.naturalWidth, artH / im.naturalHeight);
     const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
     ctx.globalAlpha = own ? 1 : 0.6;
