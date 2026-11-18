@@ -1487,11 +1487,11 @@ function drawCardTile(ctx, c, x, y, w, h, n, noImg){
     ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, w, artH);
     const sc = Math.min(w / im.naturalWidth, artH / im.naturalHeight);
     const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
-    ctx.globalAlpha = own ? 1 : 0.4;
+    ctx.globalAlpha = own ? 1 : 0.62;
     ctx.drawImage(im, x + (w - dw) / 2, y + (artH - dh) / 2, dw, dh);
     ctx.globalAlpha = 1;
     if(!own){   // 未所持は白っぽくかすませる（グレースケール風）
-      ctx.fillStyle = 'rgba(255,255,255,.42)'; ctx.fillRect(x, y, w, artH);
+      ctx.fillStyle = 'rgba(255,255,255,.3)'; ctx.fillRect(x, y, w, artH);
     }
   }else{
     // イラストが読めないときは、種類の色で番号を大きく出すテキスト枠
@@ -1537,12 +1537,12 @@ function drawCardTile(ctx, c, x, y, w, h, n, noImg){
   ctx.fillText(String(c.rarity), x + w - rw / 2 - 5, rowY + rh / 2 + fs * 0.36);
   ctx.textAlign = 'left';
 
-  ctx.fillStyle = own ? IMG_INK3 : '#c0aeb8';
+  ctx.fillStyle = own ? IMG_INK3 : '#b3a1ab';
   ctx.font = '800 ' + fs + 'px ' + IMG_FONT;
   ctx.fillText(fitText(ctx, c.id, w - rw - 16), x + 6, rowY + rh / 2 + fs * 0.36);
 
   const nTop = rowY + rh + nfs + 1;
-  ctx.fillStyle = own ? IMG_INK : '#9d8c97';
+  ctx.fillStyle = own ? IMG_INK : '#8e7d88';
   ctx.font = (own ? '900 ' : '800 ') + nfs + 'px ' + IMG_FONT;
   wrapLines(ctx, c.name, w - 12, 2).forEach((ln, i) => {
     ctx.fillText(ln, x + 6, nTop + i * (nfs + 2));
