@@ -338,6 +338,59 @@ details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height
 .coord-mini{display:flex; gap:5px; flex-wrap:wrap}
 .coord-mini button{border:1.5px solid var(--line); background:#fff; border-radius:9px; padding:6px 8px; font-size:11px; font-weight:800; color:var(--ink-2)}
 
+/* ---------- v3：おすすめコーデ / プレイ回数メモ ---------- */
+.rec-list{display:grid; gap:9px}
+@media(min-width:720px){ .rec-list{grid-template-columns:1fr 1fr; align-items:start} }
+.rec{border:1.5px solid var(--line); border-radius:16px; background:#fff; padding:10px; box-shadow:var(--shadow)}
+.rec.top{border-color:#ffc44d; background:linear-gradient(135deg,#fffdf5,#fff8e8)}
+.rec-h{display:flex; align-items:flex-start; gap:9px}
+.rec-imgs{display:grid; grid-template-columns:repeat(2,40px); gap:3px; flex:0 0 auto}
+.rec-imgs.one{grid-template-columns:52px}
+.rec-imgs img{width:40px; height:57px; object-fit:contain; border-radius:7px; display:block; cursor:pointer;
+  background:linear-gradient(135deg,#ffe9f3,#fff6df)}
+.rec-imgs.one img{width:52px; height:74px}
+.rec-imgs img.miss{opacity:.3; filter:grayscale(.5)}
+.rec-imgs img.noimg{visibility:hidden}
+.rec-body{flex:1; min-width:0}
+.rec-nm{font-size:12.5px; font-weight:900; line-height:1.3; overflow-wrap:anywhere}
+.rec-tags{display:flex; gap:4px; flex-wrap:wrap; margin-top:4px}
+.rec-pieces{display:flex; flex-wrap:wrap; gap:2px 7px; margin-top:5px; font-size:10px; font-weight:800; color:var(--ink-2)}
+.rec-pieces .pc-miss{color:#b98ea3}
+.rec-ap{flex:0 0 auto; text-align:right}
+.rec-ap b{display:block; font-size:16px; font-weight:900; line-height:1.1; color:#c2417c; font-variant-numeric:tabular-nums}
+.rec-ap span{font-size:9.5px; font-weight:900; color:var(--ink-3); letter-spacing:.04em}
+.rec-miss{margin-top:7px; padding:6px 8px; border-radius:9px; background:#fff8fb; border:1px dashed #ffd6e6;
+  font-size:10.5px; font-weight:800; color:#a5788c; line-height:1.6}
+.rec-miss a{color:#c2417c; font-weight:900}
+.rec-note{margin:9px 0 0; font-size:10.5px; font-weight:700; color:var(--ink-2); line-height:1.55}
+.chip[aria-pressed="true"] .fcount{background:rgba(255,255,255,.32); color:#fff}
+
+.play-stats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px}
+.play-stat{border:1.5px solid var(--line); border-radius:13px; background:#fffafd; padding:8px 4px; text-align:center}
+.play-stat>span{display:block; font-size:9.5px; font-weight:900; color:var(--ink-3); letter-spacing:.04em}
+.play-stat b{display:block; margin-top:2px; font-size:19px; font-weight:900; line-height:1.1; font-variant-numeric:tabular-nums}
+.play-stat b i{font-style:normal; font-size:10px; font-weight:800; color:var(--ink-2); margin-left:1px}
+.play-stat small{display:block; margin-top:2px; font-size:11px; font-weight:900; color:#c2417c; font-variant-numeric:tabular-nums}
+.play-quick{display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:9px}
+.play-quick .btn{width:100%; padding:0 6px}
+.play-mini{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin-top:6px}
+.play-mini .chip{text-align:center; justify-content:center; min-height:34px; padding:5px 4px; font-size:10.5px}
+.play-form{display:grid; grid-template-columns:1fr 1fr auto; gap:6px; align-items:end; margin-top:9px}
+.play-form label{display:block; font-size:9.5px; font-weight:900; color:var(--ink-3)}
+.play-form input{width:100%; margin-top:2px; border:1.5px solid var(--line); border-radius:11px; padding:8px; min-height:38px;
+  background:#fff; font-weight:800; font-variant-numeric:tabular-nums; outline:none}
+.play-form input:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
+.play-form input::placeholder{color:#cdb4bf; font-weight:700}
+.play-form .btn{min-height:38px; padding:0 12px}
+.play-days{margin-top:2px}
+.play-day{display:grid; grid-template-columns:minmax(0,1fr) 42px 66px 26px; gap:6px; align-items:center; padding:6px 2px;
+  border-bottom:1px dashed var(--line); font-size:11.5px; font-weight:800; font-variant-numeric:tabular-nums}
+.play-day:last-child{border-bottom:none}
+.play-day .d{color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.play-day .v{text-align:right}
+.play-day.today .d{color:#c2417c; font-weight:900}
+.play-day .x{border:none; background:#fff2f6; color:#c2417c; border-radius:8px; width:26px; height:26px; font-weight:900; line-height:1}
+
 /* ---------- image save ---------- */
 .img-cta{display:flex; align-items:center; gap:10px; background:linear-gradient(135deg,#fff 45%,#fff7e6 100%)}
 .img-cta .txt{flex:1; min-width:0}
@@ -503,11 +556,12 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
     </div>
 
     <div class="panel">
-      <h2><span class="ico">🎤</span>アイドル・ニュース<span class="right">第2弾アップデート</span></h2>
+      <h2><span class="ico">🎤</span>アイドル・ニュース<span class="right">第2弾＋第3弾</span></h2>
       <div class="mini-cards">
         <button class="mini-card" data-view="idol"><b id="miniIdol">0/11</b><span>アイドル解放</span><small id="miniIdolSub">解放チェック</small></button>
         <button class="mini-card" data-view="news"><b id="miniNews">—</b><span>つぎの予定</span><small id="miniNewsSub">発売日・終了日</small></button>
         <button class="mini-card" data-view="myshot"><b id="miniShots">0</b><span>マイショット</span><small id="miniShotsSub">写真をためる</small></button>
+        <button class="mini-card" data-view="idol" data-scroll="playPanel"><b id="miniPlay">0回</b><span>今日のプレイ</span><small id="miniPlaySub">きょうはまだ</small></button>
       </div>
     </div>
 
@@ -531,7 +585,7 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
       <div class="panel">
         <h2><span class="ico">👗</span>コーデの揃い具合</h2>
         <div class="mini-cards" id="homeCoords"></div>
-        <div style="margin-top:10px"><button class="btn ghost sm" data-go="coords">コーデを見にいく →</button></div>
+        <div style="margin-top:10px"><button class="btn ghost sm" data-go="coords">✨ おすすめコーデを見る →</button></div>
       </div>
       <div class="panel">
         <h2><span class="ico">🔍</span>きょうの目標</h2>
@@ -594,6 +648,17 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
 
   <!-- ================= COORDS ================= -->
   <section class="view" id="view-coords" hidden>
+    <div class="panel" id="recPanel">
+      <h2><span class="ico">✨</span>手持ちで組めるおすすめコーデ<span class="right" id="recSummary"></span></h2>
+      <p class="muted" style="margin:0 0 9px">いま持っているカードだけで全身そろうコーデを、AP（アピールポイント）の高い順に並べています。カードの絵をタップすると詳細が見られます。</p>
+      <div class="chips" id="recChips">
+        <button class="chip" data-rfilter="all" aria-pressed="true">組める<span class="fcount" id="recN1"></span></button>
+        <button class="chip" data-rfilter="high" aria-pressed="false">🎯 高AP 3,000〜<span class="fcount" id="recN2"></span></button>
+        <button class="chip" data-rfilter="reach" aria-pressed="false">あと1枚<span class="fcount" id="recN3"></span></button>
+      </div>
+      <div class="rec-list" id="recList"></div>
+      <p class="rec-note" id="recNote"></p>
+    </div>
     <div class="panel">
       <h2><span class="ico">👗</span>コーデの揃い具合<span class="right" id="coordSummary"></span></h2>
       <div class="chips" id="coordChips">
@@ -689,7 +754,9 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
           6. 「📷 所持一覧を画像で保存」を押すと、先に「出すカード」と「所持枚数を表示するか」を選ぶ画面が出ます。画像は横1200pxの縦長1枚で、カードは10列に並びます（高さはカードの枚数に合わせて伸びます）。所持はゴールド枠でくっきり、未所持はうすく表示。長押しで写真アプリへ、「共有」でLINEなどにも送れます。<br>
           7. 「🎤 アイドル」タブで、登場アイドル全11人の解放チェック（メエ・パリン・たいむは指定3曲ごと）、全11曲のプレイ済み・アンコール成功、3種類のアイカツ！スタンプ（各10マス）を記録できます。<br>
           8. 「📰 ニュース」タブで、ボーナスキャンペーンや発売日・配布期間を「あと何日」つきで確認できます。日付が過ぎると自動で「終了」に変わります。<br>
-          9. 「📸 マイショット」タブは、写真を端末の中だけに保存する自分用のプレイ日記。選んだ写真は長辺720px・JPEGに自動で軽くなります。いっぱいになったらJSONにバックアップしてから整理してね。
+          9. 「📸 マイショット」タブは、写真を端末の中だけに保存する自分用のプレイ日記。選んだ写真は長辺720px・JPEGに自動で軽くなります。いっぱいになったらJSONにバックアップしてから整理してね。<br>
+          10. 「👗 コーデ」タブのいちばん上に「✨ 手持ちで組めるおすすめコーデ」。いま持っているカードだけで全身そろうコーデをAPの高い順に表示します。「🎯 高AP 3,000〜」でスコア狙い、「あと1枚」で足りない1枚を確認できます。<br>
+          11. 「🎤 アイドル」タブの下の「🎮 プレイ回数＆金額メモ」は、1プレイ＝100円でワンタップ記録。今日・今月・累計の回数と金額が見られて、JSONでバックアップもできます（スタンプの進み具合と一緒に振り返れます）。
         </div>
       </details>
     </div>
@@ -726,6 +793,38 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
       <p class="muted" style="margin:0 0 4px">1プレイごとに1マス。集めたマスを押すと金色になるよ（もう一度押すと戻せます）。</p>
       <div id="stampWrap"></div>
       <p class="muted" style="margin:9px 0 0">出典：<a href="https://dcd.aikatsu.com/encore/news/004.php" target="_blank" rel="noopener">公式サイト アイカツ！スタンプ</a></p>
+    </div>
+
+    <div class="panel" id="playPanel">
+      <h2><span class="ico">🎮</span>プレイ回数＆金額メモ<span class="right">この端末に保存</span></h2>
+      <p class="muted" style="margin:0 0 9px">100円で1回。遊んだぶんをワンタップでメモできます（スタンプと同じく1プレイ＝1マス）。</p>
+      <div class="play-stats">
+        <div class="play-stat"><span>今日</span><b id="playToday">0<i>回</i></b><small id="playTodayYen">¥0</small></div>
+        <div class="play-stat"><span>今月</span><b id="playMonth">0<i>回</i></b><small id="playMonthYen">¥0</small></div>
+        <div class="play-stat"><span>累計</span><b id="playTotal">0<i>回</i></b><small id="playTotalYen">¥0</small></div>
+      </div>
+      <div class="play-quick">
+        <button class="btn sm" id="playPlus1">＋1回（100円）</button>
+        <button class="btn ghost sm" id="playPlus5">＋5回（500円）</button>
+      </div>
+      <div class="play-mini">
+        <button class="chip" id="playPlus100">＋100円</button>
+        <button class="chip" id="playMinus1">−1回（100円）</button>
+        <button class="chip" id="playMinus100">−100円</button>
+      </div>
+      <div class="play-form">
+        <label for="playInPlays">回数<input type="number" id="playInPlays" min="0" step="1" inputmode="numeric" placeholder="0"></label>
+        <label for="playInYen">金額（円）<input type="number" id="playInYen" min="0" step="100" inputmode="numeric" placeholder="0"></label>
+        <button class="btn sm" id="playAdd">追加</button>
+      </div>
+      <p class="muted" style="margin:6px 0 0">まとめ買いは「5回・500円」のように手入力してね。</p>
+      <div class="sec-title">さいきんの記録</div>
+      <div class="play-days" id="playRecent"></div>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn ghost sm" id="playExport">📄 JSONで書き出し</button>
+        <label class="btn ghost sm filepick" style="margin:0; padding:9px 11px; border-style:solid">📥 読み込む<input type="file" id="playImport" accept=".json,application/json"></label>
+        <button class="btn danger sm" id="playClear">ぜんぶ消す</button>
+      </div>
     </div>
   </section>
 
@@ -1009,14 +1108,14 @@ function renderHome(){
     </button>`;
   }).join('');
 
-  // コーデ
+  // コーデ（手持ちで組めるおすすめ）
   const cg = coordGroups();
   const done = cg.filter(g=>g.complete).length;
-  const near = cg.filter(g=>!g.complete && g.owned>0 && g.owned>=g.list.length-1).length;
+  const rc = recSummaryData();
   $('#homeCoords').innerHTML = `
-    <div class="mini-card"><b>${done}<span style="font-size:12px">/${cg.length}</span></b><span>コンプしたコーデ</span></div>
-    <div class="mini-card"><b>${near}</b><span>あと1枚で揃う</span></div>
-    <div class="mini-card"><b>${cg.length-done}</b><span>まだ揃ってない</span></div>`;
+    <div class="mini-card"><b>${rc.ok.length}<span style="font-size:12px">/${rc.list.length}</span></b><span>手持ちで組める</span></div>
+    <div class="mini-card"><b>${fmt(rc.maxAp)}</b><span>いちばん高いAP</span></div>
+    <div class="mini-card"><b>${rc.reach.length}</b><span>あと1枚でリーチ</span></div>`;
   $('#coordSummary').textContent = `${done}/${cg.length} コンプ`;
 
   // 目標
@@ -1061,6 +1160,131 @@ function coordGroups(){
   });
   out.sort((a,b)=> (a.complete===b.complete ? 0 : (a.complete?1:-1)) || a.name.localeCompare(b.name,'ja'));
   return out;
+}
+
+
+/* ---------- ✨ 手持ちで組めるおすすめコーデ（第3弾） ---------- */
+const SLOT_OF = {'トップス':'top','ボトムス':'bottom','シューズ':'shoes','アクセサリー':'acc','トップス＆ボトムス':'dress','フルコーデ':'full'};
+const SLOT_JP = {top:'トップス', bottom:'ボトムス', shoes:'シューズ', acc:'アクセ', dress:'上下ワンピ', full:'フルコーデ'};
+const REC_HIGH_AP = 3000;      // 高スコア狙いの目安（PR4点・ERフルコーデがここに入る）
+let recFilter = 'all';
+
+/* コーデを「部位の組」で見て、いまの所持だけで全身そろうかを調べる。
+   パラレル（PR★／ER★）は同じ部位の別デザインなので、どちらか1枚あればその部位はOK。 */
+function recCoords(){
+  const groups = new Map();
+  ALL.forEach(c=>{
+    const k = c.coord || '（コーデ未設定）';
+    if(!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(c);
+  });
+  const out = [];
+  groups.forEach((cards, name)=>{
+    const slots = {};
+    cards.forEach(c=>{
+      const s = SLOT_OF[c.category];
+      if(!s) return;
+      (slots[s] = slots[s] || []).push(c);
+    });
+    const plans = [];
+    if(slots.full) plans.push({kind:'full', need:['full']});
+    if(slots.dress) plans.push({kind:'dress', need:['dress'].concat(slots.shoes?['shoes']:[], slots.acc?['acc']:[])});
+    if(slots.top && slots.bottom) plans.push({kind:'split', need:['top','bottom'].concat(slots.shoes?['shoes']:[], slots.acc?['acc']:[])});
+    if(!plans.length) return;        // 1部位しかないコーデは「全身」にならないので出さない
+    plans.forEach(p=>{
+      p.pick = {}; p.ap = 0; p.missing = [];
+      p.need.forEach(k=>{
+        const list = slots[k].slice().sort((a,b)=>(b.ap||0)-(a.ap||0));
+        const mine = list.filter(owned);
+        const best = mine[0] || list[0];
+        p.pick[k] = best;
+        p.ap += (best && best.ap) || 0;
+        if(!mine.length) p.missing.push(k);
+      });
+      p.done = p.missing.length === 0;
+      p.have = p.need.length - p.missing.length;
+    });
+    plans.sort((a,b)=>
+      ((a.done?0:1)-(b.done?0:1))
+      || (a.missing.length - b.missing.length)
+      || (b.ap - a.ap));
+    const plan = plans[0];
+    const tc = {};
+    cards.forEach(c=>{ tc[c.type] = (tc[c.type]||0)+1; });
+    const type = Object.keys(tc).sort((a,b)=>tc[b]-tc[a])[0] || '';
+    const brand = cards.map(c=>c.brand).find(b=>b && b!=='ノーブランド') || 'ノーブランド';
+    out.push({name, cards, type, brand, plan, plans,
+      ap:plan.ap, done:plan.done, missing:plan.missing, pick:plan.pick});
+  });
+  return out;
+}
+
+function recItem(c){
+  const need = c.plan.need;
+  const imgs = need.map(k=>{
+    const card = c.pick[k], o = owned(card);
+    return '<img src="' + esc(card.img||'') + '" alt="' + esc(card.name) + '" loading="lazy" class="' + (o?'':'miss')
+      + '" data-act="detail" data-id="' + esc(card.id) + '" onerror="this.classList.add(\'noimg\')">';
+  }).join('');
+  const pieces = need.map(k=>{
+    const o = owned(c.pick[k]);
+    return '<span class="' + (o?'pc-ok':'pc-miss') + '">' + (o?'✓':'・') + esc(SLOT_JP[k]||k) + '</span>';
+  }).join('');
+  const miss = c.missing.length
+    ? '<div class="rec-miss">あと' + c.missing.length + '枚：' + c.missing.map(k=>{
+        const card = c.pick[k];
+        return '<a href="' + esc(mercariUrl(card)) + '" target="_blank" rel="noopener">' + esc(SLOT_JP[k]||k) + '・' + esc(card.name) + ' を探す</a>';
+      }).join('／') + '</div>'
+    : '';
+  return '<div class="rec ' + (c.done?'top':'') + '">'
+    + '<div class="rec-h">'
+    +   '<div class="rec-imgs ' + (need.length===1?'one':'') + '">' + imgs + '</div>'
+    +   '<div class="rec-body">'
+    +     '<div class="rec-nm">' + (c.done?'👑 ':'') + esc(c.name) + '</div>'
+    +     '<div class="rec-tags"><span class="tag ' + (TYPE_CLASS[c.type]||'') + '">' + esc(c.type||'—') + '</span>'
+    +       '<span class="tag badge-series">' + esc(c.brand) + '</span></div>'
+    +     '<div class="rec-pieces">' + pieces + '</div>'
+    +   '</div>'
+    +   '<div class="rec-ap"><b>' + fmt(c.ap) + '</b><span>' + (c.done?'AP':'AP（完成時）') + '</span></div>'
+    + '</div>' + miss + '</div>';
+}
+
+function recSummaryData(){
+  const list = recCoords();
+  const ok = list.filter(c=>c.done);
+  const reach = list.filter(c=>!c.done && c.missing.length===1 && c.plan.have>0);
+  const high = ok.filter(c=>c.ap>=REC_HIGH_AP);
+  const maxAp = ok.reduce((m,c)=>Math.max(m,c.ap),0);
+  return {list, ok, reach, high, maxAp};
+}
+
+function renderRec(){
+  const el = $('#recList'); if(!el) return;
+  const d = recSummaryData();
+  $('#recSummary').textContent = d.ok.length + '/' + d.list.length + ' ・ 最高' + fmt(d.maxAp) + 'AP';
+  $('#recN1').textContent = d.ok.length;
+  $('#recN2').textContent = d.high.length;
+  $('#recN3').textContent = d.reach.length;
+  $$('#recChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.rfilter===recFilter)));
+  const byAp = (a,b)=> b.ap-a.ap || a.name.localeCompare(b.name,'ja');
+  const shown = (recFilter==='reach' ? d.reach.slice().sort(byAp)
+               : recFilter==='high' ? d.high.slice().sort(byAp)
+               : d.ok.slice().sort(byAp));
+  if(!shown.length){
+    el.innerHTML = '<div class="empty" style="padding:20px 8px"><span class="big">'
+      + (recFilter==='reach'?'📦':recFilter==='high'?'🎯':'👗') + '</span>'
+      + (recFilter==='reach' ? 'あと1枚で揃うコーデはないよ。'
+        : recFilter==='high' ? 'まだAP3,000以上のコーデは組めないよ。<br>PR4点かERフルコーデがそろうと届くよ。'
+        : 'まだ手持ちだけで全身そろうコーデはないよ。<br>「カード」タブで持っている枚数を入れてみてね。')
+      + '</div>';
+  } else {
+    el.innerHTML = shown.map(recItem).join('');
+  }
+  $('#recNote').innerHTML = recFilter==='reach'
+    ? 'あと1枚で全身そろうコーデ。足りないカードは「探す」からメルカリで検索できます。'
+    : recFilter==='high'
+    ? 'AP3,000以上はPR4点かERフルコーデ。ハナ解放は「HAPPY∞アイカツ！」のアンコール成功＋スコア40,000以上なので、APの高いコーデがスコアの土台になるよ（スコアはプレイ内容でも変わる）。'
+    : 'APは4部位（フルコーデは1枚）のアピールポイント合計。ハナ解放のスコア40,000以上を狙うときは、APの高いコーデが有利だよ。';
 }
 
 /* ---------- card list ---------- */
@@ -1142,6 +1366,7 @@ function renderCards(){
 
 /* ---------- coords view ---------- */
 function renderCoords(){
+  renderRec();
   let gs = coordGroups();
   if(coordFilter==='done') gs = gs.filter(g=>g.complete);
   else if(coordFilter==='incomplete') gs = gs.filter(g=>!g.complete && g.owned>0);
@@ -1358,7 +1583,8 @@ function exportObject(){
     exportedAt: new Date().toISOString(),
     counts: state.counts,
     extraCards: state.extraCards,
-    progress: PROG
+    progress: PROG,
+    play: PLAY
   };
 }
 function downloadJson(){
@@ -1405,6 +1631,10 @@ function applyImport(text){
   let obj;
   try{ obj = JSON.parse(text); }catch(e){ toast('JSONとして読み取れませんでした'); return false; }
   if(Array.isArray(obj)) return mergeCards(obj);
+  if(obj && obj.type === 'aikatsu-encore-play' && obj.days){
+    if(importPlayDays(obj.days, true)){ toast('プレイメモを読み込みました'); return true; }
+    toast('このデータには記録が入っていません'); return false;
+  }
   if(obj && Array.isArray(obj.cards)) {
     const hadCounts = obj.counts && typeof obj.counts==='object';
     const added = mergeCards(obj.cards, true);
@@ -1419,6 +1649,7 @@ function applyImport(text){
       PROG = {idols:obj.progress.idols||{}, songs:obj.progress.songs||{}, stamps:obj.progress.stamps||{}, updated:obj.progress.updated||null};
       saveProg();
     }
+    if(obj.play && typeof obj.play==='object' && obj.play.days) importPlayDays(obj.play.days, true);
     rebuildAll(); buildFilters(); save(); refreshAll(); toast('所持データを読み込みました'); return true;
   }
   toast('この形式は読み込めませんでした'); return false;
@@ -1445,6 +1676,7 @@ function refreshAll(){
   if(!$('#view-idol').hidden) renderIdolView();
   if(!$('#view-news').hidden) renderNewsView();
   if(!$('#view-myshot').hidden) renderShots();
+  renderPlayMemo();
   updateHomeMini();
   renderSaveInfo();
 }
@@ -1456,7 +1688,7 @@ function switchView(name){
   if(name==='home'){ renderHome(); updateHomeMini(); }
   if(name==='cards'){ renderCards(); }
   if(name==='coords') renderCoords();
-  if(name==='idol') renderIdolView();
+  if(name==='idol'){ renderIdolView(); renderPlayMemo(); }
   if(name==='news') renderNewsView();
   if(name==='myshot') renderShots();
   if(name==='data') renderSaveInfo();
@@ -1469,7 +1701,7 @@ function applySeriesFilter(v){
 }
 
 document.addEventListener('click', (ev)=>{
-  const t = ev.target.closest('[data-act],[data-view],[data-go],[data-series],[data-rarity],[data-type],[data-cat],[data-status],[data-cfilter]');
+  const t = ev.target.closest('[data-act],[data-view],[data-go],[data-series],[data-rarity],[data-type],[data-cat],[data-status],[data-cfilter],[data-rfilter]');
   if(!t) return;
   if(t.dataset.act){
     const id = t.dataset.id;
@@ -1480,7 +1712,14 @@ document.addEventListener('click', (ev)=>{
     else if(t.dataset.act==='open'){ if(id) openDetail(id); }
     return;
   }
-  if(t.dataset.view){ switchView(t.dataset.view); return; }
+  if(t.dataset.view){
+    switchView(t.dataset.view);
+    if(t.dataset.scroll){
+      const el = document.getElementById(t.dataset.scroll);
+      if(el) setTimeout(()=>el.scrollIntoView({behavior:'smooth', block:'start'}), 60);
+    }
+    return;
+  }
   if(t.dataset.go){
     if(t.dataset.coord){ filters.gen = t.dataset.coord; $('#fGen').value = t.dataset.coord; }
     switchView(t.dataset.go); closeModal(); return;
@@ -1498,6 +1737,10 @@ document.addEventListener('click', (ev)=>{
     coordFilter = t.dataset.cfilter;
     $$('#coordChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.cfilter===coordFilter)));
     renderCoords(); return;
+  }
+  if(t.dataset.rfilter){
+    recFilter = t.dataset.rfilter;
+    renderRec(); return;
   }
 });
 
@@ -2484,6 +2727,9 @@ function nextScheduleText(){
 /* ---------- ホームのミニカード ---------- */
 function updateHomeMini(){
   if(!$('#miniIdol')) return;
+  const pt = playTotals();
+  $('#miniPlay').textContent = pt.today.plays + '回';
+  $('#miniPlaySub').textContent = pt.today.yen ? yenText(pt.today.yen) : 'きょうはまだ';
   const st = idolStats();
   $('#miniIdol').textContent = `${st.open}/${st.total}`;
   $('#miniIdolSub').textContent = st.open === st.total ? 'コンプ！' : '解放チェック';
@@ -2637,6 +2883,107 @@ function importShots(text){
 }
 
 
+/* ---------- 🎮 プレイ回数＆金額メモ（第3弾） ---------- */
+const PLAY_KEY = 'aikatsu-encore-checker.play.v1';
+function blankPlay(){ return {days:{}, updated:null}; }
+function normPlayDays(days){
+  const out = {};
+  if(!days || typeof days !== 'object') return out;
+  Object.keys(days).forEach(k=>{
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(k)) return;
+    const d = days[k] || {};
+    const plays = Math.max(0, Math.floor(Number(d.plays) || 0));
+    const yen = Math.max(0, Math.round(Number(d.yen) || 0));
+    if(plays || yen) out[k] = {plays:plays, yen:yen};
+  });
+  return out;
+}
+function loadPlay(){
+  try{
+    const o = JSON.parse(localStorage.getItem(PLAY_KEY) || 'null');
+    if(!o || typeof o !== 'object') return blankPlay();
+    return {days:normPlayDays(o.days), updated:o.updated || null};
+  }catch(e){ return blankPlay(); }
+}
+let PLAY = loadPlay();
+let playWarned = false;
+function savePlay(){
+  PLAY.updated = new Date().toISOString();
+  try{ localStorage.setItem(PLAY_KEY, JSON.stringify({days:PLAY.days, updated:PLAY.updated})); }
+  catch(e){ if(!playWarned){ playWarned = true; toast('この環境ではメモを自動保存できません'); } }
+  renderPlayMemo(); updateHomeMini();
+}
+function playOf(iso){ const d = PLAY.days[iso]; return {plays:(d && d.plays) || 0, yen:(d && d.yen) || 0}; }
+function addPlay(dPlays, dYen){
+  const k = todayISO();
+  const cur = playOf(k);
+  const next = {plays:Math.max(0, cur.plays + (dPlays||0)), yen:Math.max(0, cur.yen + (dYen||0))};
+  if(next.plays || next.yen) PLAY.days[k] = next; else delete PLAY.days[k];
+  savePlay();
+}
+function playTotals(){
+  const today = todayISO(), ym = today.slice(0,7);
+  const all = {plays:0, yen:0}, month = {plays:0, yen:0};
+  Object.keys(PLAY.days).forEach(k=>{
+    const d = PLAY.days[k];
+    all.plays += d.plays; all.yen += d.yen;
+    if(k.slice(0,7) === ym){ month.plays += d.plays; month.yen += d.yen; }
+  });
+  return {today:playOf(today), month:month, all:all};
+}
+function yenText(n){ return '¥' + fmt(n); }
+function renderPlayMemo(){
+  if(!$('#playToday')) return;
+  const t = playTotals();
+  $('#playToday').innerHTML = t.today.plays + '<i>回</i>';
+  $('#playTodayYen').textContent = yenText(t.today.yen);
+  $('#playMonth').innerHTML = t.month.plays + '<i>回</i>';
+  $('#playMonthYen').textContent = yenText(t.month.yen);
+  $('#playTotal').innerHTML = t.all.plays + '<i>回</i>';
+  $('#playTotalYen').textContent = yenText(t.all.yen);
+  const today = todayISO();
+  const keys = Object.keys(PLAY.days).sort().reverse().slice(0,7);
+  $('#playRecent').innerHTML = keys.length ? keys.map(k=>{
+    const d = PLAY.days[k];
+    return '<div class="play-day ' + (k===today?'today':'') + '">'
+      + '<span class="d">' + esc(fmtJP(k)) + (k===today?'・今日':'') + '</span>'
+      + '<span class="v">' + d.plays + '回</span>'
+      + '<span class="v">' + yenText(d.yen) + '</span>'
+      + '<button class="x" data-play-del="' + esc(k) + '" aria-label="' + esc(fmtJP(k)) + 'の記録を消す">×</button>'
+      + '</div>';
+  }).join('') : '<div class="muted" style="margin-top:7px">まだ記録がないよ。「＋1回（100円）」を押すと今日の記録がつきます。</div>';
+}
+function playExportObject(){
+  return {type:'aikatsu-encore-play', version:1,
+    app:'アイカツ！アンコール 所持率チェッカー（プレイメモ）',
+    exportedAt:new Date().toISOString(), days:PLAY.days};
+}
+function exportPlayJson(){
+  const blob = new Blob([JSON.stringify(playExportObject(), null, 1)], {type:'application/json'});
+  const a = document.createElement('a');
+  const d = new Date();
+  const stamp = d.getFullYear() + pad2(d.getMonth()+1) + pad2(d.getDate());
+  a.href = URL.createObjectURL(blob);
+  a.download = 'aikatsu-encore-プレイメモ-' + stamp + '.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
+  toast('プレイメモを書き出しました');
+}
+function importPlayDays(days, quiet){
+  const next = normPlayDays(days);
+  if(!Object.keys(next).length){ if(!quiet) toast('このデータには記録が入っていません'); return false; }
+  if(Object.keys(PLAY.days).length && !quiet && !confirm('いまのメモと置きかわります。読み込む？')) return false;
+  PLAY.days = next; savePlay(); return true;
+}
+function importPlayText(text){
+  let obj;
+  try{ obj = JSON.parse(text); }catch(e){ toast('JSONとして読み取れませんでした'); return false; }
+  const days = (obj && obj.days) || (obj && obj.play && obj.play.days);
+  if(!days){ toast('プレイメモのJSONではありません'); return false; }
+  if(importPlayDays(days)){ toast('プレイメモを読み込みました'); return true; }
+  return false;
+}
+
 /* ---------- 第2弾機能のイベントと初期化 ---------- */
 function syncTabsHeight(){
   const t = document.querySelector('.tabs'); if(!t) return;
@@ -2687,6 +3034,40 @@ $('#stampWrap').addEventListener('click', (e)=>{
   }
 });
 
+/* プレイ回数＆金額メモ */
+$('#playPlus1').addEventListener('click', ()=>{ addPlay(1,100); toast('＋1回（100円）を記録しました'); });
+$('#playPlus5').addEventListener('click', ()=>{ addPlay(5,500); toast('＋5回（500円）を記録しました'); });
+$('#playPlus100').addEventListener('click', ()=>{ addPlay(0,100); toast('＋100円を記録しました'); });
+$('#playMinus1').addEventListener('click', ()=>{ addPlay(-1,-100); });
+$('#playMinus100').addEventListener('click', ()=>{ addPlay(0,-100); });
+$('#playAdd').addEventListener('click', ()=>{
+  const p = Math.max(0, Math.floor(Number($('#playInPlays').value) || 0));
+  const y = Math.max(0, Math.round(Number($('#playInYen').value) || 0));
+  if(!p && !y){ toast('回数か金額を入れてね'); return; }
+  addPlay(p, y);
+  $('#playInPlays').value = ''; $('#playInYen').value = '';
+  toast('記録しました');
+});
+$('#playRecent').addEventListener('click', (e)=>{
+  const b = e.target.closest('[data-play-del]'); if(!b) return;
+  const k = b.dataset.playDel, d = PLAY.days[k]; if(!d) return;
+  if(!confirm(`${fmtJP(k)}の記録（${d.plays}回・${yenText(d.yen)}）を消す？`)) return;
+  delete PLAY.days[k]; savePlay(); toast('記録を消しました');
+});
+$('#playClear').addEventListener('click', ()=>{
+  if(!Object.keys(PLAY.days).length){ toast('まだメモがないよ'); return; }
+  if(!confirm('プレイ回数＆金額メモをぜんぶ消す？（元に戻せません）')) return;
+  PLAY.days = {}; savePlay(); toast('ぜんぶ消しました');
+});
+$('#playExport').addEventListener('click', exportPlayJson);
+$('#playImport').addEventListener('change', (e)=>{
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const fr = new FileReader();
+  fr.onload = ()=>importPlayText(String(fr.result));
+  fr.readAsText(f);
+  e.target.value = '';
+});
+
 $('#newsChips').addEventListener('click', (e)=>{
   const b = e.target.closest('[data-nfilter]'); if(!b) return;
   newsFilter = b.dataset.nfilter;
@@ -2726,6 +3107,7 @@ $('#shotReset').addEventListener('click', ()=>{
 renderIdolView();
 renderNewsView();
 renderShots();
+renderPlayMemo();
 updateHomeMini();
 
 
