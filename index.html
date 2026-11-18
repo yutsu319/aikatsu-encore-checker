@@ -390,6 +390,21 @@ details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height
 .play-day .v{text-align:right}
 .play-day.today .d{color:#c2417c; font-weight:900}
 .play-day .x{border:none; background:#fff2f6; color:#c2417c; border-radius:8px; width:26px; height:26px; font-weight:900; line-height:1}
+.play-date{display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-top:9px; padding:7px 9px;
+  border:1.5px solid var(--line); border-radius:12px; background:#fffafd}
+.play-date>label{flex:0 0 auto; font-size:9.5px; font-weight:900; color:var(--ink-3); letter-spacing:.04em}
+.play-date input[type="date"]{flex:1 1 118px; min-width:0; margin:0; border:1.5px solid var(--line); border-radius:10px;
+  padding:6px 8px; min-height:36px; background:#fff; font-size:13px; font-weight:800; font-variant-numeric:tabular-nums; outline:none; color:var(--ink)}
+.play-date input[type="date"]:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
+.play-date.editing{border-color:#ffcf7a; background:#fffdf5}
+.play-date-sub{display:flex; flex:1 1 100%; align-items:center; justify-content:space-between; gap:6px}
+.play-date-sub[hidden]{display:none}
+.play-date-sub .note{font-size:10.5px; font-weight:900; color:#a1641a; line-height:1.45}
+.play-date-sub .note b{color:#c2417c; font-variant-numeric:tabular-nums}
+.play-date-sub .chip{flex:0 0 auto; min-height:30px; padding:4px 9px; font-size:10.5px}
+.play-day.sel{background:#fffaf0}
+.play-day.sel .d{color:#a1641a; font-weight:900}
+.play-more{width:100%; margin-top:8px; min-height:36px}
 
 /* ---------- image save ---------- */
 .img-cta{display:flex; align-items:center; gap:10px; background:linear-gradient(135deg,#fff 45%,#fff7e6 100%)}
@@ -756,7 +771,7 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
           8. 「📰 ニュース」タブで、ボーナスキャンペーンや発売日・配布期間を「あと何日」つきで確認できます。日付が過ぎると自動で「終了」に変わります。<br>
           9. 「📸 マイショット」タブは、写真を端末の中だけに保存する自分用のプレイ日記。選んだ写真は長辺720px・JPEGに自動で軽くなります。いっぱいになったらJSONにバックアップしてから整理してね。<br>
           10. 「👗 コーデ」タブのいちばん上に「✨ 手持ちで組めるおすすめコーデ」。いま持っているカードだけで全身そろうコーデをAPの高い順に表示します。「🎯 高AP 3,000〜」でスコア狙い、「あと1枚」で足りない1枚を確認できます。<br>
-          11. 「🎤 アイドル」タブの下の「🎮 プレイ回数＆金額メモ」は、1プレイ＝100円でワンタップ記録。今日・今月・累計の回数と金額が見られて、JSONでバックアップもできます（スタンプの進み具合と一緒に振り返れます）。
+          11. 「🎤 アイドル」タブの下の「🎮 プレイ回数＆金額メモ」は、1プレイ＝100円でワンタップ記録。日付ピッカーで過去の日も選べるので、記録し忘れた日もあとから足せます（今日以外を選んでいるあいだは「◯◯ を編集中」と出て、「今日に戻す」でいつでも今日に戻せます）。今日・今月・累計の回数と金額、「さいきんの記録」7日分（「もっと見る（全◯日）」で全件、日ごとに削除）が見られて、JSONでバックアップもできます（スタンプの進み具合と一緒に振り返れます）。
         </div>
       </details>
     </div>
@@ -797,11 +812,19 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
 
     <div class="panel" id="playPanel">
       <h2><span class="ico">🎮</span>プレイ回数＆金額メモ<span class="right">この端末に保存</span></h2>
-      <p class="muted" style="margin:0 0 9px">100円で1回。遊んだぶんをワンタップでメモできます（スタンプと同じく1プレイ＝1マス）。</p>
+      <p class="muted" style="margin:0 0 9px">100円で1回。遊んだぶんをワンタップでメモできます（スタンプと同じく1プレイ＝1マス）。日付を変えれば、過去の日もあとから記録・修正できます。</p>
       <div class="play-stats">
         <div class="play-stat"><span>今日</span><b id="playToday">0<i>回</i></b><small id="playTodayYen">¥0</small></div>
         <div class="play-stat"><span>今月</span><b id="playMonth">0<i>回</i></b><small id="playMonthYen">¥0</small></div>
         <div class="play-stat"><span>累計</span><b id="playTotal">0<i>回</i></b><small id="playTotalYen">¥0</small></div>
+      </div>
+      <div class="play-date" id="playDateRow">
+        <label for="playDate">記録する日</label>
+        <input type="date" id="playDate">
+        <div class="play-date-sub" id="playDateSub" hidden>
+          <span class="note" id="playDateNote"></span>
+          <button class="chip" id="playDateToday" type="button">今日に戻す</button>
+        </div>
       </div>
       <div class="play-quick">
         <button class="btn sm" id="playPlus1">＋1回（100円）</button>
@@ -818,8 +841,9 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
         <button class="btn sm" id="playAdd">追加</button>
       </div>
       <p class="muted" style="margin:6px 0 0">まとめ買いは「5回・500円」のように手入力してね。</p>
-      <div class="sec-title">さいきんの記録</div>
+      <div class="sec-title" id="playRecentTitle">さいきんの記録</div>
       <div class="play-days" id="playRecent"></div>
+      <button class="btn ghost sm play-more" id="playMore" type="button" hidden>もっと見る</button>
       <div class="btn-row" style="margin-top:10px">
         <button class="btn ghost sm" id="playExport">📄 JSONで書き出し</button>
         <label class="btn ghost sm filepick" style="margin:0; padding:9px 11px; border-style:solid">📥 読み込む<input type="file" id="playImport" accept=".json,application/json"></label>
@@ -2914,8 +2938,31 @@ function savePlay(){
   renderPlayMemo(); updateHomeMini();
 }
 function playOf(iso){ const d = PLAY.days[iso]; return {plays:(d && d.plays) || 0, yen:(d && d.yen) || 0}; }
-function addPlay(dPlays, dYen){
-  const k = todayISO();
+function fmtJPMD(s){ const d = parseISO(s); if(!d) return s; return `${d.getMonth()+1}/${d.getDate()}(${WD[d.getDay()]})`; }
+const PLAY_RECENT_DAYS = 7;
+let playShowAll = false;
+function playTarget(){
+  const inp = $('#playDate');
+  const v = inp ? inp.value : '';
+  return /^\d{4}-\d{2}-\d{2}$/.test(v) ? v : todayISO();
+}
+function playWhere(k){ return k === todayISO() ? '' : fmtJPMD(k) + 'に'; }
+function refreshPlayDateUI(){
+  const inp = $('#playDate'), row = $('#playDateRow'), sub = $('#playDateSub'), note = $('#playDateNote');
+  if(!inp) return;
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(inp.value)) inp.value = todayISO();
+  const v = inp.value, editing = v !== todayISO();
+  if(row) row.classList.toggle('editing', editing);
+  if(sub) sub.hidden = !editing;
+  if(note) note.innerHTML = editing ? '<b>' + esc(fmtJP(v)) + '</b> を編集中' : '';
+}
+function setPlayDate(v){
+  const inp = $('#playDate'); if(!inp) return;
+  inp.value = /^\d{4}-\d{2}-\d{2}$/.test(v || '') ? v : todayISO();
+  refreshPlayDateUI(); renderPlayMemo();
+}
+function addPlay(dPlays, dYen, iso){
+  const k = iso || playTarget();
   const cur = playOf(k);
   const next = {plays:Math.max(0, cur.plays + (dPlays||0)), yen:Math.max(0, cur.yen + (dYen||0))};
   if(next.plays || next.yen) PLAY.days[k] = next; else delete PLAY.days[k];
@@ -2941,17 +2988,26 @@ function renderPlayMemo(){
   $('#playMonthYen').textContent = yenText(t.month.yen);
   $('#playTotal').innerHTML = t.all.plays + '<i>回</i>';
   $('#playTotalYen').textContent = yenText(t.all.yen);
-  const today = todayISO();
-  const keys = Object.keys(PLAY.days).sort().reverse().slice(0,7);
+  refreshPlayDateUI();
+  const today = todayISO(), sel = playTarget();
+  const all = Object.keys(PLAY.days).sort().reverse();
+  const keys = playShowAll ? all : all.slice(0, PLAY_RECENT_DAYS);
   $('#playRecent').innerHTML = keys.length ? keys.map(k=>{
     const d = PLAY.days[k];
-    return '<div class="play-day ' + (k===today?'today':'') + '">'
+    return '<div class="play-day ' + (k===today?'today':'') + (k===sel && k!==today?' sel':'') + '">'
       + '<span class="d">' + esc(fmtJP(k)) + (k===today?'・今日':'') + '</span>'
       + '<span class="v">' + d.plays + '回</span>'
       + '<span class="v">' + yenText(d.yen) + '</span>'
       + '<button class="x" data-play-del="' + esc(k) + '" aria-label="' + esc(fmtJP(k)) + 'の記録を消す">×</button>'
       + '</div>';
   }).join('') : '<div class="muted" style="margin-top:7px">まだ記録がないよ。「＋1回（100円）」を押すと今日の記録がつきます。</div>';
+  const more = $('#playMore');
+  if(more){
+    more.hidden = all.length <= PLAY_RECENT_DAYS;
+    more.textContent = playShowAll ? `さいきん${PLAY_RECENT_DAYS}日だけ表示` : `もっと見る（全${all.length}日）`;
+  }
+  const title = $('#playRecentTitle');
+  if(title) title.textContent = playShowAll ? `ぜんぶの記録（${all.length}日）` : 'さいきんの記録';
 }
 function playExportObject(){
   return {type:'aikatsu-encore-play', version:1,
@@ -3035,19 +3091,24 @@ $('#stampWrap').addEventListener('click', (e)=>{
 });
 
 /* プレイ回数＆金額メモ */
-$('#playPlus1').addEventListener('click', ()=>{ addPlay(1,100); toast('＋1回（100円）を記録しました'); });
-$('#playPlus5').addEventListener('click', ()=>{ addPlay(5,500); toast('＋5回（500円）を記録しました'); });
-$('#playPlus100').addEventListener('click', ()=>{ addPlay(0,100); toast('＋100円を記録しました'); });
-$('#playMinus1').addEventListener('click', ()=>{ addPlay(-1,-100); });
-$('#playMinus100').addEventListener('click', ()=>{ addPlay(0,-100); });
+$('#playPlus1').addEventListener('click', ()=>{ const k = playTarget(); addPlay(1,100,k); toast(playWhere(k)+'＋1回（100円）を記録しました'); });
+$('#playPlus5').addEventListener('click', ()=>{ const k = playTarget(); addPlay(5,500,k); toast(playWhere(k)+'＋5回（500円）を記録しました'); });
+$('#playPlus100').addEventListener('click', ()=>{ const k = playTarget(); addPlay(0,100,k); toast(playWhere(k)+'＋100円を記録しました'); });
+$('#playMinus1').addEventListener('click', ()=>{ const k = playTarget(); addPlay(-1,-100,k); toast(playWhere(k)+'−1回（100円）にしました'); });
+$('#playMinus100').addEventListener('click', ()=>{ const k = playTarget(); addPlay(0,-100,k); toast(playWhere(k)+'−100円にしました'); });
 $('#playAdd').addEventListener('click', ()=>{
   const p = Math.max(0, Math.floor(Number($('#playInPlays').value) || 0));
   const y = Math.max(0, Math.round(Number($('#playInYen').value) || 0));
   if(!p && !y){ toast('回数か金額を入れてね'); return; }
-  addPlay(p, y);
+  const k = playTarget();
+  addPlay(p, y, k);
   $('#playInPlays').value = ''; $('#playInYen').value = '';
-  toast('記録しました');
+  toast(playWhere(k)+'記録しました');
 });
+$('#playDate').addEventListener('change', ()=>{ refreshPlayDateUI(); renderPlayMemo(); });
+$('#playDate').addEventListener('input', ()=>{ refreshPlayDateUI(); renderPlayMemo(); });
+$('#playDateToday').addEventListener('click', ()=>{ setPlayDate(todayISO()); toast('今日の記録にもどしました'); });
+$('#playMore').addEventListener('click', ()=>{ playShowAll = !playShowAll; renderPlayMemo(); });
 $('#playRecent').addEventListener('click', (e)=>{
   const b = e.target.closest('[data-play-del]'); if(!b) return;
   const k = b.dataset.playDel, d = PLAY.days[k]; if(!d) return;
@@ -3077,6 +3138,8 @@ $('#newsChips').addEventListener('click', (e)=>{
 
 /* マイショット */
 $('#shotDate').value = todayISO();
+$('#playDate').value = todayISO();
+refreshPlayDateUI();
 $('#shotFile').addEventListener('change', async (e)=>{
   const files = e.target.files;
   await handleShotFiles(files);
