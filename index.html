@@ -201,6 +201,12 @@ main{padding:12px 12px 8px; max-width:980px; margin:0 auto}
 .ccard:active{transform:scale(.985)}
 .ccard .thumbwrap{position:relative; aspect-ratio:460/670; background:linear-gradient(135deg,#ffe9f3,#fff6df); cursor:pointer}
 .ccard .thumbwrap img{width:100%; height:100%; object-fit:cover; display:block}
+/* 横長（アクセサリーなど）のカードは、縦の枠にぴったり収まるよう反時計回りに90度回す */
+.ccard .thumbwrap img.rot, .detail-img img.rot{
+  position:absolute; top:50%; left:50%; object-fit:cover;
+  width:calc(100% * 670 / 460); height:calc(100% * 460 / 670);
+  transform:translate(-50%,-50%) rotate(-90deg); transform-origin:center;
+}
 .ccard .thumbwrap.imgfail img{display:none}
 .ccard .thumbwrap.imgfail::after{content:attr(data-id); position:absolute; inset:0; display:grid; place-items:center; font-size:11px; font-weight:900; color:#c98aa8; padding:6px; text-align:center}
 .ccard .topbadges{position:absolute; top:5px; left:5px; display:flex; gap:3px; flex-wrap:wrap; max-width:calc(100% - 34px)}
@@ -347,9 +353,10 @@ details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height
 .img-scroll img{display:block; width:100%; height:auto; border-radius:8px; -webkit-touch-callout:default}
 .img-actions{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px}
 .img-actions .btn{width:100%; text-decoration:none}
-.img-actions2{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px}
+.img-actions2{display:grid; grid-template-columns:1fr; gap:8px; margin-top:8px}
 .img-actions2 .btn{width:100%}
 .img-pager{display:flex; align-items:center; gap:8px; margin-bottom:9px}
+.img-pager[hidden], .img-actions2[hidden], #imgAll[hidden]{display:none!important}
 .img-pager .btn{flex:0 0 auto}
 .img-pager .btn:disabled{opacity:.45}
 .img-pageno{margin:0 auto; font-size:12.5px; font-weight:900; color:var(--ink-2); font-variant-numeric:tabular-nums}
@@ -406,7 +413,7 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
     <div class="panel img-cta">
       <div class="txt">
         <b>📷 所持一覧を画像で保存</b>
-        <span>カードのイラスト入りで、コレクションを3:4のPNGに。保存前に「出すカード」と「枚数表示」を選べるよ。</span>
+        <span>カードのイラスト入りで、コレクションを縦長1枚のPNGに。保存前に「出すカード」と「枚数表示」を選べるよ。</span>
       </div>
       <button class="btn sm" data-imgshot>画像をつくる</button>
     </div>
@@ -528,7 +535,7 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
     <div class="panel img-cta">
       <div class="txt">
         <b>📷 所持一覧を画像（PNG）で保存</b>
-        <span>カードのイラスト入りで、印刷やおともだちへの共有にも。3:4の画像で、保存前に枚数を出すか選べます。</span>
+        <span>カードのイラスト入りで、印刷やおともだちへの共有にも。縦長1枚の画像で、保存前に枚数を出すか選べます。</span>
       </div>
       <button class="btn gold sm" data-imgshot>画像をつくる</button>
     </div>
@@ -586,7 +593,7 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
           3. 「コーデ」タブで、同じコーデの4部位がどこまで揃っているかを見られます。<br>
           4. データは自動保存。「データ」タブから書き出し・共有コード・読み込みができます。<br>
           5. 第2弾が出たら、カードの配列を足すだけでタブや集計が自動で増えます。<br>
-          6. 「📷 所持一覧を画像で保存」を押すと、先に「出すカード」と「所持枚数を表示するか」を選ぶ画面が出ます。画像は3:4（1200×1600px）で、入りきらないときはページに分かれます。所持はゴールド枠でくっきり、未所持はうすく表示。長押しで写真アプリへ、「共有」でLINEなどにも送れます。
+          6. 「📷 所持一覧を画像で保存」を押すと、先に「出すカード」と「所持枚数を表示するか」を選ぶ画面が出ます。画像は横1200pxの縦長1枚で、カードは10列に並びます（高さはカードの枚数に合わせて伸びます）。所持はゴールド枠でくっきり、未所持はうすく表示。長押しで写真アプリへ、「共有」でLINEなどにも送れます。
         </div>
       </details>
     </div>
@@ -617,7 +624,7 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
     </div>
 
     <div class="sheet-b" id="imgSetup">
-      <p class="img-tip" id="imgTip">画像は横:縦 = 3:4（1200×1600px）。入りきらないときはページに分かれます。</p>
+      <p class="img-tip" id="imgTip">カードは10列。全部のカードが入った縦長1枚のPNG（横1200px）で保存できます。</p>
       <div class="sec-title">出すカード</div>
       <div class="img-modes" id="imgModes">
         <button class="chip" data-imgmode="own" aria-pressed="true">所持のみ</button>
@@ -641,12 +648,11 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
       </div>
       <div class="img-scroll" id="imgScroll"><img id="imgPreview" alt="所持一覧の画像"></div>
       <div class="img-actions">
-        <a class="btn sm" id="imgDownload" download="aikatsu-encore-所持一覧.png">📥 このページを保存</a>
+        <a class="btn sm" id="imgDownload" download="aikatsu-encore-所持一覧.png">📥 画像を保存</a>
         <button class="btn ghost sm" id="imgShare">📤 共有 / 写真に保存</button>
       </div>
       <div class="img-actions2">
         <button class="btn ghost sm" id="imgBack">⚙ 設定を変える</button>
-        <button class="btn gold sm" id="imgAll">📥 全ページをまとめて保存</button>
       </div>
       <p class="img-meta" id="imgMeta"></p>
     </div>
@@ -869,6 +875,14 @@ function coordGroups(){
 }
 
 /* ---------- card list ---------- */
+/* 画像の縦横比を見て、横長のカードには .rot を付ける（新しい横長カードも自動で回る） */
+function fitCardOrientation(root){
+  (root || document).querySelectorAll('img.fit-orient').forEach(im => {
+    const set = () => im.classList.toggle('rot', im.naturalWidth > im.naturalHeight);
+    if(im.complete && im.naturalWidth) set();
+    else im.addEventListener('load', set, {once:true});
+  });
+}
 function matchSeries(c){
   if(filters.series==='all') return true;
   const [s,kind] = filters.series.split('::');
@@ -905,7 +919,7 @@ function cardTile(c){
   return `<div class="ccard ${n>0?'owned':''}" data-card="${esc(c.id)}">
     <div class="thumbwrap" data-act="detail" data-id="${esc(c.id)}" role="button" tabindex="0" aria-label="${esc(c.name)} の詳細を見る">
       <span class="typebar" style="background:${TYPE_COLOR[c.type]||'#ffd0e3'}"></span>
-      <img src="${esc(c.img||'')}" alt="${esc(c.name)}" loading="lazy" decoding="async"
+      <img class="fit-orient" src="${esc(c.img||'')}" alt="${esc(c.name)}" loading="lazy" decoding="async"
            onerror="this.parentNode.classList.add('imgfail')">
       <div class="cnt">${n}</div>
       <div class="stamp">✓</div>
@@ -933,6 +947,7 @@ function renderCards(){
   const un = list.filter(c=>!owned(c)).length;
   $('#resultLine').innerHTML = `表示中 <b>${list.length}</b> 枚 ・ 未所持 <b>${un}</b> 枚 ・ 所持 <b>${list.length-un}</b> 枚`;
   $('#cardGrid').innerHTML = list.map(cardTile).join('');
+  fitCardOrientation($('#cardGrid'));
   $('#cardEmpty').hidden = list.length>0;
 }
 
@@ -998,7 +1013,7 @@ function renderDetail(){
   $('#modalBody').innerHTML = `
     <div class="detail-top">
       <div class="detail-img ${img?'':'imgfail'}">
-        <img src="${esc(img||'')}" alt="${esc(c.name)}" onerror="this.parentNode.classList.add('imgfail')">
+        <img class="fit-orient" src="${esc(img||'')}" alt="${esc(c.name)}" onerror="this.parentNode.classList.add('imgfail')">
         ${c.img_back?`<button class="flip" id="flipBtn">${showBack?'表面':'うら面'}を見る</button>`:''}
       </div>
       <div class="detail-info">
@@ -1059,6 +1074,7 @@ function renderDetail(){
 
   const fb = $('#flipBtn');
   if(fb) fb.onclick = ()=>{ showBack = !showBack; renderDetail(); };
+  fitCardOrientation($('#modalBody'));
 }
 
 /* ---------- market links ---------- */
@@ -1354,16 +1370,16 @@ $('#resetAll').addEventListener('click', ()=>{
 /* ============================================================
    所持一覧を画像（PNG）で保存
    Canvas 2D だけで描くので、外部画像の CORS で失敗しない。
-   1ページ = 1200×1600px（横:縦 = 3:4）。入りきらない分はページを分ける。
+   1枚の縦長PNG = 横1200px。高さは中身に合わせて伸びる。カードは10列・カード名なし。
    ============================================================ */
 const IMG_W = 1200;
-const IMG_H = Math.round(IMG_W * 4 / 3);   // 1600 → ちょうど 3:4
 const IMG_PAD = 48;
-const IMG_GAP = 14;
+const IMG_GAP = 12;
 const IMG_HEAD = 148;
-const IMG_FOOT = 56;
+const IMG_FOOT = 64;
 const IMG_BODY_TOP = IMG_HEAD + 22;
-const IMG_BOTTOM = IMG_H - IMG_FOOT;
+const SHEET_COLS = 10;              // スマホ1枚の一覧みたいに横10列
+const SHEET_MAX_H = 30000;          // キャンバスの高さ上限（超えるときは全体を縮める）
 /* カードのイラストは、このアプリと同じ場所（./thumbs/）に置いた軽量サムネイルから読む。
    同じオリジンの画像なのでキャンバスが汚染（tainted）されず、PNGに書き出せる。 */
 const THUMB_DIR = './thumbs/';
@@ -1455,30 +1471,6 @@ function fitText(ctx, text, maxW){
   while(s.length > 1 && ctx.measureText(s + '…').width > maxW) s = s.slice(0, -1);
   return s + '…';
 }
-function wrapLines(ctx, text, maxW, maxLines){
-  const chars = Array.from(String(text == null ? '' : text));
-  const lines = [];
-  let cur = '';
-  for(let i = 0; i < chars.length; i++){
-    if(cur && ctx.measureText(cur + chars[i]).width > maxW){
-      lines.push(cur);
-      if(lines.length === maxLines - 1){
-        const rest = chars.slice(i).join('');
-        if(ctx.measureText(rest).width <= maxW){
-          lines.push(rest);
-        } else {
-          let cut = rest;
-          while(cut.length > 1 && ctx.measureText(cut + '…').width > maxW) cut = cut.slice(0, -1);
-          lines.push(cut + '…');
-        }
-        return lines;
-      }
-      cur = chars[i];
-    } else cur += chars[i];
-  }
-  if(cur) lines.push(cur);
-  return lines;
-}
 function drawBar(ctx, x, y, w, h, pct, c1, c2){
   pct = Math.max(0, Math.min(100, pct || 0));
   rr(ctx, x, y, w, h, h/2);
@@ -1514,27 +1506,8 @@ function sheetGroups(list){
   return out;
 }
 
-/* カード1枚の下に置くカード名（2行）の寸法 */
-function capMetrics(w){
-  const nfs = Math.max(10, Math.min(21, w * 0.112));
-  const lh = Math.round(nfs * 1.2);
-  return {nfs, lh, capH: Math.round(lh * 2 + 13)};
-}
-
-/* 1ページに入れる列数。カード枚数に応じて、3:4ページに綺麗に収まる列を選ぶ */
-function sheetCols(n){
-  if(n <= 2) return Math.max(1, n);
-  if(n <= 6) return 3;
-  if(n <= 12) return 4;
-  if(n <= 20) return 5;
-  if(n <= 30) return 6;
-  if(n <= 45) return 7;
-  if(n <= 70) return 8;
-  if(n <= 100) return 9;
-  return 10;
-}
-
-/* ---------- サマリー（1ページ目だけ） ---------- */
+/* 横1200px・10列で、1枚の縦長シートに全部入れる */
+/* ---------- サマリー（所持率・区分・レアリティ・タイプ） ---------- */
 const SUM = {pad:26, head:36, big:60, bar:14, barGap:14, label:30, row:32, typeGap:18, type:60, bottom:26};
 function summaryRows(){
   const base = state.hideParallel ? ALL.filter(c => !c.is_parallel) : ALL;
@@ -1633,7 +1606,7 @@ function drawSummary(ctx, y){
 }
 
 /* ---------- ヘッダ・フッタ ---------- */
-function drawHeader(ctx, pageNo, total, mode){
+function drawHeader(ctx, mode){
   const HH = IMG_HEAD;
   const hg = ctx.createLinearGradient(0, 0, IMG_W, HH);
   hg.addColorStop(0, '#ff6fae'); hg.addColorStop(0.55, '#ff9ecb'); hg.addColorStop(1, '#ffd98a');
@@ -1652,219 +1625,162 @@ function drawHeader(ctx, pageNo, total, mode){
   ctx.fillText('所持率チェッカー', IMG_PAD, 112);
   ctx.textAlign = 'right';
   ctx.fillStyle = 'rgba(255,255,255,.96)'; ctx.font = '900 21px ' + IMG_FONT;
-  ctx.fillText(IMG_MODE_LABEL[mode], IMG_W - IMG_PAD, 54);
-  ctx.fillStyle = 'rgba(255,255,255,.92)'; ctx.font = '800 17px ' + IMG_FONT;
-  ctx.fillText(stampNow(new Date()) + ' 作成', IMG_W - IMG_PAD, 84);
-  if(total > 1){
-    const label = pageNo + ' / ' + total;
-    ctx.font = '900 17px ' + IMG_FONT;
-    const pw = ctx.measureText(label).width + 30;
-    rr(ctx, IMG_W - IMG_PAD - pw, 100, pw, 32, 16);
-    ctx.fillStyle = 'rgba(255,255,255,.32)'; ctx.fill();
-    ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center';
-    ctx.fillText(label, IMG_W - IMG_PAD - pw / 2, 122);
+  ctx.fillText(IMG_MODE_LABEL[mode], IMG_W - IMG_PAD, 50);
+  // パラレルの所持は右上に「パラレル 1 / 12 種」と添える（パラレルを数えない設定のときは出さない）
+  const parCards = ALL.filter(c => c.is_parallel);
+  if(parCards.length && !state.hideParallel){
+    const ps = statOf(parCards);
+    ctx.fillStyle = 'rgba(255,255,255,.95)'; ctx.font = '900 17px ' + IMG_FONT;
+    ctx.fillText('パラレル ' + ps.owned + ' / ' + ps.total + ' 種', IMG_W - IMG_PAD, 80);
   }
+  ctx.fillStyle = 'rgba(255,255,255,.88)'; ctx.font = '800 15px ' + IMG_FONT;
+  ctx.fillText(stampNow(new Date()) + ' 作成', IMG_W - IMG_PAD, 110);
   ctx.textAlign = 'left';
 }
-function drawFooter(ctx, pageNo, total){
+function drawFooter(ctx, H){
   ctx.fillStyle = IMG_INK3; ctx.font = '700 14px ' + IMG_FONT;
-  ctx.fillText('アイカツ！アンコール 所持率チェッカー ／ 非公式ファンツール（カードの権利は ©BNP/BANDAI）', IMG_PAD, IMG_H - 24);
-  if(total > 1){
-    ctx.textAlign = 'right';
-    ctx.fillText('ページ ' + pageNo + ' / ' + total, IMG_W - IMG_PAD, IMG_H - 24);
-    ctx.textAlign = 'left';
-  }
+  ctx.fillText('アイカツ！アンコール 所持率チェッカー ／ 非公式ファンツール（カードの権利は ©BNP/BANDAI）', IMG_PAD, H - 24);
 }
 
 /* ---------- カード1枚 ---------- */
+/* 画像を枠いっぱいに描く。横長の画像（アクセサリーなど）は反時計回りに90度回して縦の枠にぴったり収める */
+function drawFitImage(ctx, im, x, y, w, h){
+  const iw = im.naturalWidth, ih = im.naturalHeight;
+  if(!iw || !ih) return;
+  if(iw > ih){
+    const sc = Math.max(h / iw, w / ih);
+    ctx.save();
+    ctx.translate(x + w / 2, y + h / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.drawImage(im, -iw * sc / 2, -ih * sc / 2, iw * sc, ih * sc);
+    ctx.restore();
+  }else{
+    const sc = Math.max(w / iw, h / ih);
+    ctx.drawImage(im, x + (w - iw * sc) / 2, y + (h - ih * sc) / 2, iw * sc, ih * sc);
+  }
+}
 function drawCardTile(ctx, c, x, y, w, h, n, showCount, noImg){
   const own = n > 0;
   const col = TYPE_COLOR[c.type] || '#ffd0e3';
-  const {nfs, lh, capH} = capMetrics(w);
-  const artH = h - capH;
-  const r = Math.min(16, w * 0.075);
+  const r = Math.min(14, w * 0.09);
 
   rr(ctx, x, y, w, h, r);
   ctx.fillStyle = own ? '#fffdf3' : '#fbf9fa'; ctx.fill();
 
   const im = noImg ? null : thumbOf(c);
   ctx.save();
-  rr(ctx, x, y, w, artH, r); ctx.clip();
+  rr(ctx, x, y, w, h, r); ctx.clip();
   if(im && im.naturalWidth && im.naturalHeight){
-    ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, w, artH);
-    // 横長の画像は、同じ絵をうっすら敷いてから全体が入るように描く（空白が目立たない）
-    const imAspect = im.naturalWidth / im.naturalHeight;
-    if(imAspect > (w / artH) * 1.15){
-      const cs = Math.max(w / im.naturalWidth, artH / im.naturalHeight);
-      ctx.globalAlpha = own ? 0.16 : 0.1;
-      ctx.drawImage(im, x + (w - im.naturalWidth * cs) / 2, y + (artH - im.naturalHeight * cs) / 2,
-        im.naturalWidth * cs, im.naturalHeight * cs);
-      ctx.globalAlpha = 1;
-    }
-    const sc = Math.min(w / im.naturalWidth, artH / im.naturalHeight);
-    const dw = im.naturalWidth * sc, dh = im.naturalHeight * sc;
-    ctx.globalAlpha = own ? 1 : 0.6;
-    ctx.drawImage(im, x + (w - dw) / 2, y + (artH - dh) / 2, dw, dh);
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(x, y, w, h);
+    ctx.globalAlpha = own ? 1 : 0.55;
+    drawFitImage(ctx, im, x, y, w, h);
     ctx.globalAlpha = 1;
     if(!own){   // 未所持は白っぽくかすませる
-      ctx.fillStyle = 'rgba(255,255,255,.32)'; ctx.fillRect(x, y, w, artH);
+      ctx.fillStyle = 'rgba(255,255,255,.28)'; ctx.fillRect(x, y, w, h);
     }
   }else{
-    ctx.fillStyle = own ? '#fff7fb' : '#f8f5f7'; ctx.fillRect(x, y, w, artH);
+    ctx.fillStyle = own ? '#fff7fb' : '#f8f5f7'; ctx.fillRect(x, y, w, h);
     ctx.fillStyle = col; ctx.globalAlpha = own ? 0.16 : 0.09;
-    ctx.fillRect(x, y, w, artH); ctx.globalAlpha = 1;
+    ctx.fillRect(x, y, w, h); ctx.globalAlpha = 1;
     ctx.fillStyle = own ? col : '#c0aeb8';
-    ctx.font = '900 ' + Math.max(11, Math.min(26, w * 0.13)) + 'px ' + IMG_FONT;
+    ctx.font = '900 ' + Math.max(10, Math.min(22, w * 0.13)) + 'px ' + IMG_FONT;
     ctx.textAlign = 'center';
-    ctx.fillText(fitText(ctx, c.id, w - 14), x + w / 2, y + artH / 2 + 6);
+    ctx.fillText(fitText(ctx, c.id, w - 12), x + w / 2, y + h / 2 + 5);
     ctx.textAlign = 'left';
   }
-  // 所持 / 未所持 バッジ（枚数を出す設定のときだけ「×2」を添える）
-  if(artH > 52){
-    const label = own ? ('✓ 所持' + (showCount ? ' ×' + n : '')) : '未所持';
-    const bs = Math.max(10, Math.min(18, w * 0.085));
+  // 所持バッジ（所持のカードだけ右上に小さく。枚数を出す設定なら ×2 のように添える）
+  if(own && h > 56){
+    const label = showCount ? ('×' + n) : '✓';
+    const bs = Math.max(9, Math.min(14, w * 0.115));
     ctx.font = '900 ' + bs + 'px ' + IMG_FONT;
-    const bw = ctx.measureText(label).width + bs * 1.4;
-    const bh = bs + 8;
-    rr(ctx, x + w - bw - 6, y + 6, bw, bh, bh / 2);
-    ctx.fillStyle = own ? 'rgba(245,190,55,.96)' : 'rgba(255,255,255,.92)'; ctx.fill();
-    if(own){ ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.stroke(); }
-    ctx.fillStyle = own ? '#5a3c00' : '#8f7f89';
+    const bw = Math.max(bs + 8, ctx.measureText(label).width + bs * 1.1);
+    const bh = bs + 7;
+    rr(ctx, x + w - bw - 4, y + 4, bw, bh, bh / 2);
+    ctx.fillStyle = 'rgba(245,190,55,.96)'; ctx.fill();
+    ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.stroke();
+    ctx.fillStyle = '#5a3c00';
     ctx.textAlign = 'center';
-    ctx.fillText(label, x + w - bw / 2 - 6, y + 6 + bh / 2 + bs * 0.36);
+    ctx.fillText(label, x + w - bw / 2 - 4, y + 4 + bh / 2 + bs * 0.36);
     ctx.textAlign = 'left';
   }
   ctx.restore();
 
   // 枠線（所持はゴールド、未所持は淡いグレー）
   rr(ctx, x, y, w, h, r);
-  ctx.lineWidth = own ? 3 : 1.5;
+  ctx.lineWidth = own ? 2.5 : 1.5;
   ctx.strokeStyle = own ? '#f0b62f' : '#ece2e7'; ctx.stroke();
-
-  // カード名（2行まで）
-  ctx.fillStyle = own ? IMG_INK : '#8e7d88';
-  ctx.font = (own ? '900 ' : '800 ') + nfs + 'px ' + IMG_FONT;
-  const lines = wrapLines(ctx, c.name, w - 14, 2);
-  const top = y + artH + 7 + nfs;
-  lines.forEach((ln, i) => ctx.fillText(ln, x + 7, top + i * lh));
 }
 
-/* ---------- ページ割り ---------- */
+/* ---------- シートの割り付け（1枚の縦長PNGに全部入れる） ---------- */
 const BAND_H = 46;
-const GROUP_GAP = 26;
+const GROUP_GAP = 22;
 
-/* 指定の列数で、3:4 のページにどう入るかを計算する（描画はしない） */
-function layoutSheetCols(mode, cols){
+/* 1枚の縦長シートに、見出し→カード（10列）を下へ並べる。高さは中身に合わせて伸びる */
+function sheetLayout(mode){
   const list = sheetCards(mode);
+  const cols = SHEET_COLS;
   const tw = (IMG_W - IMG_PAD * 2 - (cols - 1) * IMG_GAP) / cols;
-  const th = tw * CARD_ASPECT + capMetrics(tw).capH;
+  const th = tw * CARD_ASPECT;
   const groups = sheetGroups(list);
-  const pages = [];
-  let page = null;
-  const start = first => {
-    page = {first, items:[], y: IMG_BODY_TOP + (first ? summaryHeight() + 24 : 0)};
-    pages.push(page);
-  };
-  start(true);
+  const items = [{type:'summary', y: IMG_BODY_TOP}];
+  let y = IMG_BODY_TOP + summaryHeight() + 26;
   groups.forEach(g => {
-    let i = 0, firstChunk = true;
-    while(i < g.list.length){
-      if(page.y + BAND_H + th > IMG_BOTTOM + 1 && (page.items.length || page.first)) start(false);
-      page.items.push({type:'band', label:g.label, continued:!firstChunk, stat:statOf(g.all), y:page.y});
-      page.y += BAND_H;
-      let rows = Math.floor((IMG_BOTTOM - page.y + IMG_GAP) / (th + IMG_GAP));
-      if(rows < 1) rows = 1;
-      const take = Math.min(g.list.length - i, rows * cols);
-      const chunk = g.list.slice(i, i + take);
-      chunk.forEach((c, k) => {
-        page.items.push({type:'card', c, x: IMG_PAD + (k % cols) * (tw + IMG_GAP),
-          y: page.y + Math.floor(k / cols) * (th + IMG_GAP), w: tw, h: th});
-      });
-      page.y += Math.ceil(take / cols) * (th + IMG_GAP) - IMG_GAP;
-      i += take;
-      firstChunk = false;
-      if(i < g.list.length) start(false);
-    }
-    page.y += GROUP_GAP;
+    items.push({type:'band', label:g.label, stat:statOf(g.all), y});
+    y += BAND_H;
+    g.list.forEach((c, k) => {
+      items.push({type:'card', c,
+        x: IMG_PAD + (k % cols) * (tw + IMG_GAP),
+        y: y + Math.floor(k / cols) * (th + IMG_GAP),
+        w: tw, h: th});
+    });
+    y += Math.ceil(g.list.length / cols) * (th + IMG_GAP) - IMG_GAP + GROUP_GAP;
   });
-  return {list, cols, tw, th, pages};
+  if(!groups.length) items.push({type:'note', y});
+  const H = (groups.length ? y - GROUP_GAP : y + 140) + IMG_FOOT;
+  return {list, cols, tw, th, items, groups, H: Math.max(IMG_BODY_TOP + 300, Math.round(H))};
+}
+function drawBand(ctx, it){
+  const x = IMG_PAD, cw = IMG_W - IMG_PAD * 2;
+  ctx.font = '900 18px ' + IMG_FONT;
+  const lw = ctx.measureText(it.label).width;
+  rr(ctx, x, it.y, lw + 32, 34, 17);
+  ctx.fillStyle = '#fff3f8'; ctx.fill();
+  ctx.lineWidth = 1.5; ctx.strokeStyle = '#ffd6e6'; ctx.stroke();
+  ctx.fillStyle = '#c2417c';
+  ctx.fillText(it.label, x + 16, it.y + 23);
+  ctx.textAlign = 'right'; ctx.fillStyle = IMG_INK2; ctx.font = '800 14px ' + IMG_FONT;
+  ctx.fillText('所持 ' + it.stat.owned + '/' + it.stat.total + ' 種 ・ ' + pct1(it.stat.pct) + '%', x + cw, it.y + 23);
+  ctx.textAlign = 'left';
 }
 
-/* 枚数に合った列数を選ぶ（ページ数が増えすぎない範囲で、カードを大きく） */
-function chooseSheetLayout(mode){
-  const n = sheetCards(mode).length;
-  const target = Math.max(1, Math.min(6, Math.ceil(n / 32)));
-  let best = null;
-  for(let c = 1; c <= 10; c++){
-    const lay = layoutSheetCols(mode, c);
-    if(lay.pages.length > target) continue;
-    const lonely = n > c && (n % c) === 1;      // 最後の行に1枚だけ残る並びは避ける
-    if(!best) { best = {...lay, lonely}; continue; }
-    if(best.lonely && !lonely){ best = {...lay, lonely}; continue; }
-    if(best.lonely === lonely && lay.tw > best.tw + 0.5) best = {...lay, lonely};
-  }
-  if(!best) best = layoutSheetCols(mode, 10);
-  return best;
-}
-
-/* ---------- 1ページを描く ---------- */
-function drawSheetPage(ctx, lay, page, mode, showCounts, noImg, pageNo){
-  const total = lay.pages.length;
-  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, IMG_W, IMG_H);
-  drawHeader(ctx, pageNo, total, mode);
-  if(page.first) drawSummary(ctx, IMG_BODY_TOP);
-
-  // ページに余白が残るときは、中身を縦の真ん中寄りにして見た目を整える
-  let shift = 0;
-  const cardItems = page.items.filter(it => it.type === 'card');
-  if(cardItems.length){
-    const last = Math.max.apply(null, cardItems.map(it => it.y + it.h));
-    const slack = IMG_BOTTOM - last;
-    if(slack > 60) shift = Math.min(170, Math.round(slack / 2));
-  }
-
-  if(!page.items.length){
-    rr(ctx, IMG_PAD, page.y, IMG_W - IMG_PAD * 2, 140, 18);
-    ctx.fillStyle = '#fff8fb'; ctx.fill();
-    ctx.lineWidth = 2; ctx.strokeStyle = '#ffe1ee'; ctx.stroke();
-    ctx.fillStyle = IMG_INK2; ctx.font = '800 18px ' + IMG_FONT; ctx.textAlign = 'center';
-    ctx.fillText(mode === 'own' ? 'まだ所持のカードがないよ。カードタブで＋をおしてね。'
-      : 'この条件のカードはないよ。', IMG_W / 2, page.y + 76);
-    ctx.textAlign = 'left';
-  }
-
-  page.items.forEach(it => {
-    if(it.type === 'band'){
-      const x = IMG_PAD, cw = IMG_W - IMG_PAD * 2;
-      const label = it.label + (it.continued ? '（つづき）' : '');
-      ctx.font = '900 18px ' + IMG_FONT;
-      const lw = ctx.measureText(label).width;
-      rr(ctx, x, it.y + shift, lw + 32, 34, 17);
-      ctx.fillStyle = '#fff3f8'; ctx.fill();
-      ctx.lineWidth = 1.5; ctx.strokeStyle = '#ffd6e6'; ctx.stroke();
-      ctx.fillStyle = '#c2417c';
-      ctx.fillText(label, x + 16, it.y + shift + 23);
-      ctx.textAlign = 'right'; ctx.fillStyle = IMG_INK2; ctx.font = '800 14px ' + IMG_FONT;
-      ctx.fillText('所持 ' + it.stat.owned + '/' + it.stat.total + ' 種 ・ ' + pct1(it.stat.pct) + '%', x + cw, it.y + shift + 23);
+/* ---------- 画像の生成（縦長1枚） ---------- */
+function buildSheetCanvas(mode, showCounts, noImg){
+  const lay = sheetLayout(mode);
+  const scale = lay.H > SHEET_MAX_H ? SHEET_MAX_H / lay.H : 1;
+  const cv = document.createElement('canvas');
+  cv.width = Math.round(IMG_W * scale);
+  cv.height = Math.round(lay.H * scale);
+  const ctx = cv.getContext('2d');
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, IMG_W, lay.H);
+  drawHeader(ctx, mode);
+  lay.items.forEach(it => {
+    if(it.type === 'summary') drawSummary(ctx, it.y);
+    else if(it.type === 'band') drawBand(ctx, it);
+    else if(it.type === 'note'){
+      rr(ctx, IMG_PAD, it.y, IMG_W - IMG_PAD * 2, 140, 18);
+      ctx.fillStyle = '#fff8fb'; ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = '#ffe1ee'; ctx.stroke();
+      ctx.fillStyle = IMG_INK2; ctx.font = '800 18px ' + IMG_FONT; ctx.textAlign = 'center';
+      ctx.fillText(mode === 'own' ? 'まだ所持のカードがないよ。カードタブで＋をおしてね。'
+        : 'この条件のカードはないよ。', IMG_W / 2, it.y + 76);
       ctx.textAlign = 'left';
     }else{
-      drawCardTile(ctx, it.c, it.x, it.y + shift, it.w, it.h, cnt(it.c.id), showCounts, noImg);
+      drawCardTile(ctx, it.c, it.x, it.y, it.w, it.h, cnt(it.c.id), showCounts, noImg);
     }
   });
-  drawFooter(ctx, pageNo, total);
-}
-
-/* ---------- ページ画像の生成 ---------- */
-function buildSheetCanvases(mode, showCounts, noImg){
-  const lay = chooseSheetLayout(mode);
-  const canvases = lay.pages.map((pg, i) => {
-    const cv = document.createElement('canvas');
-    cv.width = IMG_W; cv.height = IMG_H;
-    const ctx = cv.getContext('2d');
-    drawSheetPage(ctx, lay, pg, mode, showCounts, noImg, i + 1);
-    return {canvas: cv, items: pg.items.filter(it => it.type === 'card').length};
-  });
-  return {lay, canvases};
+  drawFooter(ctx, lay.H);
+  return {lay, canvas: cv};
 }
 function canvasBlob(cv){
   return new Promise((resolve, reject) => {
@@ -1892,7 +1808,6 @@ async function renderSheet(){
   const say = t => { if(my === imgSeq) $('#imgMeta').textContent = t; };
   clearSheetPages();
   $('#imgPreview').removeAttribute('src');
-  $('#imgPageLabel').textContent = '— / —';
   say('画像をつくっています…');
 
   // イラスト（サムネイル）を先に読み込む。読めなかったカードはテキスト枠で描く。
@@ -1902,22 +1817,17 @@ async function renderSheet(){
   }
 
   const build = async noImg => {
-    const {lay, canvases} = buildSheetCanvases(imgMode, imgShowCounts, noImg);
-    const total = canvases.length;
-    const d = new Date();
-    const stamp = stampFile(d);
-    for(let i = 0; i < canvases.length; i++){
-      if(my !== imgSeq) return false;
-      say('ページ ' + (i + 1) + ' / ' + total + ' を書き出し中…');
-      const blob = await canvasBlob(canvases[i].canvas);
-      if(my !== imgSeq) return false;
-      const name = 'aikatsu-encore-' + IMG_MODE_SHORT[imgMode] + '-' + stamp
-        + (total > 1 ? '-p' + (i + 1) + 'of' + total : '') + '.png';
-      let file = null;
-      try{ file = new File([blob], name, {type:'image/png'}); }catch(e){ file = null; }
-      imgPages.push({url: URL.createObjectURL(blob), blob, file, name, cards: canvases[i].items, total});
-      canvases[i].canvas.width = 1; canvases[i].canvas.height = 1;
-    }
+    say('カードを並べて画像を書き出し中…');
+    const {lay, canvas} = buildSheetCanvas(imgMode, imgShowCounts, noImg);
+    const blob = await canvasBlob(canvas);
+    if(my !== imgSeq) return false;
+    const name = 'aikatsu-encore-' + IMG_MODE_SHORT[imgMode] + '-' + stampFile(new Date()) + '.png';
+    let file = null;
+    try{ file = new File([blob], name, {type:'image/png'}); }catch(e){ file = null; }
+    imgPages.push({url: URL.createObjectURL(blob), blob, file, name,
+      cards: lay.items.filter(it => it.type === 'card').length,
+      w: canvas.width, h: canvas.height});
+    canvas.width = 1; canvas.height = 1;
     return true;
   };
 
@@ -1952,28 +1862,17 @@ function showImgPage(i){
   const a = $('#imgDownload');
   a.setAttribute('href', p.url);
   a.setAttribute('download', p.name);
-  $('#imgPageLabel').textContent = (imgPageIndex + 1) + ' / ' + imgPages.length;
-  const prev = $('#imgPrev'), next = $('#imgNext');
-  if(prev) prev.disabled = imgPageIndex === 0;
-  if(next) next.disabled = imgPageIndex === imgPages.length - 1;
+  // 1枚だけのときは、ページ切り替えのUIを隠してすっきりさせる
+  const single = imgPages.length <= 1;
+  const pager = $('.img-pager');
+  if(pager) pager.hidden = single;
+  const allBtn = $('#imgAll');
+  if(allBtn) allBtn.hidden = single;
   const kb = Math.max(1, Math.round(p.blob.size / 1024));
   const art = noImagesMode ? ' ・ イラストなし' : ' ・ イラスト入り';
-  $('#imgMeta').textContent = IMG_W + '×' + IMG_H + 'px（3:4）・ ' + IMG_MODE_LABEL[imgMode]
-    + ' ・ このページ ' + p.cards + '枚 ・ ' + (imgShowCounts ? '枚数を表示' : '枚数なし')
-    + ' ・ 約' + kb + 'KB ・ ' + (imgPageIndex + 1) + '/' + imgPages.length + 'ページ' + art;
-}
-
-async function downloadAllPages(){
-  if(!imgPages.length){ toast('まだ画像がないよ'); return; }
-  if(imgPages.length === 1){ toast('1ページだけなので「このページを保存」で OK'); return; }
-  for(let i = 0; i < imgPages.length; i++){
-    const p = imgPages[i];
-    const a = document.createElement('a');
-    a.href = p.url; a.download = p.name;
-    document.body.appendChild(a); a.click(); a.remove();
-    await new Promise(r => setTimeout(r, 700));
-  }
-  toast(imgPages.length + 'ページを順番に保存しました');
+  $('#imgMeta').textContent = p.w + '×' + p.h + 'px（縦長1枚）・ ' + IMG_MODE_LABEL[imgMode]
+    + ' ・ カード ' + p.cards + '枚 ・ 10列 ・ ' + (imgShowCounts ? '枚数を表示' : '枚数なし')
+    + ' ・ 約' + kb + 'KB' + art;
 }
 
 function shareSheet(){
@@ -1985,7 +1884,7 @@ function shareSheet(){
   let canFiles = false;
   try{ canFiles = !!(navigator.canShare && navigator.canShare({files:[file]})); }catch(e){ canFiles = false; }
   if(!navigator.share || !canFiles){
-    toast('この端末は画像の共有に未対応。「このページを保存」か長押しで保存してね');
+    toast('この端末は画像の共有に未対応。「画像を保存」か長押しで保存してね');
     return;
   }
   navigator.share({files:[file], title:'アイカツ！アンコール 所持一覧'})
@@ -2002,10 +1901,10 @@ function syncImgSetup(){
   $$('#imgCountModes .chip').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.imgcount === '1') === imgShowCounts)));
   const note = $('#imgCountNote');
   if(note) note.textContent = imgShowCounts
-    ? '各カードに「✓ 所持 ×2」のように所持枚数がいっしょに入ります。'
-    : '所持枚数は入れず、「✓ 所持」だけの画像になります。';
+    ? '所持しているカードに「×2」のような所持枚数のバッジが入ります。'
+    : '所持しているカードのバッジは「✓」だけになります。';
   const tip = $('#imgTip');
-  if(tip) tip.textContent = '画像は横:縦 = 3:4（' + IMG_W + '×' + IMG_H + 'px）。入りきらないときはページに分かれます。';
+  if(tip) tip.textContent = 'カードは10列。全部のカードが入った縦長1枚のPNG（横' + IMG_W + 'px）で保存できます。';
 }
 function setImgMode(mode){
   if(!IMG_MODE_LABEL[mode] || mode === imgMode) return;
@@ -2069,7 +1968,6 @@ $('#imgGenerate').addEventListener('click', startSheetRender);
 $('#imgBack').addEventListener('click', backToSetup);
 $('#imgPrev').addEventListener('click', () => showImgPage(imgPageIndex - 1));
 $('#imgNext').addEventListener('click', () => showImgPage(imgPageIndex + 1));
-$('#imgAll').addEventListener('click', downloadAllPages);
 $('#imgShare').addEventListener('click', shareSheet);
 $('#imgDownload').addEventListener('click', () => { if(!$('#imgDownload').getAttribute('href')) toast('画像を準備中だよ。少し待ってね'); });
 
