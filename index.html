@@ -1379,6 +1379,13 @@ function wrapLines(ctx, text, maxW, maxLines){
     if(cur && ctx.measureText(cur + chars[i]).width > maxW){
       lines.push(cur);
       if(lines.length === maxLines - 1){
+        const remain = chars.length - i;
+        if(remain <= 2){
+          let prev = lines[lines.length - 1];
+          while(prev.length > 1 && ctx.measureText(prev + '…').width > maxW) prev = prev.slice(0, -1);
+          lines[lines.length - 1] = prev + '…';
+          return lines;
+        }
         let rest = chars.slice(i).join('');
         while(rest.length > 1 && ctx.measureText(rest + '…').width > maxW) rest = rest.slice(0, -1);
         lines.push(rest + '…');
