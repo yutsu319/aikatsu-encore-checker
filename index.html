@@ -355,11 +355,6 @@ details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height
 .img-actions .btn{width:100%; text-decoration:none}
 .img-actions2{display:grid; grid-template-columns:1fr; gap:8px; margin-top:8px}
 .img-actions2 .btn{width:100%}
-.img-pager{display:flex; align-items:center; gap:8px; margin-bottom:9px}
-.img-pager[hidden], .img-actions2[hidden], #imgAll[hidden]{display:none!important}
-.img-pager .btn{flex:0 0 auto}
-.img-pager .btn:disabled{opacity:.45}
-.img-pageno{margin:0 auto; font-size:12.5px; font-weight:900; color:var(--ink-2); font-variant-numeric:tabular-nums}
 .img-count-note{margin:8px 0 12px; font-size:11.5px; font-weight:700; color:var(--ink-2); line-height:1.55}
 .img-generate{width:100%}
 .sheet-b[hidden]{display:none!important}
@@ -641,11 +636,6 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
     </div>
 
     <div class="sheet-b" id="imgResult" hidden>
-      <div class="img-pager">
-        <button class="btn ghost sm" id="imgPrev">◀ 前のページ</button>
-        <span class="img-pageno" id="imgPageLabel">— / —</span>
-        <button class="btn ghost sm" id="imgNext">次のページ ▶</button>
-      </div>
       <div class="img-scroll" id="imgScroll"><img id="imgPreview" alt="所持一覧の画像"></div>
       <div class="img-actions">
         <a class="btn sm" id="imgDownload" download="aikatsu-encore-所持一覧.png">📥 画像を保存</a>
@@ -1862,12 +1852,7 @@ function showImgPage(i){
   const a = $('#imgDownload');
   a.setAttribute('href', p.url);
   a.setAttribute('download', p.name);
-  // 1枚だけのときは、ページ切り替えのUIを隠してすっきりさせる
-  const single = imgPages.length <= 1;
-  const pager = $('.img-pager');
-  if(pager) pager.hidden = single;
-  const allBtn = $('#imgAll');
-  if(allBtn) allBtn.hidden = single;
+  // 1枚の縦長画像なので、ページ切り替えのUIは持たない
   const kb = Math.max(1, Math.round(p.blob.size / 1024));
   const art = noImagesMode ? ' ・ イラストなし' : ' ・ イラスト入り';
   $('#imgMeta').textContent = p.w + '×' + p.h + 'px（縦長1枚）・ ' + IMG_MODE_LABEL[imgMode]
@@ -1966,8 +1951,6 @@ $('#imgModes').addEventListener('click', (e) => { const b = e.target.closest('[d
 $('#imgCountModes').addEventListener('click', (e) => { const b = e.target.closest('[data-imgcount]'); if(b) setImgCount(b.dataset.imgcount === '1'); });
 $('#imgGenerate').addEventListener('click', startSheetRender);
 $('#imgBack').addEventListener('click', backToSetup);
-$('#imgPrev').addEventListener('click', () => showImgPage(imgPageIndex - 1));
-$('#imgNext').addEventListener('click', () => showImgPage(imgPageIndex + 1));
 $('#imgShare').addEventListener('click', shareSheet);
 $('#imgDownload').addEventListener('click', () => { if(!$('#imgDownload').getAttribute('href')) toast('画像を準備中だよ。少し待ってね'); });
 
