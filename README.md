@@ -38,7 +38,9 @@
 | `cards.json` | カードマスタ（`meta` + `cards` 配列／130枚）。第2弾・プロモ追加時のメンテナンス用 |
 | `thumbs/` | 画像書き出し用のカードサムネイル（`{カード番号}.jpg`・幅240px・130枚で約3.5MB）。同じオリジンから読み込んでCanvasに描くため、CORSで失敗しません |
 
-保存キー（localStorage）: `aikatsu-encore-checker.v1`（所持数）/ `aikatsu-encore-checker.progress.v1`（アイドル・楽曲・スタンプ）/ `aikatsu-encore-checker.myshot.v1`（マイショット）/ `aikatsu-encore-checker.play.v1`（プレイ回数＆金額メモ）。所持データの共有コード `AEC1…` とJSON書き出しは従来のまま使えます（JSONには第3弾のプレイメモも `play` として入ります）。
+- **🎨 着せ替え（テーマ）** … ヘッダー右上の 🎨 か「💾 データ」タブのピッカーから、**6種類**の見た目をワンタップで切り替え（🌸 シンプル＝初期値／🎀 エンジェリーシュガー風／💎 フューチャリングガール風／🖤 ロリゴシック風／🦋 スパイシーアゲハ風／🌙 ラブムーンライズ風）。色・背景・ボタン・カードの質感がまとめて変わり、選択は端末の `localStorage`（`aikatsu-encore-checker.theme.v1`）に保存されます。公式ロゴや画像は使わず、CSSグラデーションとSVGのリボン・羽・ハート・星・三日月などの装飾だけで雰囲気をつくっています。
+
+保存キー（localStorage）: `aikatsu-encore-checker.v1`（所持数）/ `aikatsu-encore-checker.progress.v1`（アイドル・楽曲・スタンプ）/ `aikatsu-encore-checker.myshot.v1`（マイショット）/ `aikatsu-encore-checker.play.v1`（プレイ回数＆金額メモ）/ `aikatsu-encore-checker.theme.v1`（着せ替えテーマ）。所持データの共有コード `AEC1…` とJSON書き出しは従来のまま使えます（JSONには第3弾のプレイメモも `play` として入ります）。
 
 ## 収録データ
 
