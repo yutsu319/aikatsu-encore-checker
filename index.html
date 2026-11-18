@@ -1379,16 +1379,14 @@ function wrapLines(ctx, text, maxW, maxLines){
     if(cur && ctx.measureText(cur + chars[i]).width > maxW){
       lines.push(cur);
       if(lines.length === maxLines - 1){
-        const remain = chars.length - i;
-        if(remain <= 2){
-          let prev = lines[lines.length - 1];
-          while(prev.length > 1 && ctx.measureText(prev + '…').width > maxW) prev = prev.slice(0, -1);
-          lines[lines.length - 1] = prev + '…';
-          return lines;
+        const rest = chars.slice(i).join('');
+        if(ctx.measureText(rest).width <= maxW){
+          lines.push(rest);
+        } else {
+          let cut = rest;
+          while(cut.length > 1 && ctx.measureText(cut + '…').width > maxW) cut = cut.slice(0, -1);
+          lines.push(cut + '…');
         }
-        let rest = chars.slice(i).join('');
-        while(rest.length > 1 && ctx.measureText(rest + '…').width > maxW) rest = rest.slice(0, -1);
-        lines.push(rest + '…');
         return lines;
       }
       cur = chars[i];
@@ -1687,10 +1685,16 @@ function buildSheetImage(mode){
     h = paintSheet(pctx, mode, cols);
     if(h <= IMG_MAX_H) break;
   }
+  // 端末のCanvas上限（1辺4096px・面積1600万px）を超えないよう縮小する
+  const s = Math.min(1, 4096 / Math.max(h, IMG_W), Math.sqrt(16000000 / (IMG_W * h)));
   const cv = document.createElement('canvas');
-  cv.width = IMG_W;
-  cv.height = Math.max(500, Math.min(16000, Math.ceil(h)));
-  paintSheet(cv.getContext('2d'), mode, cols);
+  cv.width = Math.max(320, Math.round(IMG_W * s));
+  cv.height = Math.max(400, Math.round(h * s));
+  const ctx = cv.getContext('2d');
+  ctx.save();
+  ctx.scale(s, s);
+  paintSheet(ctx, mode, cols);
+  ctx.restore();
   return cv;
 }
 
