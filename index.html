@@ -505,6 +505,93 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
 .cat-badge{font-size:9px; font-weight:800; color:#5d4a6a; background:#f7f1fa; border:1px solid #e8d9f1; border-radius:99px; padding:1px 6px; white-space:nowrap}
 .news-card a.src{font-size:10px; font-weight:800}
 
+/* ---------- 📰 カレンダー（月間・期間バー）---------- */
+.chips[hidden]{display:none}
+.cal-panel{padding:10px 9px 11px}
+.cal-head{display:flex; align-items:center; gap:7px; margin:1px 0 7px}
+.cal-nav{flex:0 0 auto; width:38px; min-height:36px; border:1.5px solid var(--line); background:#fff; border-radius:11px;
+  font-size:12px; font-weight:900; color:var(--ink-2); display:grid; place-items:center}
+.cal-nav:active{background:var(--pink-xl)}
+.cal-ym{flex:1 1 auto; min-width:0; border:none; background:transparent; padding:0 2px; display:flex; align-items:center; justify-content:center; gap:6px;
+  font-size:15px; font-weight:900; color:var(--ink); font-variant-numeric:tabular-nums}
+.cal-ym .now{font-size:9px; font-weight:900; color:#c2417c; background:#ffe7ef; border-radius:99px; padding:1px 7px}
+.cal-ym .tol{font-size:9px; font-weight:900; color:#8a6a1a; background:#fff2cf; border-radius:99px; padding:1px 7px}
+.cal-dows{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px; margin-bottom:2px}
+.cal-dows span{text-align:center; font-size:9.5px; font-weight:900; color:var(--ink-3); letter-spacing:.04em}
+.cal-dows span:first-child{color:#c2417c}
+.cal-dows span:last-child{color:#2f7fbf}
+.cal-week{border-top:1px dashed var(--line); padding:3px 0}
+.cal-week:first-of-type{border-top:none}
+.cal-cells{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px}
+.cal-cell{min-height:33px; border:none; background:transparent; border-radius:9px; padding:2px 1px 3px;
+  display:flex; flex-direction:column; align-items:center; gap:2px}
+.cal-cell .num{font-size:10.5px; font-weight:900; color:var(--ink-2); line-height:1.15; font-variant-numeric:tabular-nums}
+.cal-cell.sun .num{color:#c2417c}
+.cal-cell.sat .num{color:#2f7fbf}
+.cal-cell.out{visibility:hidden; pointer-events:none}
+.cal-cell.today{background:#fff8fb; box-shadow:inset 0 0 0 1.4px #ffd3e4}
+.cal-cell.today .num{color:#c2417c}
+.cal-cell.today .num::after{content:""; display:block; width:12px; height:2px; margin:1px auto 0; border-radius:2px; background:#ff9ec9}
+.cal-cell.sel{background:#ffd3e6; box-shadow:inset 0 0 0 1.8px #ff5c9d}
+.cal-cell.sel .num{color:#8f1f4c}
+.cal-cell.today.sel{background:#ffc9e0}
+.cal-cell.sel .cal-dot{box-shadow:0 0 0 1px rgba(255,255,255,.85)}
+.cal-dots{display:flex; gap:2px; flex-wrap:wrap; justify-content:center; min-height:5px}
+.cal-dot{width:5px; height:5px; border-radius:99px; background:#c9b6c2}
+.cal-dot[data-calcat="ゲーム"]{background:#e07ab0}
+.cal-dot[data-calcat="カード"]{background:#5a9be0}
+.cal-dot[data-calcat="グッズ"]{background:#e0a92b}
+.cal-dot[data-calcat="キャンペーン"]{background:#3fae86}
+.cal-bars{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:3px}
+.cal-bars.lbl{grid-auto-rows:13px; margin-top:2px}
+.cal-bars.thin{grid-auto-rows:7px; margin-top:2px}
+.cal-bar{position:relative; min-width:0; height:12px; border:none; border-radius:4px; padding:0 3px;
+  display:flex; align-items:center; gap:2px; overflow:hidden; white-space:nowrap;
+  font-size:8.5px; font-weight:900; line-height:1; color:#5a2b45;
+  background:linear-gradient(90deg,var(--bc1),var(--bc2)); box-shadow:0 1px 0 rgba(150,80,110,.10)}
+.cal-bar .t{flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis}
+.cal-bar .ar{flex:0 0 auto; font-size:7px; line-height:1; opacity:.9; margin-right:-1px}
+.cal-bar.r0{border-top-left-radius:0; border-bottom-left-radius:0}
+.cal-bar.r1{border-top-right-radius:0; border-bottom-right-radius:0}
+.cal-bars.thin .cal-bar{height:5px; padding:0; border-radius:99px; justify-content:flex-end; box-shadow:none}
+.cal-bars.thin .cal-bar.r0{border-top-left-radius:0; border-bottom-left-radius:0}
+.cal-bars.thin .cal-bar.r1{border-top-right-radius:0; border-bottom-right-radius:0}
+.cal-bars.thin .cal-bar.contR::after{content:""; width:0; height:0; border-left:4.5px solid currentColor; border-top:3.5px solid transparent; border-bottom:3.5px solid transparent; opacity:.55; margin-right:1px}
+.cal-bar[data-calcat="ゲーム"]{--bc1:#ffb0d2; --bc2:#ffd8e8; color:#7a2450}
+.cal-bar[data-calcat="カード"]{--bc1:#a6cbf6; --bc2:#d3e6fb; color:#1f4a75}
+.cal-bar[data-calcat="グッズ"]{--bc1:#ffda96; --bc2:#ffefc8; color:#7a5310}
+.cal-bar[data-calcat="キャンペーン"]{--bc1:#a5e7cc; --bc2:#d5f6e7; color:#1f6248}
+.cal-bar.alt[data-calcat="ゲーム"]{--bc1:#f591bd; --bc2:#ffc0da}
+.cal-bar.alt[data-calcat="カード"]{--bc1:#7fb6f2; --bc2:#bddcfb}
+.cal-bar.alt[data-calcat="グッズ"]{--bc1:#f7c96e; --bc2:#ffe3b4; color:#6b4708}
+.cal-bar.alt[data-calcat="キャンペーン"]{--bc1:#75d6ac; --bc2:#b9eed9; color:#155840}
+.cal-over{margin-top:3px; text-align:right; font-size:9px; font-weight:800; color:var(--ink-3)}
+.cal-legend{display:flex; gap:9px; flex-wrap:wrap; margin-top:9px}
+.cal-legend span{display:inline-flex; align-items:center; gap:4px; font-size:9px; font-weight:800; color:var(--ink-2)}
+.cal-legend i{display:inline-block; width:10px; height:5px; border-radius:99px}
+.cal-legend i[data-calcat="ゲーム"]{background:#ffb0d2}
+.cal-legend i[data-calcat="カード"]{background:#a6cbf6}
+.cal-legend i[data-calcat="グッズ"]{background:#ffda96}
+.cal-legend i[data-calcat="キャンペーン"]{background:#a5e7cc}
+.cal-day-h{display:flex; align-items:center; gap:5px; font-size:13px; font-weight:900; margin-bottom:7px; flex-wrap:wrap}
+.cal-day-h .cnt{margin-left:auto; font-size:10px; font-weight:800; color:var(--ink-3)}
+.cal-day-h .ico{font-size:14px}
+.cal-ev{width:100%; text-align:left; border:1.5px solid var(--line); background:#fff; border-radius:12px;
+  padding:7px 9px; margin-top:6px; display:grid; grid-template-columns:auto minmax(0,1fr); gap:3px 6px; align-items:start}
+.cal-ev:first-of-type{margin-top:0}
+.cal-ev:active{background:var(--pink-xl)}
+.cal-ev-cat{font-size:8.5px; font-weight:900; border-radius:99px; padding:1px 6px; white-space:nowrap; justify-self:start; align-self:center;
+  background:#f7f1fa; color:#5d4a6a; border:1px solid #e8d9f1}
+.cal-ev-cat[data-calcat="ゲーム"]{background:#ffe7f2; color:#a8326c; border-color:#ffd0e4}
+.cal-ev-cat[data-calcat="カード"]{background:#eaf3fe; color:#255a8f; border-color:#cfe3fb}
+.cal-ev-cat[data-calcat="グッズ"]{background:#fff5dd; color:#8a6208; border-color:#ffe7b8}
+.cal-ev-cat[data-calcat="キャンペーン"]{background:#e8faf2; color:#1f6b4e; border-color:#c6f0de}
+.cal-ev-t{font-size:11.5px; font-weight:900; line-height:1.35; overflow-wrap:anywhere}
+.cal-ev-w{grid-column:2; font-size:9.5px; font-weight:800; color:var(--ink-2); line-height:1.4}
+.cal-ev-go{grid-column:2; font-size:9px; font-weight:900; color:#2079c7}
+.news-card.flash{animation:newsflash 1.8s ease-out}
+@keyframes newsflash{0%,25%,55%{border-color:#f0b93f; box-shadow:0 0 0 3px #ffeab5}100%{}}
+
 .shot-form{display:grid; gap:8px}
 .shot-form .fld label{font-size:10.5px; font-weight:900; color:var(--ink-3); display:block; margin-bottom:2px}
 .shot-form input[type="date"], .shot-form input[type="text"]{width:100%; border:1.5px solid var(--line); border-radius:11px; padding:8px 10px; background:#fff; min-height:40px; outline:none}
@@ -768,7 +855,7 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
           5. 第2弾が出たら、カードの配列を足すだけでタブや集計が自動で増えます。<br>
           6. 「📷 所持一覧を画像で保存」を押すと、先に「出すカード」と「所持枚数を表示するか」を選ぶ画面が出ます。画像は横1200pxの縦長1枚で、カードは10列に並びます（高さはカードの枚数に合わせて伸びます）。所持はゴールド枠でくっきり、未所持はうすく表示。長押しで写真アプリへ、「共有」でLINEなどにも送れます。<br>
           7. 「🎤 アイドル」タブで、登場アイドル全11人の解放チェック（メエ・パリン・たいむは指定3曲ごと）、全11曲のプレイ済み・アンコール成功、3種類のアイカツ！スタンプ（各10マス）を記録できます。<br>
-          8. 「📰 ニュース」タブで、ボーナスキャンペーンや発売日・配布期間を「あと何日」つきで確認できます。日付が過ぎると自動で「終了」に変わります。<br>
+          8. 「📰 ニュース」タブは、右上のチップで「📅 カレンダー」と「📋 リスト」を切り替えられます。カレンダーは月ごと（◀ ▶ で前後の月、タイトルの「今月へ」で戻る）で、期間のある予定は開始日から終了日（未定なら「１弾稼働終了まで」など）まで横に伸びる帯と右端の▶矢印で「いつからいつまで」が分かります。単日の発売・配布日は丸い点で出ます。日付か帯をタップすると下にその日の予定が出て、「リストで見る」でリストの該当カードへ移動します。リストでは日付が過ぎたものは自動で「終了」に変わります。<br>
           9. 「📸 マイショット」タブは、写真を端末の中だけに保存する自分用のプレイ日記。選んだ写真は長辺720px・JPEGに自動で軽くなります。いっぱいになったらJSONにバックアップしてから整理してね。<br>
           10. 「👗 コーデ」タブのいちばん上に「✨ 手持ちで組めるおすすめコーデ」。いま持っているカードだけで全身そろうコーデをAPの高い順に表示します。「🎯 高AP 3,000〜」でスコア狙い、「あと1枚」で足りない1枚を確認できます。<br>
           11. 「🎤 アイドル」タブの下の「🎮 プレイ回数＆金額メモ」は、1プレイ＝100円でワンタップ記録。日付ピッカーで過去の日も選べるので、記録し忘れた日もあとから足せます（今日以外を選んでいるあいだは「◯◯ を編集中」と出て、「今日に戻す」でいつでも今日に戻せます）。今日・今月・累計の回数と金額、「さいきんの記録」7日分（「もっと見る（全◯日）」で全件、日ごとに削除）が見られて、JSONでバックアップもできます（スタンプの進み具合と一緒に振り返れます）。
@@ -856,14 +943,20 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
   <section class="view" id="view-news" hidden>
     <div class="panel">
       <h2><span class="ico">📰</span>ニュース＆スケジュール<span class="right" id="newsToday"></span></h2>
-      <div class="chips" id="newsChips">
+      <div class="chips" id="newsViewChips">
+        <button class="chip" data-nview="cal" aria-pressed="true">📅 カレンダー</button>
+        <button class="chip" data-nview="list" aria-pressed="false">📋 リスト</button>
+      </div>
+      <div class="chips" id="newsChips" style="margin-top:6px">
         <button class="chip" data-nfilter="all" aria-pressed="true">すべて</button>
         <button class="chip" data-nfilter="soon" aria-pressed="false">これから</button>
         <button class="chip" data-nfilter="live" aria-pressed="false">開催中</button>
         <button class="chip" data-nfilter="ended" aria-pressed="false">終了</button>
       </div>
-      <p class="muted" style="margin:8px 0 0">公式ニュースの発売日・配布期間・終了日を「あと何日」つきでまとめています（日本時間）。</p>
+      <p class="muted" style="margin:8px 0 0" id="newsIntro">公式ニュースの発売日・配布期間・終了日をカレンダーとリストでまとめています（日本時間）。</p>
     </div>
+    <div id="newsCal"></div>
+    <div id="calDay"></div>
     <div id="newsList"></div>
     <div class="panel">
       <h2><span class="ico">🔗</span>公式リンク</h2>
@@ -2717,6 +2810,11 @@ function newsItems(){
 function renderNewsView(){
   const t = todayDate();
   $('#newsToday').textContent = `${t.getFullYear()}/${t.getMonth()+1}/${t.getDate()}(${WD[t.getDay()]}) 時点`;
+  $$('#newsViewChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.nview === newsView)));
+  $('#newsChips').hidden = newsView !== 'list';
+  $('#newsCal').hidden = newsView !== 'cal';
+  $('#calDay').hidden = newsView !== 'cal';
+  $('#newsList').hidden = newsView === 'cal';
   const all = newsItems();
   const shown = all.filter(x=>{
     if(newsFilter === 'all') return true;
@@ -2725,7 +2823,7 @@ function renderNewsView(){
   });
   $('#newsList').innerHTML = shown.length ? shown.map(({e,st})=>{
     const lab = statusLabel(st);
-    return `<div class="news-card ${st.key === 'soon' ? 'soon' : (st.key === 'live' || st.key === 'onSale') ? 'live' : st.key === 'info' ? '' : 'ended'}">
+    return `<div class="news-card ${st.key === 'soon' ? 'soon' : (st.key === 'live' || st.key === 'onSale') ? 'live' : st.key === 'info' ? '' : 'ended'}" data-news-id="${esc(e.id)}">
       <div class="news-h"><span class="cat-badge">${esc(e.cat)}</span><span class="dday ${lab.cls}">${lab.text}</span></div>
       <div class="news-title">${esc(e.title)}</div>
       ${e.sub ? `<div class="news-sub">${esc(e.sub)}</div>` : ''}
@@ -2734,6 +2832,212 @@ function renderNewsView(){
       <div><a class="src" href="${esc(e.url)}" target="_blank" rel="noopener">公式で見る ↗</a></div>
     </div>`;
   }).join('') : `<div class="panel"><div class="empty" style="padding:18px 0"><span class="big">📰</span>この条件の予定はないよ。</div></div>`;
+  if(newsView === 'cal'){ renderNewsCal(); renderCalDay(); }
+}
+
+/* ---------- 📰 カレンダー（SCHEDULE から自動生成）---------- */
+let newsView = 'cal';
+let calYM = null;
+let calSel = null;
+const CAL_CATS = ['ゲーム','カード','グッズ','キャンペーン'];
+function calISO(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function calTodayYM(){ const t = todayDate(); return {y:t.getFullYear(), m:t.getMonth()+1}; }
+function calSameYM(a, b){ return a.y === b.y && a.m === b.m; }
+function calEnsureYM(){
+  if(!calYM) calYM = calTodayYM();
+  if(calSel === null || calSel === undefined) calSel = calSameYM(calYM, calTodayYM()) ? todayISO() : '';
+  if(calSel && calSel.length !== 10) calSel = '';
+}
+/* その日にやっている（開催中・発売日）予定 */
+function calEventsOn(iso){
+  return SCHEDULE.filter(e=>{
+    if(e.kind === 'info' || !e.start) return false;
+    if(e.start === iso) return true;
+    if(iso < e.start) return false;
+    if(e.end) return iso <= e.end;
+    return e.kind === 'period';
+  });
+}
+function calEventState(e, iso){
+  if(e.start === iso) return e.kind === 'release' ? '発売日' : '開始日';
+  if(e.end && e.end === iso) return '最終日';
+  return e.kind === 'release' ? '発売日' : '開催中';
+}
+function calWhenShort(e){
+  if(e.kind === 'info') return e.when || '日付未定';
+  if(e.kind === 'release') return fmtJP(e.start) + ' 発売';
+  return fmtJP(e.start) + '〜' + (e.end ? fmtJP(e.end) : (e.endNote || '終了日未定'));
+}
+function calShift(d){
+  calEnsureYM();
+  let y = calYM.y, m = calYM.m + d;
+  if(m < 1){ y -= 1; m = 12; } else if(m > 12){ y += 1; m = 1; }
+  calYM = {y:y, m:m};
+  calSel = calSameYM(calYM, calTodayYM()) ? todayISO() : '';
+  renderNewsView();
+}
+function calSelect(iso){
+  calSel = iso;
+  renderNewsView();
+}
+function calPickMonthNow(){
+  calYM = calTodayYM(); calSel = todayISO(); renderNewsView();
+}
+/* 期間ものを週ごとのセグメントに分けてレーンに詰める */
+function calPack(segs, maxLanes){
+  const rows = [], hidden = [];
+  segs.forEach(sg=>{
+    for(let r=0; r<rows.length; r++){
+      const clash = rows[r].some(o=> sg.col <= o.col + o.span - 1 && o.col <= sg.col + sg.span - 1);
+      if(!clash){ rows[r].push(sg); sg.row = r; return; }
+    }
+    if(rows.length < maxLanes){ rows.push([sg]); sg.row = rows.length - 1; }
+    else { hidden.push(sg); }
+  });
+  return {rows:rows, hidden:hidden};
+}
+function calBarHtml(sg, row, thin){
+  const b = sg.b, e = b.e;
+  const cls = ['cal-bar'];
+  if(!sg.starts) cls.push('r0');
+  if(!sg.ends) cls.push('r1');
+  if(thin) cls.push('thin');
+  if(sg.contR) cls.push('contR');
+  if(b.alt) cls.push('alt');
+  let label = '';
+  if(!thin){
+    const lim = sg.span >= 5 ? 22 : (sg.span >= 3 ? 16 : (sg.span === 2 ? 10 : 0));
+    if(lim > 0){
+      const t = e.title.length > lim ? e.title.slice(0, lim) + '…' : e.title;
+      label = '<span class="t">' + esc(t) + '</span>';
+    }
+  }
+  const arrow = (!thin && sg.contR) ? '<span class="ar">▶</span>' : '';
+  return '<button class="' + cls.join(' ') + '" data-calcat="' + esc(e.cat) + '" data-cal-bar="' + calISO(sg.s) + '"'
+    + ' style="grid-column:' + (sg.col + 1) + ' / span ' + sg.span + '; grid-row:' + row + '"'
+    + ' aria-label="' + esc(e.title + '（' + fmtJP(calISO(sg.s)) + '〜）') + '">' + label + arrow + '</button>';
+}
+function renderNewsCal(){
+  const host = $('#newsCal'); if(!host) return;
+  calEnsureYM();
+  const y = calYM.y, m = calYM.m;
+  const first = new Date(y, m-1, 1), lastDay = new Date(y, m, 0).getDate(), last = new Date(y, m, 0);
+  const lead = first.getDay();
+  const cells = [];
+  for(let i=0; i<lead; i++) cells.push({d:new Date(y, m-1, 1 - (lead - i)), out:true});
+  for(let d=1; d<=lastDay; d++) cells.push({d:new Date(y, m-1, d), out:false});
+  while(cells.length % 7) cells.push({d:new Date(y, m, cells.length - lead - lastDay + 1), out:true});
+  const weeks = [];
+  for(let i=0; i<cells.length; i+=7) weeks.push(cells.slice(i, i+7));
+  const bars = [];
+  SCHEDULE.forEach(e=>{
+    if(e.kind !== 'period' || !e.start) return;
+    const from = parseISO(e.start), to = e.end ? parseISO(e.end) : null;
+    if(!from) return;
+    if(to && to < first) return;
+    if(from > last) return;
+    bars.push({e:e, from:from, to:to, alt:false});
+  });
+  const catSeen = {};
+  bars.sort((a,b)=> a.from - b.from || a.e.id.localeCompare(b.e.id)).forEach(b=>{
+    const c = b.e.cat;
+    catSeen[c] = (catSeen[c] || 0) + 1;
+    b.alt = (catSeen[c] % 2 === 0);
+  });
+  const today = todayISO();
+  let html = '<div class="panel cal-panel">';
+  html += '<div class="cal-head">'
+    + '<button class="cal-nav" data-cal-nav="-1" aria-label="前の月">◀</button>'
+    + '<button class="cal-ym" data-cal-now aria-label="今月を表示">' + y + '年' + m + '月'
+    + (calSameYM(calYM, calTodayYM()) ? '<span class="now">今月</span>' : '<span class="tol">今月へ</span>')
+    + '</button>'
+    + '<button class="cal-nav" data-cal-nav="1" aria-label="次の月">▶</button></div>';
+  html += '<div class="cal-dows">' + ['日','月','火','水','木','金','土'].map(w=>'<span>' + w + '</span>').join('') + '</div>';
+  weeks.forEach(wk=>{
+    const wkStart = wk[0].d, wkEnd = wk[6].d;
+    const visStart = wkStart < first ? first : wkStart;   // 月外のマスには帯を伸ばさない
+    const segs = [];
+    bars.forEach(b=>{
+      let s = b.from < wkStart ? wkStart : b.from;
+      if(s < first) s = first;
+      let eEnd = (b.to || last) > wkEnd ? wkEnd : (b.to || last);
+      if(eEnd > last) eEnd = last;
+      if(s > eEnd) return;
+      segs.push({b:b, s:s, col:diffDays(wkStart, s), span:diffDays(s, eEnd) + 1,
+        starts:(+b.from === +s), ends:!!b.to && (+b.to === +eEnd),
+        contR: !b.to || b.to > wkEnd});
+    });
+    const firstWeek = (wk === weeks[0]);
+    const inFirst = sg=> firstWeek && (+sg.s === +visStart);
+    const labelled = segs.filter(sg=> sg.starts || sg.ends || inFirst(sg))
+      .sort((a,b)=> a.col - b.col || (a.b.from - b.b.from) || b.span - a.span);
+    const thin = segs.filter(sg=> !(sg.starts || sg.ends || inFirst(sg)))
+      .sort((a,b)=> (a.b.from - b.b.from) || a.col - b.col);
+    const L = calPack(labelled, firstWeek ? 12 : 3), T = calPack(thin, 9);
+    const hiddenN = L.hidden.length + T.hidden.length;
+    html += '<div class="cal-week"><div class="cal-cells">';
+    wk.forEach((c, i)=>{
+      const iso = calISO(c.d);
+      const dow = c.d.getDay();
+      const pins = c.out ? [] : SCHEDULE.filter(e=> e.kind === 'release' && e.start === iso);
+      const cls = ['cal-cell'];
+      if(c.out) cls.push('out');
+      if(dow === 0) cls.push('sun');
+      if(dow === 6) cls.push('sat');
+      if(iso === today) cls.push('today');
+      if(iso === calSel) cls.push('sel');
+      html += '<button class="' + cls.join(' ') + '" data-cal-day="' + iso + '"'
+        + (c.out ? ' tabindex="-1" aria-hidden="true"' : '')
+        + ' aria-label="' + fmtJP(iso) + (pins.length ? '・発売 ' + pins.length + '件' : '') + '">'
+        + '<span class="num">' + c.d.getDate() + '</span>'
+        + '<span class="cal-dots">' + pins.slice(0,3).map(p=>'<i class="cal-dot" data-calcat="' + esc(p.cat) + '"></i>').join('')
+        + (pins.length > 3 ? '<i class="cal-dot" style="background:#9b8b95"></i>' : '') + '</span></button>';
+    });
+    html += '</div>';
+    if(L.rows.length){
+      html += '<div class="cal-bars lbl" style="grid-template-rows:repeat(' + L.rows.length + ',13px)">';
+      L.rows.forEach((row, ri)=> row.forEach(sg=>{ html += calBarHtml(sg, ri + 1, false); }));
+      html += '</div>';
+    }
+    if(T.rows.length){
+      html += '<div class="cal-bars thin" style="grid-template-rows:repeat(' + T.rows.length + ',7px)">';
+      T.rows.forEach((row, ri)=> row.forEach(sg=>{ html += calBarHtml(sg, ri + 1, true); }));
+      html += '</div>';
+    }
+    if(hiddenN) html += '<div class="cal-over">ほか ' + hiddenN + '件は日付をタップ</div>';
+    html += '</div>';
+  });
+  html += '<div class="cal-legend">' + CAL_CATS.map(c=>'<span><i data-calcat="' + esc(c) + '"></i>' + esc(c) + '</span>').join('') + '</div>';
+  html += '<p class="muted" style="margin:8px 0 0; line-height:1.6">帯＝期間のある予定（右端の ▶ は「また月をまたいで続く」）。ひも状の細い帯は、前の週から続いているもの。丸い点＝その日の発売・配布。日付か帯をタップすると、下にその日の予定が出ます。</p>';
+  html += '</div>';
+  host.innerHTML = html;
+}
+function renderCalDay(){
+  const host = $('#calDay'); if(!host) return;
+  if(!calSel){ host.innerHTML = '<div class="panel"><p class="muted" style="margin:0">日付をタップすると、その日の予定・発売日が見られます。</p></div>'; return; }
+  const evs = calEventsOn(calSel).sort((a,b)=> a.start.localeCompare(b.start));
+  let html = '<div class="panel"><div class="cal-day-h"><span class="ico">📌</span>' + esc(fmtJP(calSel)) + ' の予定<span class="cnt">' + evs.length + '件</span></div>';
+  if(!evs.length){
+    html += '<p class="muted" style="margin:0">この日の予定・発売日はありません。ほかの日付か、リスト表示もどうぞ。</p>';
+  } else {
+    html += evs.map(e=>'<button class="cal-ev" data-news-focus="' + esc(e.id) + '">'
+      + '<span class="cal-ev-cat" data-calcat="' + esc(e.cat) + '">' + esc(e.cat) + '</span>'
+      + '<span class="cal-ev-t">' + esc(e.title) + '</span>'
+      + '<span class="cal-ev-w">' + esc(calWhenShort(e)) + '</span>'
+      + '<span class="cal-ev-go">' + esc(calEventState(e, calSel)) + ' ・ リストで見る ›</span>'
+      + '</button>').join('');
+  }
+  html += '</div>';
+  host.innerHTML = html;
+}
+function focusNewsCard(id){
+  newsView = 'list';
+  renderNewsView();
+  const el = document.querySelector('.news-card[data-news-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : String(id).replace(/[^\w-]/g, '')) + '"]');
+  if(!el) return;
+  el.scrollIntoView({block:'center', behavior:'smooth'});
+  el.classList.add('flash');
+  setTimeout(()=> el.classList.remove('flash'), 1900);
 }
 function nextScheduleText(){
   const today = todayDate();
@@ -3134,6 +3438,19 @@ $('#newsChips').addEventListener('click', (e)=>{
   newsFilter = b.dataset.nfilter;
   $$('#newsChips .chip').forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.nfilter === newsFilter)));
   renderNewsView();
+});
+$('#view-news').addEventListener('click', (e)=>{
+  const nav = e.target.closest('[data-cal-nav]');
+  if(nav){ calShift(Number(nav.dataset.calNav)); return; }
+  if(e.target.closest('[data-cal-now]')){ calPickMonthNow(); return; }
+  const nv = e.target.closest('[data-nview]');
+  if(nv){ if(newsView !== nv.dataset.nview){ newsView = nv.dataset.nview; renderNewsView(); } return; }
+  const bar = e.target.closest('[data-cal-bar]');
+  if(bar){ calSelect(bar.dataset.calBar); return; }
+  const cell = e.target.closest('[data-cal-day]');
+  if(cell){ calSelect(cell.dataset.calDay); return; }
+  const fc = e.target.closest('[data-news-focus]');
+  if(fc){ focusNewsCard(fc.dataset.newsFocus); return; }
 });
 
 /* マイショット */
