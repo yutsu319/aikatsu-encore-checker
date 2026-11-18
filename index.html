@@ -368,6 +368,92 @@ details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height
 }
 .toast.show{opacity:1; transform:translateX(-50%)}
 footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14px 16px 22px; line-height:1.7}
+/* ---------- v2：アイドル・楽曲・スタンプ / ニュース / マイショット ---------- */
+.tabs{grid-template-columns:repeat(4,minmax(0,1fr)); padding:7px 9px; gap:5px}
+.tabs button{font-size:11px; padding:0 2px; min-height:38px; gap:2px; letter-spacing:-.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.toolbar{top:var(--tabs-h,58px)}
+.mini-card{display:block}
+.mini-card small{display:block; font-size:10px; font-weight:800; color:var(--ink-3); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.sum-bar{margin-top:8px}
+.sum-line{display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:11.5px; font-weight:800; color:var(--ink-2); margin-bottom:4px}
+
+.idol-grid{display:grid; gap:9px}
+@media(min-width:640px){ .idol-grid{grid-template-columns:1fr 1fr} }
+.idol-card{display:grid; grid-template-columns:auto minmax(0,1fr); gap:10px; border:1.5px solid var(--line); border-radius:14px; padding:10px; background:#fff; box-shadow:0 3px 10px rgba(255,140,180,.10)}
+.idol-card.open{border-color:#f2c766; background:linear-gradient(180deg,#fffdf4,#fff); box-shadow:0 4px 14px rgba(227,170,43,.18)}
+.idol-av{width:54px; height:54px; border-radius:50%; background:linear-gradient(135deg,#ffe9f3,#fff6df); overflow:hidden; border:2px solid #fff; box-shadow:0 2px 8px rgba(255,140,180,.28); flex:0 0 auto}
+.idol-av img{width:100%; height:100%; object-fit:cover; display:block}
+.idol-nm{font-size:13.5px; font-weight:900; display:flex; align-items:center; gap:5px; flex-wrap:wrap; line-height:1.3}
+.idol-school{font-size:9.5px; font-weight:800; color:var(--ink-2); background:#fff3f8; border:1px solid var(--line); border-radius:99px; padding:1px 6px}
+.idol-unlock{font-size:11px; color:var(--ink-2); margin-top:3px; line-height:1.45}
+.idol-songs{display:flex; flex-wrap:wrap; gap:4px; margin-top:4px}
+.song-chip{font-size:9.5px; font-weight:800; color:#8a5a1c; background:#fff7e6; border:1px solid #ffe3ae; border-radius:99px; padding:1px 6px; line-height:1.5}
+.mode-badge{font-size:9.5px; font-weight:800; color:#366a9e; background:#f1f7ff; border:1px solid #cfe2f8; border-radius:99px; padding:1px 6px; line-height:1.5}
+.check{display:flex; align-items:center; gap:6px; font-size:11.5px; font-weight:800; color:var(--ink-2); margin-top:6px}
+.check input{appearance:none; -webkit-appearance:none; width:22px; height:22px; border-radius:7px; border:2px solid #ffc2da; background:#fff; position:relative; flex:0 0 auto; margin:0}
+.check input:checked{background:linear-gradient(135deg,#ff5c9d,#ffb057); border-color:#ff8bb8}
+.check input:checked::after{content:"✓"; position:absolute; inset:0; display:grid; place-items:center; color:#fff; font-size:13px; font-weight:900; line-height:1}
+.check.tasks{flex-wrap:wrap; margin-top:5px}
+.check.tasks label{display:flex; align-items:center; gap:4px; font-size:10px; font-weight:700; background:#fff7fb; border:1px solid var(--line); border-radius:99px; padding:2px 7px 2px 3px; line-height:1.4}
+.check.tasks input{width:18px; height:18px; border-radius:6px}
+.check.tasks input:checked::after{font-size:11px}
+
+.song-row{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px 8px; padding:10px 0; border-bottom:1px dashed var(--line); align-items:start}
+.song-row:last-child{border-bottom:none; padding-bottom:2px}
+.song-title{font-weight:900; font-size:13px; line-height:1.35}
+.song-sub{font-size:10px; color:var(--ink-3); font-weight:700; margin-top:1px; line-height:1.35}
+.unlock-badge{font-size:10px; font-weight:800; color:#8a4b00; background:#fff3d6; border:1px solid #ffd98a; border-radius:99px; padding:2px 7px; display:inline-block; margin-top:5px; margin-right:4px; line-height:1.45}
+.togs{display:flex; flex-direction:column; gap:4px; align-items:stretch; min-width:86px}
+.tog{font-size:10.5px; font-weight:800; border:1.5px solid var(--line); background:#fff; color:var(--ink-3); border-radius:99px; padding:5px 8px; min-height:31px; white-space:nowrap}
+.tog[aria-pressed="true"]{background:linear-gradient(135deg,#ff5c9d,#ff96c4); color:#fff; border-color:#ff87b8; box-shadow:0 2px 8px rgba(255,100,160,.24)}
+
+.stamp-set{border:1.5px solid var(--line); border-radius:14px; padding:10px; background:#fff; margin-top:10px}
+.stamp-set:first-of-type{margin-top:2px}
+.stamp-h{display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; margin-bottom:7px}
+.stamp-h b{font-size:13px; font-weight:900}
+.stamp-h .pt{font-size:11px; font-weight:900; color:#c9306f; margin-left:auto; white-space:nowrap}
+.stamp-note{font-size:10px; color:var(--ink-3); font-weight:700; margin:-3px 0 7px}
+.stamp-grid{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:5px}
+.stamp-cell{position:relative; border:1.5px solid var(--line); border-radius:10px; background:#fffafd; padding:13px 3px 5px; text-align:center; min-height:62px; cursor:pointer; display:flex; align-items:center; justify-content:center}
+.stamp-cell .no{position:absolute; left:4px; top:1px; font-size:9px; font-weight:900; color:#d14a86}
+.stamp-cell .rw{font-size:9px; font-weight:800; color:var(--ink-2); line-height:1.28; display:block; word-break:break-word}
+.stamp-cell[aria-pressed="true"]{background:linear-gradient(160deg,#fff6d3,#ffe4a2); border-color:#efc14e; box-shadow:0 3px 10px rgba(227,170,43,.26)}
+.stamp-cell[aria-pressed="true"]::after{content:"★"; position:absolute; right:3px; top:1px; font-size:9px; color:#d9a017}
+.stamp-reset{margin-top:7px; display:flex; justify-content:flex-end}
+
+.news-card{border:1.5px solid var(--line); border-radius:14px; padding:10px 11px; background:#fff; display:grid; gap:4px; margin-bottom:8px}
+.news-card.soon{border-color:#f0c766; background:linear-gradient(180deg,#fffdf3,#fff)}
+.news-card.live{border-color:#ffbcd6}
+.news-card.ended{opacity:.6}
+.news-h{display:flex; align-items:center; gap:5px; flex-wrap:wrap}
+.news-title{font-size:13px; font-weight:900; line-height:1.35; flex:1 1 100%}
+.news-sub{font-size:10.5px; color:#a95c30; font-weight:800; line-height:1.4}
+.news-detail{font-size:11px; color:var(--ink-2); line-height:1.55}
+.news-when{font-size:10.5px; color:var(--ink-3); font-weight:700}
+.dday{font-size:9.5px; font-weight:900; border-radius:99px; padding:2px 7px; background:#ffe7ef; color:#c9306f; white-space:nowrap}
+.dday.soon{background:#fff0cf; color:#a3670a}
+.dday.ended{background:#f1eef1; color:#8d8290}
+.dday.info{background:#eef3fb; color:#4a6d99}
+.cat-badge{font-size:9px; font-weight:800; color:#5d4a6a; background:#f7f1fa; border:1px solid #e8d9f1; border-radius:99px; padding:1px 6px; white-space:nowrap}
+.news-card a.src{font-size:10px; font-weight:800}
+
+.shot-form{display:grid; gap:8px}
+.shot-form .fld label{font-size:10.5px; font-weight:900; color:var(--ink-3); display:block; margin-bottom:2px}
+.shot-form input[type="date"], .shot-form input[type="text"]{width:100%; border:1.5px solid var(--line); border-radius:11px; padding:8px 10px; background:#fff; min-height:40px; outline:none}
+.shot-form input:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
+.shot-form textarea{min-height:54px; margin:0}
+.shot-add{display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:9px}
+.shot-add .filepick{margin:0}
+.shot-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin-top:10px}
+@media(min-width:560px){ .shot-grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+.shot{border:1.5px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; padding:0; box-shadow:0 2px 8px rgba(255,140,180,.12); text-align:left; display:block}
+.shot img{width:100%; aspect-ratio:1/1; object-fit:cover; display:block; background:#ffeef5}
+.shot .cap{display:block; padding:4px 6px 5px; font-size:9.5px; font-weight:800; color:var(--ink-2); line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.shot-view img{width:100%; border-radius:12px; display:block; background:#ffeef5}
+.shot-meta{font-size:11.5px; color:var(--ink-2); margin-top:8px; line-height:1.6; white-space:pre-wrap}
+.usage{margin-top:10px}
+.usage .bar{margin-top:4px}
+
 </style>
 </head>
 <body>
@@ -385,6 +471,9 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
   <button role="tab" aria-selected="true" data-view="home">🏠 ホーム</button>
   <button role="tab" aria-selected="false" data-view="cards">🃏 カード</button>
   <button role="tab" aria-selected="false" data-view="coords">👗 コーデ</button>
+  <button role="tab" aria-selected="false" data-view="idol">🎤 アイドル</button>
+  <button role="tab" aria-selected="false" data-view="news">📰 ニュース</button>
+  <button role="tab" aria-selected="false" data-view="myshot">📸 マイショット</button>
   <button role="tab" aria-selected="false" data-view="data">💾 データ</button>
 </nav>
 
@@ -411,6 +500,15 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
         <span>カードのイラスト入りで、コレクションを縦長1枚のPNGに。保存前に「出すカード」と「枚数表示」を選べるよ。</span>
       </div>
       <button class="btn sm" data-imgshot>画像をつくる</button>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">🎤</span>アイドル・ニュース<span class="right">第2弾アップデート</span></h2>
+      <div class="mini-cards">
+        <button class="mini-card" data-view="idol"><b id="miniIdol">0/11</b><span>アイドル解放</span><small id="miniIdolSub">解放チェック</small></button>
+        <button class="mini-card" data-view="news"><b id="miniNews">—</b><span>つぎの予定</span><small id="miniNewsSub">発売日・終了日</small></button>
+        <button class="mini-card" data-view="myshot"><b id="miniShots">0</b><span>マイショット</span><small id="miniShotsSub">写真をためる</small></button>
+      </div>
     </div>
 
     <div class="grid2">
@@ -588,9 +686,103 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
           3. 「コーデ」タブで、同じコーデの4部位がどこまで揃っているかを見られます。<br>
           4. データは自動保存。「データ」タブから書き出し・共有コード・読み込みができます。<br>
           5. 第2弾が出たら、カードの配列を足すだけでタブや集計が自動で増えます。<br>
-          6. 「📷 所持一覧を画像で保存」を押すと、先に「出すカード」と「所持枚数を表示するか」を選ぶ画面が出ます。画像は横1200pxの縦長1枚で、カードは10列に並びます（高さはカードの枚数に合わせて伸びます）。所持はゴールド枠でくっきり、未所持はうすく表示。長押しで写真アプリへ、「共有」でLINEなどにも送れます。
+          6. 「📷 所持一覧を画像で保存」を押すと、先に「出すカード」と「所持枚数を表示するか」を選ぶ画面が出ます。画像は横1200pxの縦長1枚で、カードは10列に並びます（高さはカードの枚数に合わせて伸びます）。所持はゴールド枠でくっきり、未所持はうすく表示。長押しで写真アプリへ、「共有」でLINEなどにも送れます。<br>
+          7. 「🎤 アイドル」タブで、登場アイドル全11人の解放チェック（メエ・パリン・たいむは指定3曲ごと）、全11曲のプレイ済み・アンコール成功、3種類のアイカツ！スタンプ（各10マス）を記録できます。<br>
+          8. 「📰 ニュース」タブで、ボーナスキャンペーンや発売日・配布期間を「あと何日」つきで確認できます。日付が過ぎると自動で「終了」に変わります。<br>
+          9. 「📸 マイショット」タブは、写真を端末の中だけに保存する自分用のプレイ日記。選んだ写真は長辺720px・JPEGに自動で軽くなります。いっぱいになったらJSONにバックアップしてから整理してね。
         </div>
       </details>
+    </div>
+  </section>
+
+  <!-- ================= IDOL ================= -->
+  <section class="view" id="view-idol" hidden>
+    <div class="panel">
+      <h2><span class="ico">🎤</span>アイドル解放<span class="right" id="idolSum">0 / 11 人</span></h2>
+      <div class="sum-line"><span>アンコールライブの成功で増えていくよ</span><span id="idolPct">0%</span></div>
+      <div class="bar gold"><i id="idolBarFill" style="width:0%"></i></div>
+      <p class="muted" style="margin:8px 0 0">解放できたらチェック。メエ・パリン・たいむは「きかんげんていライブ」の指定3曲がぜんぶ成功すると解放（3曲そろうと自動で解放済みになります）。</p>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">👤</span>登場アイドル（全11人）</h2>
+      <div class="idol-grid" id="idolGrid"></div>
+      <p class="muted" style="margin:9px 0 0">出典：<a href="https://dcd.aikatsu.com/encore/idol/" target="_blank" rel="noopener">公式サイト 登場アイドル</a>（2026-11-18 確認）</p>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">🎵</span>あそべる楽曲（全11曲）</h2>
+      <div class="idol-songs" style="margin-bottom:6px">
+        <span class="mode-badge">TVアニメ＝テレビアニメ アイカツ！モード</span>
+        <span class="mode-badge">オールスター＝アイカツ！オールスターモード</span>
+        <span class="mode-badge">じゆうに＝じゆうにアイカツ！モード</span>
+      </div>
+      <div id="songList"></div>
+      <p class="muted" style="margin:9px 0 0">出典：<a href="https://dcd.aikatsu.com/encore/pdf/music-list.pdf" target="_blank" rel="noopener">公式サイト 楽曲リスト（PDF）</a></p>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">⭐</span>アイカツ！スタンプ<span class="right" id="stampSum">0 / 30 マス</span></h2>
+      <p class="muted" style="margin:0 0 4px">1プレイごとに1マス。集めたマスを押すと金色になるよ（もう一度押すと戻せます）。</p>
+      <div id="stampWrap"></div>
+      <p class="muted" style="margin:9px 0 0">出典：<a href="https://dcd.aikatsu.com/encore/news/004.php" target="_blank" rel="noopener">公式サイト アイカツ！スタンプ</a></p>
+    </div>
+  </section>
+
+  <!-- ================= NEWS ================= -->
+  <section class="view" id="view-news" hidden>
+    <div class="panel">
+      <h2><span class="ico">📰</span>ニュース＆スケジュール<span class="right" id="newsToday"></span></h2>
+      <div class="chips" id="newsChips">
+        <button class="chip" data-nfilter="all" aria-pressed="true">すべて</button>
+        <button class="chip" data-nfilter="soon" aria-pressed="false">これから</button>
+        <button class="chip" data-nfilter="live" aria-pressed="false">開催中</button>
+        <button class="chip" data-nfilter="ended" aria-pressed="false">終了</button>
+      </div>
+      <p class="muted" style="margin:8px 0 0">公式ニュースの発売日・配布期間・終了日を「あと何日」つきでまとめています（日本時間）。</p>
+    </div>
+    <div id="newsList"></div>
+    <div class="panel">
+      <h2><span class="ico">🔗</span>公式リンク</h2>
+      <ul class="srcs">
+        <li><a href="https://dcd.aikatsu.com/encore/news/" target="_blank" rel="noopener">dcd.aikatsu.com/encore/news/（ニュース一覧）</a></li>
+        <li><a href="https://dcd.aikatsu.com/encore/news/001.php" target="_blank" rel="noopener">１弾特集♪（ボーナスキャンペーン・期間限定イベント）</a></li>
+        <li><a href="https://dcd.aikatsu.com/encore/news/007.php" target="_blank" rel="noopener">関連商品（アイカツフォン・おうえんスターライト等）</a></li>
+        <li><a href="https://1kuji.com/products/aikatsu8" target="_blank" rel="noopener">一番くじちょこっと（BANDAI SPIRITS 公式）</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= MY SHOT ================= -->
+  <section class="view" id="view-myshot" hidden>
+    <div class="panel">
+      <h2><span class="ico">📸</span>マイショット プレイ日記<span class="right" id="shotSum">0 枚</span></h2>
+      <p class="muted" style="margin:0 0 9px">写真はこの端末の中（localStorage）だけに保存されます。えらんだ写真は長辺720px・JPEG（品質0.72）に自動で軽くしてから保存するよ。</p>
+      <div class="shot-form">
+        <div class="fld"><label for="shotDate">日付</label><input type="date" id="shotDate"></div>
+        <div class="fld"><label for="shotSong">遊んだ曲・コーデ</label><input type="text" id="shotSong" placeholder="例：MY STARWAY／オーロラキスコーデ" autocomplete="off"></div>
+        <div class="fld"><label for="shotMemo">ひとことメモ</label><textarea id="shotMemo" placeholder="例：アンコール成功！スコア 41,200"></textarea></div>
+      </div>
+      <div class="shot-add">
+        <label class="btn sm" style="min-height:40px">📷 写真をえらぶ<input type="file" id="shotFile" accept="image/*" multiple style="display:none"></label>
+        <span class="muted" id="shotHint">複数まとめてOK</span>
+      </div>
+      <div class="usage">
+        <div class="sum-line"><span id="shotUsage">0 KB</span><span>上限の目安 5MB</span></div>
+        <div class="bar gold"><i id="shotBar" style="width:0%"></i></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">📖</span>アルバム<span class="right" id="shotCount">0 枚</span></h2>
+      <div class="shot-grid" id="shotGrid"></div>
+      <div class="empty" id="shotEmpty"><span class="big">📸</span>まだ写真がないよ。<br>遊んだあとにマイショットを入れてみてね。</div>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn ghost sm" id="shotExport">📄 JSONでバックアップ</button>
+        <label class="btn ghost sm filepick" style="margin:0; padding:9px 11px; border-style:solid">📥 バックアップを読み込む<input type="file" id="shotImport" accept=".json,application/json"></label>
+        <button class="btn danger sm" id="shotReset">すべて消す</button>
+      </div>
+      <p class="muted" style="margin:9px 0 0">バックアップのJSONには写真そのものが入るので、写真が多いとファイルも大きくなります。機種変更の前に書き出しておくと安心。</p>
     </div>
   </section>
 
@@ -646,6 +838,13 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
       </div>
       <p class="img-meta" id="imgMeta"></p>
     </div>
+  </div>
+</div>
+
+<div class="modal" id="shotModal" hidden>
+  <div class="sheet">
+    <div class="sheet-h"><b>📸 マイショット</b><button class="x" id="shotModalClose" aria-label="閉じる">×</button></div>
+    <div class="sheet-b" id="shotModalBody"></div>
   </div>
 </div>
 
@@ -1158,7 +1357,8 @@ function exportObject(){
     masterVersion: MASTER_META.version || '',
     exportedAt: new Date().toISOString(),
     counts: state.counts,
-    extraCards: state.extraCards
+    extraCards: state.extraCards,
+    progress: PROG
   };
 }
 function downloadJson(){
@@ -1215,6 +1415,10 @@ function applyImport(text){
   if(obj && obj.counts && typeof obj.counts==='object'){
     state.counts = obj.counts;
     if(Array.isArray(obj.extraCards)) state.extraCards = obj.extraCards;
+    if(obj.progress && typeof obj.progress==='object'){
+      PROG = {idols:obj.progress.idols||{}, songs:obj.progress.songs||{}, stamps:obj.progress.stamps||{}, updated:obj.progress.updated||null};
+      saveProg();
+    }
     rebuildAll(); buildFilters(); save(); refreshAll(); toast('所持データを読み込みました'); return true;
   }
   toast('この形式は読み込めませんでした'); return false;
@@ -1238,16 +1442,23 @@ function refreshAll(){
   renderHeader(); renderHome();
   if(!$('#view-cards').hidden) renderCards();
   if(!$('#view-coords').hidden) renderCoords();
+  if(!$('#view-idol').hidden) renderIdolView();
+  if(!$('#view-news').hidden) renderNewsView();
+  if(!$('#view-myshot').hidden) renderShots();
+  updateHomeMini();
   renderSaveInfo();
 }
 
 /* ---------- events ---------- */
 function switchView(name){
   $$('.tabs button').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.view===name)));
-  ['home','cards','coords','data'].forEach(v=>{ $('#view-'+v).hidden = (v!==name); });
-  if(name==='home') renderHome();
+  ['home','cards','coords','idol','news','myshot','data'].forEach(v=>{ const el=$('#view-'+v); if(el) el.hidden = (v!==name); });
+  if(name==='home'){ renderHome(); updateHomeMini(); }
   if(name==='cards'){ renderCards(); }
   if(name==='coords') renderCoords();
+  if(name==='idol') renderIdolView();
+  if(name==='news') renderNewsView();
+  if(name==='myshot') renderShots();
   if(name==='data') renderSaveInfo();
   window.scrollTo({top:0, behavior:'auto'});
 }
@@ -1936,6 +2147,587 @@ function closeImgSheet(){
   clearSheetPages();
   $('#imgPreview').removeAttribute('src');
 }
+
+/* ============================================================
+   第2弾アップデート（2026-11-18）
+   1) 🎤 アイドル・楽曲・スタンプ進捗
+   2) 📰 ニュース＆スケジュール（発売日・終了日リマインド）
+   3) 📸 マイショット プレイ日記（端末内 localStorage・自動軽量化）
+   出典はすべて公式サイト（dcd.aikatsu.com）2026-11-18 確認
+   ============================================================ */
+
+/* ---------- 小さな日付ヘルパー ---------- */
+function pad2(n){ return String(n).padStart(2,'0'); }
+function todayDate(){ const d=new Date(); return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function todayISO(){ const d=todayDate(); return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function parseISO(s){ if(!s) return null; const [y,m,d]=s.split('-').map(Number); return new Date(y,(m||1)-1,d||1); }
+function diffDays(a,b){ return Math.round((b-a)/86400000); }
+const WD = ['日','月','火','水','木','金','土'];
+function fmtJP(s){ const d=parseISO(s); if(!d) return s; return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}(${WD[d.getDay()]})`; }
+
+/* ---------- データ：登場アイドル（全11人） ---------- */
+const IDOL_IMG = 'https://dcd.aikatsu.com/encore/images/idol/';
+const IDOLS = [
+  {key:'ichigo', no:'001', name:'星宮 いちご', school:'スターライト学園', kind:'initial',
+   desc:'前向きでがんばりやさんのアイドル！', unlock:'１弾からあそべるよ',
+   songs:['AIKATSU！×AIKATSU！','アイドル活動！','SHINING LINE*','MY STARWAY']},
+  {key:'aoi', no:'002', name:'霧矢 あおい', school:'スターライト学園', kind:'initial',
+   desc:'アイドルに詳しい「アイドル博士」なアイドル！', unlock:'１弾からあそべるよ',
+   songs:['AIKATSU！×AIKATSU！','Prism Spiral','SHINING LINE*','MY STARWAY']},
+  {key:'ran', no:'003', name:'紫吹 蘭', school:'スターライト学園', kind:'tv',
+   desc:'クールで美人な「美しき刃」なアイドル！', unlock:'テレビアニメ アイカツ！モードでアンコールライブが成功するとあそべるよ',
+   songs:['AIKATSU！×AIKATSU！','Move on now!','SHINING LINE*','MY STARWAY']},
+  {key:'akari', no:'004', name:'大空 あかり', school:'スターライト学園', kind:'song',
+   desc:'努力家で明るく前向きなアイドル！', unlock:'アイカツ！オールスターモードの「Du-Du-Wa DO IT!!」のアンコールライブが成功するとあそべるよ',
+   songs:['Du-Du-Wa DO IT!!','SHINING LINE*']},
+  {key:'raki', no:'005', name:'姫石 らき', school:'スターハーモニー学園', kind:'song',
+   desc:'運がとってもいいラッキーアイドル！', unlock:'アイカツ！オールスターモードの「君のEntrance」のアンコールライブが成功するとあそべるよ',
+   songs:['君のEntrance','SHINING LINE*']},
+  {key:'noel', no:'006', name:'音城 ノエル', school:'ドリームアカデミー', kind:'song',
+   desc:'穏やかで心が優しいアイドル！', unlock:'アイカツ！オールスターモードの「トワイライトエトランゼ」のアンコールライブが成功するとあそべるよ',
+   songs:['トワイライトエトランゼ','SHINING LINE*']},
+  {key:'hana', no:'007', name:'ハナ', school:'アイカツプラネット！', kind:'song',
+   desc:'明るく素直で元気なアイドル！', unlock:'アイカツ！オールスターモードの「HAPPY∞アイカツ！」のアンコールライブが成功して、スコアが40000以上とれるとあそべるよ',
+   songs:['HAPPY∞アイカツ！','SHINING LINE*']},
+  {key:'mieru', no:'008', name:'姫乃 みえる', school:'アイカツアカデミー！', kind:'song',
+   desc:'可憐でお話好きなアイドル！', unlock:'アイカツ！オールスターモードの「満開！エリオント」のアンコールライブが成功するとあそべるよ',
+   songs:['満開！エリオント','SHINING LINE*']},
+  {key:'mee', no:'009', name:'真未夢 メエ', school:'アイカツアカデミー！', kind:'limited',
+   desc:'不思議でフワフワなアイドル！', unlock:'「きかんげんていライブ」で指定3曲のアンコールライブが成功するとあそべるよ',
+   songs:['満開！エリオント','SHINING LINE*'],
+   tasks:[{song:'アイドル活動！', diff:'かんたん'},{song:'Prism Spiral', diff:'ふつう'},{song:'満開！エリオント', diff:'むずかしい'}]},
+  {key:'parin', no:'010', name:'和央 パリン', school:'アイカツアカデミー！', kind:'limited',
+   desc:'元気いっぱいでムードメーカーなアイドル！', unlock:'「きかんげんていライブ」で指定3曲のアンコールライブが成功するとあそべるよ',
+   songs:['満開！エリオント','SHINING LINE*'],
+   tasks:[{song:'アイドル活動！', diff:'かんたん'},{song:'MY STARWAY', diff:'ふつう'},{song:'満開！エリオント', diff:'むずかしい'}]},
+  {key:'time', no:'011', name:'凛堂 たいむ', school:'アイカツアカデミー！', kind:'limited',
+   desc:'一度決めたら止まらない、ストイックなアイドル！', unlock:'「きかんげんていライブ」で指定3曲のアンコールライブが成功するとあそべるよ',
+   songs:['満開！エリオント','SHINING LINE*'],
+   tasks:[{song:'アイドル活動！', diff:'かんたん'},{song:'Move on now!', diff:'ふつう'},{song:'満開！エリオント', diff:'むずかしい'}]}
+];
+
+/* ---------- データ：楽曲（全11曲） ---------- */
+const MODE_LABEL = {tv:'TVアニメ', all:'オールスター', free:'じゆうに'};
+const ALL_IDOLS = ['いちご','あおい','らん','あかり','らき','ノエル','ハナ','みえる','たいむ','パリン','メエ'];
+const SONGS = [
+  {title:'AIKATSU！×AIKATSU！', idols:['いちご','あおい','らん'], modes:['tv','free'], unlock:[]},
+  {title:'Prism Spiral', idols:['あおい'], modes:['tv','free'],
+   unlock:[{who:'メエ', cond:'きかんげんてい（ふつう）'}]},
+  {title:'アイドル活動！', idols:['いちご'], modes:['tv','free'],
+   unlock:[{who:'メエ・パリン・たいむ', cond:'きかんげんてい（かんたん）'}]},
+  {title:'Move on now!', idols:['らん'], modes:['tv','free'],
+   unlock:[{who:'たいむ', cond:'きかんげんてい（ふつう）'}]},
+  {title:'SHINING LINE*', sub:'～いちご＆あかり＆ゆめ＆あいね＆みお＆らきver.～', idols:ALL_IDOLS, modes:['all','free'], unlock:[]},
+  {title:'MY STARWAY', idols:['いちご','あおい','らん'], modes:['all','free'],
+   unlock:[{who:'パリン', cond:'きかんげんてい（ふつう）'}]},
+  {title:'君のEntrance', idols:['らき'], modes:['all','free'],
+   unlock:[{who:'らき', cond:'オールスターでアンコール成功'}]},
+  {title:'トワイライトエトランゼ', idols:['ノエル'], modes:['all','free'],
+   unlock:[{who:'ノエル', cond:'オールスターでアンコール成功'}]},
+  {title:'HAPPY∞アイカツ！', idols:['ハナ'], modes:['all','free'],
+   unlock:[{who:'ハナ', cond:'オールスターでアンコール成功＋スコア40000以上'}]},
+  {title:'満開！エリオント', idols:['みえる','たいむ','パリン','メエ'], modes:['all','free'],
+   unlock:[{who:'みえる', cond:'オールスターでアンコール成功'},{who:'メエ・パリン・たいむ', cond:'きかんげんてい（むずかしい）'}]},
+  {title:'Du-Du-Wa DO IT!!', idols:['あかり'], modes:['all','free'],
+   unlock:[{who:'あかり', cond:'オールスターでアンコール成功'}]}
+];
+
+/* ---------- データ：アイカツ！スタンプ（1弾で開催中の3種） ---------- */
+const STAMPS = [
+  {key:'stamp1', name:'１弾アイカツ！スタンプ', period:'2026/10/8（木）〜 １弾稼働終了まで',
+   url:'https://dcd.aikatsu.com/encore/news/004.php',
+   rewards:['マイキャラパーツ プレゼント！','いわいふれんず アップ（キュート）','いわいふれんず アップ（クール）',
+            'アイドルランク けいけんち＋300','マイキャラパーツ プレゼント！','アイドルランク けいけんち＋300',
+            'いわいふれんず アップ（セクシー）','いわいふれんず アップ（ポップ）','アイドルランク けいけんち＋500',
+            'マイキャラパーツ プレゼント！']},
+  {key:'halloween', name:'ハロウィンアイカツ！スタンプ', period:'2026/10/24（土）〜 １弾稼働終了まで',
+   url:'https://dcd.aikatsu.com/encore/news/004.php',
+   rewards:['マイキャラパーツ プレゼント！（め）','アイドルランク けいけんち＋100','マイキャラパーツ アップ（ポップ）',
+            'マイキャラパーツ プレゼント！','マイキャラパーツ アップ（セクシー）','マイキャラパーツ アップ（クール）',
+            'マイキャラパーツ プレゼント！','マイキャラパーツ アップ（キュート）','アイドルランク けいけんち＋300',
+            'ポーズ プレゼント！（ねこポーズ）']},
+  {key:'minarai', name:'みならいアイドルおうえん！アイカツ！スタンプ', period:'2026/11/12（木）〜 １弾稼働終了まで',
+   url:'https://dcd.aikatsu.com/encore/pdf/news004_aikatsuStamp_03.pdf',
+   rewards:['マイキャラパーツ（めのいろ）ヘーゼル','ネコポーズ','キュートけいけんちアップ(100)',
+            'マイキャラパーツ（かみがた）ふわくるポブ','クールけいけんちアップ(100)','セクシーけいけんちアップ(100)',
+            'マイキャラパーツ（かみがた）ツインフィッシュボーン','ポップけいけんちアップ(100)',
+            'アイドルランクけいけんちアップ(300)','アンコールアピール こっそり笑顔ポーズ']}
+];
+
+/* ---------- データ：ニュース＆スケジュール ----------
+   kind: 'period'（期間もの） / 'release'（発売日） / 'info'（日付未定の続報）
+   start / end（end が無い期間ものは endNote に「１弾稼働終了まで」など）
+   新しい情報が出たら、この配列に1件足すだけで表示・並び・「あと何日」が自動で更新されます。 */
+const SCHEDULE = [
+  {id:'bonus', kind:'period', cat:'ゲーム', title:'１弾ボーナスキャンペーン',
+   sub:'けいけんち2倍＋ファン数2倍', start:'2026-11-20', endNote:'１弾稼働終了まで',
+   detail:'アイカツパスを使ってリズムゲームをプレイすると、もらえるアイドルランクのけいけんちとファンの数が2倍に。※100円でプレイした後に獲得するけいけんち・ファンのみ対象。',
+   url:'https://dcd.aikatsu.com/encore/news/001.php'},
+  {id:'tama1', kind:'period', cat:'カード', title:'たまごっちパラダイス コラボカード配布',
+   sub:'「Tamagotchi Paradise」購入で EP-042 PR たまごっちパラダイスカチューシャ', start:'2026-11-21', endNote:'なくなり次第終了',
+   detail:'たまごっちパラダイスを買うと、オリジナルデザインのコラボカードがもらえるよ。稼働中の１弾から使えるカード。',
+   url:'https://dcd.aikatsu.com/encore/news/010.php'},
+  {id:'tama2', kind:'period', cat:'カード', title:'たまごっちパラダイス コラボカード配布（アイカツフォン）',
+   sub:'「アイカツフォン アンコール」購入で EP-042 PR', start:'2026-11-28', endNote:'なくなり次第終了',
+   detail:'アイカツフォン アンコールを買っても同じコラボカードがもらえるよ。',
+   url:'https://dcd.aikatsu.com/encore/news/010.php'},
+  {id:'phone', kind:'release', cat:'グッズ', title:'アイカツフォン アンコール', sub:'13,200円（税込）', start:'2026-11-28',
+   detail:'2012年の「アイカツフォン」が新登場。購入特典カード EP-007〜009（ピンクアーガイルカーデ／ピンクプリーツスカート／ガーリーローファー）。',
+   url:'https://dcd.aikatsu.com/encore/news/007.php'},
+  {id:'carry', kind:'release', cat:'グッズ', title:'アイカツフォンキャリー', sub:'2,970円（税込）', start:'2026-11-28',
+   detail:'アイカツフォン アンコールを収納して持ち運べるキャリー。購入特典カード EP-010（ピンクリボンカチューシャ）。',
+   url:'https://dcd.aikatsu.com/encore/news/007.php'},
+  {id:'star', kind:'release', cat:'グッズ', title:'アイカツ！おうえんスターライト（4タイプ）', sub:'各1,925円（税込）', start:'2026-11-28',
+   detail:'ボタンを押すとライトが光るペンライト。キュート／クール／セクシー／ポップの4タイプ。特典カード EP-011〜014（ジャージ各色）＋EP-015（スニーカー、どれか1本でOK）。',
+   url:'https://dcd.aikatsu.com/encore/news/007.php'},
+  {id:'kuji', kind:'release', cat:'グッズ', title:'一番くじちょこっと アイカツ！アンコール', sub:'1回550円（税込）', start:'2026-12-10',
+   detail:'A賞 オリジナルマルチバインダー／B・C賞 カード★バッグチャーム／D賞 アイカツ！カード（限定カード）付カードケース／E賞 ステッカーセット／ラストワン賞 ドレスポーチ。オンラインは同日17:00開始予定。',
+   url:'https://1kuji.com/products/aikatsu8'},
+  {id:'perfume', kind:'release', cat:'グッズ', title:'Lil’Carry アイカツ！ パフュームハンド', sub:'1,430円（税込）', start:'2027-01-18',
+   detail:'「オーロラキスコーデ」「ゴスマジックコーデ」をイメージしたハンドクリーム。羽チャーム付き。',
+   url:'https://dcd.aikatsu.com/encore/news/007.php'},
+  {id:'dressup', kind:'release', cat:'カード', title:'アイカツ！アンコール ドレスアップコレクション', sub:'1パック3枚・330円（税込）', start:'2027-02-28',
+   detail:'カードパック全51種（N18／R15／PR12／ER3／パラレル3）。2027年2月末より発売予定（日付は月単位の予定）。',
+   url:'https://dcd.aikatsu.com/encore/news/012.php'},
+  {id:'limited', kind:'period', cat:'ゲーム', title:'期間限定イベント「新登場アイドルとアイカツ！」',
+   sub:'メエ・パリン・たいむが登場', start:'2026-11-12', endNote:'１弾稼働終了まで',
+   detail:'イベントステージをさいごまでクリアすると、メエ・パリン・たいむと じゆうにアイカツ！モードでアイカツ！できるようになるよ。',
+   url:'https://dcd.aikatsu.com/encore/news/001.php'},
+  {id:'stamp-minarai', kind:'period', cat:'ゲーム', title:'みならいアイドルおうえん！アイカツ！スタンプ', start:'2026-11-12', endNote:'１弾稼働終了まで',
+   detail:'稼働記念のスタンプ。10マス集めると限定マイキャラパーツや「こっそり笑顔」ポーズがもらえるよ。',
+   url:'https://dcd.aikatsu.com/encore/news/004.php'},
+  {id:'present4', kind:'period', cat:'キャンペーン', title:'アイカツ！はじめよう プレゼントキャンペーン 第4弾',
+   sub:'EP-030 R スターライト学園ブーツ', start:'2026-11-13', endNote:'なくなり次第終了',
+   detail:'お店の人に「アイカツ！カードください！」と声をかけるともらえるよ（1人1枚）。',
+   url:'https://dcd.aikatsu.com/encore/news/003.php'},
+  {id:'stamp-halloween', kind:'period', cat:'ゲーム', title:'ハロウィンアイカツ！スタンプ', start:'2026-10-24', endNote:'１弾稼働終了まで',
+   detail:'ハロウィンシーズンのスタンプ。10マスで限定マイキャラパーツや「ねこ」ポーズがもらえるよ。',
+   url:'https://dcd.aikatsu.com/encore/news/004.php'},
+  {id:'ranking', kind:'period', cat:'ゲーム', title:'１弾ハイスコアランキング', start:'2026-10-08', endNote:'１弾稼働終了まで',
+   detail:'１弾稼働期間中のステージ最高スコアを競うランキング。期間終了時の順位に応じてランクインプレゼント（配布は２弾稼働以降を予定）。',
+   url:'https://dcd.aikatsu.com/encore/news/008.php'},
+  {id:'dan1', kind:'period', cat:'ゲーム', title:'アイカツ！アンコール １弾 稼働中', start:'2026-10-08', endNote:'２弾稼働開始まで',
+   detail:'１弾は2026年10月8日(木)から稼働中。１弾アイカツ！スタンプ・はじめようプレゼントなども同時開催。',
+   url:'https://dcd.aikatsu.com/encore/news/001.php'},
+  {id:'dan2', kind:'info', cat:'ゲーム', title:'アイカツ！アンコール ２弾 稼働決定', when:'稼働日は後日公開',
+   detail:'２弾の稼働が決定。登場するアイドルやカードの詳細は後日公開予定。',
+   url:'https://dcd.aikatsu.com/encore/news/011.php'}
+];
+
+/* ---------- 進捗（アイドル・楽曲・スタンプ）の保存 ---------- */
+const PROG_KEY = 'aikatsu-encore-checker.progress.v1';
+function blankProg(){ return {idols:{}, songs:{}, stamps:{}, updated:null}; }
+function loadProg(){
+  try{
+    const o = JSON.parse(localStorage.getItem(PROG_KEY) || 'null');
+    if(!o || typeof o !== 'object') return blankProg();
+    return {idols:o.idols||{}, songs:o.songs||{}, stamps:o.stamps||{}, updated:o.updated||null};
+  }catch(e){ return blankProg(); }
+}
+let PROG = loadProg();
+let progWarned = false;
+function saveProg(){
+  PROG.updated = new Date().toISOString();
+  try{ localStorage.setItem(PROG_KEY, JSON.stringify(PROG)); }
+  catch(e){ if(!progWarned){ progWarned = true; toast('この環境では自動保存ができません'); } }
+}
+
+function idolOpen(i){
+  const d = IDOLS[i]; if(!d) return false;
+  const v = PROG.idols[d.key] || {};
+  if(d.kind === 'limited'){
+    const t = v.tasks || {};
+    return !!(t[0] && t[1] && t[2]);
+  }
+  return !!v.open;
+}
+function idolStats(){
+  let open = 0;
+  IDOLS.forEach((d,i)=>{ if(idolOpen(i)) open++; });
+  return {open, total:IDOLS.length};
+}
+
+/* ---------- 🎤 アイドル・楽曲・スタンプ ---------- */
+function renderIdolView(){
+  const st = idolStats();
+  const pct = st.total ? st.open / st.total * 100 : 0;
+  $('#idolSum').textContent = `解放 ${st.open} / ${st.total} 人`;
+  $('#idolPct').textContent = Math.round(pct) + '%';
+  $('#idolBarFill').style.width = pct.toFixed(1) + '%';
+
+  $('#idolGrid').innerHTML = IDOLS.map((d,i)=>{
+    const open = idolOpen(i);
+    const v = PROG.idols[d.key] || {};
+    const tasks = v.tasks || {};
+    const taskHtml = (d.kind === 'limited')
+      ? `<div class="check tasks">${d.tasks.map((t,j)=>
+          `<label><input type="checkbox" data-idol-task="${i}:${j}" ${tasks[j]?'checked':''}>${esc(t.song)}（${esc(t.diff)}）</label>`).join('')}</div>
+         <div style="margin-top:5px"><span class="dday ${open?'':'soon'}">${open?'解放済み':'3曲すべて成功で解放'}</span></div>`
+      : `<label class="check"><input type="checkbox" data-idol-open="${i}" ${open?'checked':''}>解放済み</label>`;
+    return `<div class="idol-card ${open?'open':''}">
+      <div class="idol-av"><img src="${IDOL_IMG}thumb_001_${d.no}.png" alt="${esc(d.name)}" loading="lazy"></div>
+      <div>
+        <div class="idol-nm">${esc(d.name)}<span class="idol-school">${esc(d.school)}</span></div>
+        <div class="idol-unlock">${esc(d.unlock)}</div>
+        ${taskHtml}
+        <div class="idol-songs">${d.songs.map(s=>`<span class="song-chip">🎵 ${esc(s)}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  $('#songList').innerHTML = SONGS.map((s,i)=>{
+    const p = PROG.songs[s.title] || {};
+    return `<div class="song-row">
+      <div>
+        <div class="song-title">${esc(s.title)}</div>
+        ${s.sub ? `<div class="song-sub">${esc(s.sub)}</div>` : ''}
+        <div class="idol-songs">${s.modes.map(m=>`<span class="mode-badge">${MODE_LABEL[m]}</span>`).join('')}</div>
+        <div class="idol-songs">${s.idols.map(n=>`<span class="song-chip">${esc(n)}</span>`).join('')}</div>
+        ${s.unlock.length ? `<div>${s.unlock.map(u=>`<span class="unlock-badge">🔓 ${esc(u.who)}：${esc(u.cond)}</span>`).join('')}</div>` : ''}
+      </div>
+      <div class="togs">
+        <button class="tog" data-song-play="${i}" aria-pressed="${p.played?'true':'false'}">プレイ済</button>
+        <button class="tog" data-song-encore="${i}" aria-pressed="${p.encore?'true':'false'}">アンコール成功</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  let done = 0;
+  $('#stampWrap').innerHTML = STAMPS.map((s,si)=>{
+    const got = PROG.stamps[s.key] || {};
+    const n = s.rewards.filter((_,j)=>got[j]).length;
+    done += n;
+    return `<div class="stamp-set">
+      <div class="stamp-h"><b>${esc(s.name)}</b><span class="pt">${n} / 10 マス</span></div>
+      <div class="stamp-note">${esc(s.period)}</div>
+      <div class="stamp-grid">${s.rewards.map((r,j)=>
+        `<button class="stamp-cell" data-stamp="${si}:${j}" aria-pressed="${got[j]?'true':'false'}" title="${esc(r)}">
+           <span class="no">${j+1}</span><span class="rw">${esc(r)}</span>
+         </button>`).join('')}</div>
+      <div class="stamp-reset"><button class="tog" data-stamp-clear="${si}">このスタンプをクリア</button></div>
+    </div>`;
+  }).join('');
+  $('#stampSum').textContent = `${done} / 30 マス`;
+}
+
+/* ---------- 📰 ニュース＆スケジュール ---------- */
+let newsFilter = 'all';
+function schedStatus(e, today){
+  if(e.kind === 'info') return {key:'info', days:null};
+  const s = parseISO(e.start);
+  if(today < s) return {key:'soon', days: diffDays(today, s)};
+  if(e.kind === 'release') return {key:'onSale', days:0};
+  if(e.end && today > parseISO(e.end)) return {key:'ended', days:0};
+  return {key:'live', days:0};
+}
+function schedWhen(e){
+  if(e.kind === 'info') return e.when || '日付未定';
+  if(e.kind === 'release'){
+    if(e.start === '2027-02-28') return '2027年2月末 発売予定';
+    return fmtJP(e.start) + ' 発売';
+  }
+  return fmtJP(e.start) + ' 〜 ' + (e.end ? fmtJP(e.end) : (e.endNote || '終了日未定'));
+}
+function statusLabel(st){
+  if(st.key === 'soon') return {cls:'soon', text:`あと${st.days}日`};
+  if(st.key === 'onSale') return {cls:'', text:'発売中'};
+  if(st.key === 'live') return {cls:'', text:'開催中'};
+  if(st.key === 'ended') return {cls:'ended', text:'終了'};
+  return {cls:'info', text:'続報待ち'};
+}
+function newsItems(){
+  const today = todayDate();
+  return SCHEDULE.map(e=>({e, st: schedStatus(e, today)})).sort((a,b)=>{
+    const order = {soon:0, live:1, onSale:1, info:2, ended:3};
+    const oa = order[a.st.key], ob = order[b.st.key];
+    if(oa !== ob) return oa - ob;
+    const da = parseISO(a.e.start) || new Date(9e12), db = parseISO(b.e.start) || new Date(9e12);
+    if(a.st.key === 'soon') return da - db;                       // これから＝近い順
+    if(a.st.key === 'ended') return (parseISO(b.e.end||b.e.start)) - (parseISO(a.e.end||a.e.start));
+    return db - da;                                                // 開催中＝新しい順
+  });
+}
+function renderNewsView(){
+  const t = todayDate();
+  $('#newsToday').textContent = `${t.getFullYear()}/${t.getMonth()+1}/${t.getDate()}(${WD[t.getDay()]}) 時点`;
+  const all = newsItems();
+  const shown = all.filter(x=>{
+    if(newsFilter === 'all') return true;
+    if(newsFilter === 'live') return x.st.key === 'live' || x.st.key === 'onSale';
+    return x.st.key === newsFilter;
+  });
+  $('#newsList').innerHTML = shown.length ? shown.map(({e,st})=>{
+    const lab = statusLabel(st);
+    return `<div class="news-card ${st.key === 'soon' ? 'soon' : (st.key === 'live' || st.key === 'onSale') ? 'live' : st.key === 'info' ? '' : 'ended'}">
+      <div class="news-h"><span class="cat-badge">${esc(e.cat)}</span><span class="dday ${lab.cls}">${lab.text}</span></div>
+      <div class="news-title">${esc(e.title)}</div>
+      ${e.sub ? `<div class="news-sub">${esc(e.sub)}</div>` : ''}
+      <div class="news-when">📅 ${esc(schedWhen(e))}</div>
+      <div class="news-detail">${esc(e.detail)}</div>
+      <div><a class="src" href="${esc(e.url)}" target="_blank" rel="noopener">公式で見る ↗</a></div>
+    </div>`;
+  }).join('') : `<div class="panel"><div class="empty" style="padding:18px 0"><span class="big">📰</span>この条件の予定はないよ。</div></div>`;
+}
+function nextScheduleText(){
+  const today = todayDate();
+  const soon = SCHEDULE.filter(e=>e.kind !== 'info')
+    .map(e=>({e, st: schedStatus(e, today)}))
+    .filter(x=>x.st.key === 'soon' || x.st.key === 'live' || x.st.key === 'onSale')
+    .sort((a,b)=> (parseISO(a.e.start)||0) - (parseISO(b.e.start)||0));
+  if(!soon.length) return {big:'—', sub:'予定なし'};
+  const x = soon.find(y=>y.st.key === 'soon') || soon[0];
+  const d = x.st.key === 'soon' ? `あと${x.st.days}日` : (x.st.key === 'onSale' ? '発売中' : '開催中');
+  const t = x.e.title.length > 15 ? x.e.title.slice(0, 15) + '…' : x.e.title;
+  return {big:d, sub:`${x.e.start.slice(5).replace('-','/')} ${t}`};
+}
+
+/* ---------- ホームのミニカード ---------- */
+function updateHomeMini(){
+  if(!$('#miniIdol')) return;
+  const st = idolStats();
+  $('#miniIdol').textContent = `${st.open}/${st.total}`;
+  $('#miniIdolSub').textContent = st.open === st.total ? 'コンプ！' : '解放チェック';
+  const nx = nextScheduleText();
+  $('#miniNews').textContent = nx.big;
+  $('#miniNewsSub').textContent = nx.sub;
+  $('#miniShots').textContent = SHOTS.length;
+  $('#miniShotsSub').textContent = SHOTS.length ? '端末内に保存中' : '写真をためる';
+}
+
+/* ---------- 📸 マイショット ---------- */
+const SHOT_KEY = 'aikatsu-encore-checker.myshot.v1';
+const SHOT_MAX_SIDE = 720;
+const SHOT_QUALITY = 0.72;
+const SHOT_LIMIT = 5 * 1024 * 1024;   // localStorage の目安（ブラウザにより約5MB）
+function loadShots(){
+  try{
+    const a = JSON.parse(localStorage.getItem(SHOT_KEY) || '[]');
+    return Array.isArray(a) ? a.filter(s=>s && s.id && s.data) : [];
+  }catch(e){ return []; }
+}
+let SHOTS = loadShots();
+function shotsBytes(arr){
+  try{ return JSON.stringify(arr || SHOTS).length * 2; }catch(e){ return 0; }
+}
+function persistShots(next){
+  try{ localStorage.setItem(SHOT_KEY, JSON.stringify(next)); SHOTS = next; return true; }
+  catch(e){ return false; }
+}
+function fmtSize(bytes){
+  if(bytes < 1024) return bytes + ' B';
+  if(bytes < 1024*1024) return Math.round(bytes/1024) + ' KB';
+  return (bytes/1024/1024).toFixed(2) + ' MB';
+}
+function readImageFile(file){
+  return new Promise((resolve, reject)=>{
+    const fr = new FileReader();
+    fr.onerror = ()=>reject(new Error('read'));
+    fr.onload = ()=>{
+      const im = new Image();
+      im.onload = ()=>resolve(im);
+      im.onerror = ()=>reject(new Error('decode'));
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+async function compressShot(file){
+  const im = await readImageFile(file);
+  const w0 = im.naturalWidth || im.width, h0 = im.naturalHeight || im.height;
+  if(!w0 || !h0) throw new Error('empty');
+  const scale = Math.min(1, SHOT_MAX_SIDE / Math.max(w0, h0));
+  const w = Math.max(1, Math.round(w0 * scale)), h = Math.max(1, Math.round(h0 * scale));
+  const cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  const ctx = cv.getContext('2d');
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, w, h);
+  ctx.drawImage(im, 0, 0, w, h);
+  const data = cv.toDataURL('image/jpeg', SHOT_QUALITY);
+  return {w, h, data, bytes: Math.round(data.length * 0.75), origW:w0, origH:h0};
+}
+function renderShots(){
+  $('#shotSum').textContent = `${SHOTS.length} 枚`;
+  $('#shotCount').textContent = `${SHOTS.length} 枚`;
+  const used = shotsBytes(SHOTS);
+  const pct = Math.min(100, used / SHOT_LIMIT * 100);
+  $('#shotUsage').textContent = `${SHOTS.length}枚・約${fmtSize(used)}`;
+  $('#shotBar').style.width = pct.toFixed(1) + '%';
+  $('#shotBar').style.background = pct > 85 ? 'linear-gradient(90deg,#ff9a8b,#e5484d)' : '';
+  const list = SHOTS.slice().sort((a,b)=> (b.date||'').localeCompare(a.date||'') || (b.addedAt||'').localeCompare(a.addedAt||''));
+  $('#shotGrid').innerHTML = list.map(s=>`<button class="shot" data-shot="${esc(s.id)}">
+      <img src="${s.data}" alt="${esc(s.memo||s.song||'マイショット')}" loading="lazy">
+      <span class="cap">${esc((s.date||'').slice(5).replace('-','/'))} ${esc(s.song||s.memo||'')}</span>
+    </button>`).join('');
+  $('#shotEmpty').hidden = SHOTS.length > 0;
+  $('#shotGrid').hidden = SHOTS.length === 0;
+  updateHomeMini();
+}
+async function handleShotFiles(files){
+  const arr = Array.from(files || []);
+  if(!arr.length) return;
+  const meta = {
+    date: ($('#shotDate') && $('#shotDate').value) || todayISO(),
+    song: ($('#shotSong') && $('#shotSong').value.trim()) || '',
+    memo: ($('#shotMemo') && $('#shotMemo').value.trim()) || ''
+  };
+  let ok = 0, fail = 0, full = false;
+  for(const f of arr){
+    try{
+      const c = await compressShot(f);
+      const item = Object.assign({id:'s' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+        addedAt:new Date().toISOString()}, meta, c);
+      if(persistShots(SHOTS.concat([item]))) ok++;
+      else { full = true; break; }
+    }catch(e){ fail++; }
+  }
+  renderShots();
+  if(ok) $('#shotHint').textContent = `${ok}枚を保存しました`;
+  if(full) toast('容量がいっぱい！古い写真を消すか、JSONに書き出してから消してね');
+  else if(fail) toast(`${fail}枚は読み込めませんでした`);
+  else if(ok) toast(`${ok}枚を保存しました（自動で軽量化）`);
+  setTimeout(()=>{ if($('#shotHint')) $('#shotHint').textContent = '複数まとめてOK'; }, 3500);
+}
+function openShot(id){
+  const s = SHOTS.find(x=>x.id === id); if(!s) return;
+  $('#shotModalBody').innerHTML = `
+    <div class="shot-view"><img src="${s.data}" alt="${esc(s.memo||'マイショット')}"></div>
+    <div class="shot-meta">📅 ${esc(s.date || '—')}${s.song ? '\n🎵 ' + esc(s.song) : ''}
+${s.memo ? '\n📝 ' + esc(s.memo) : ''}
+📷 ${s.w}×${s.h}px ・ JPEG 約${fmtSize(s.bytes)}（元 ${s.origW||s.w}×${s.origH||s.h}px）</div>
+    <div class="btn-row" style="margin-top:12px">
+      <a class="btn ghost sm" href="${s.data}" download="aikatsu-myshot-${esc(s.date||'')}.jpg">📥 写真を保存</a>
+      <button class="btn danger sm" data-shot-del="${esc(s.id)}">🗑 この写真を削除</button>
+    </div>`;
+  $('#shotModal').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closeShotModal(){
+  $('#shotModal').hidden = true;
+  document.body.style.overflow = '';
+}
+function deleteShot(id){
+  const next = SHOTS.filter(x=>x.id !== id);
+  if(!persistShots(next)){ toast('削除できませんでした'); return; }
+  closeShotModal(); renderShots(); toast('写真を削除しました');
+}
+function exportShots(){
+  const obj = {type:'aikatsu-encore-myshot', version:1, exportedAt:new Date().toISOString(), shots:SHOTS};
+  const blob = new Blob([JSON.stringify(obj)], {type:'application/json'});
+  const a = document.createElement('a');
+  const d = new Date();
+  const stamp = `${d.getFullYear()}${pad2(d.getMonth()+1)}${pad2(d.getDate())}`;
+  a.href = URL.createObjectURL(blob);
+  a.download = `aikatsu-encore-マイショット-${stamp}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
+  toast('マイショットをJSONに書き出しました');
+}
+function importShots(text){
+  let obj;
+  try{ obj = JSON.parse(text); }catch(e){ toast('JSONとして読み取れませんでした'); return; }
+  const arr = Array.isArray(obj) ? obj : (obj && Array.isArray(obj.shots) ? obj.shots : null);
+  if(!arr){ toast('マイショットのバックアップではないみたい'); return; }
+  const have = new Set(SHOTS.map(s=>s.id));
+  let added = 0;
+  const next = SHOTS.slice();
+  arr.forEach(s=>{ if(s && s.id && s.data && !have.has(s.id)){ next.push(s); have.add(s.id); added++; } });
+  if(!added){ toast('新しい写真はありませんでした'); return; }
+  if(!persistShots(next)){ toast('容量がいっぱいで読み込めませんでした'); return; }
+  renderShots(); toast(`${added}枚を読み込みました`);
+}
+
+
+/* ---------- 第2弾機能のイベントと初期化 ---------- */
+function syncTabsHeight(){
+  const t = document.querySelector('.tabs'); if(!t) return;
+  document.documentElement.style.setProperty('--tabs-h', t.offsetHeight + 'px');
+}
+syncTabsHeight();
+window.addEventListener('resize', syncTabsHeight);
+window.addEventListener('orientationchange', syncTabsHeight);
+
+$('#idolGrid').addEventListener('change', (e)=>{
+  const t = e.target;
+  if(t.matches('[data-idol-open]')){
+    const i = Number(t.dataset.idolOpen), d = IDOLS[i]; if(!d) return;
+    const v = PROG.idols[d.key] || {};
+    v.open = t.checked; PROG.idols[d.key] = v;
+    saveProg(); renderIdolView(); updateHomeMini();
+  } else if(t.matches('[data-idol-task]')){
+    const parts = t.dataset.idolTask.split(':').map(Number);
+    const d = IDOLS[parts[0]]; if(!d) return;
+    const v = PROG.idols[d.key] || {}; v.tasks = v.tasks || {};
+    v.tasks[parts[1]] = t.checked; PROG.idols[d.key] = v;
+    saveProg(); renderIdolView(); updateHomeMini();
+  }
+});
+
+$('#songList').addEventListener('click', (e)=>{
+  const b = e.target.closest('[data-song-play],[data-song-encore]'); if(!b) return;
+  const i = Number(b.hasAttribute('data-song-play') ? b.dataset.songPlay : b.dataset.songEncore);
+  const s = SONGS[i]; if(!s) return;
+  const p = PROG.songs[s.title] || {};
+  if(b.hasAttribute('data-song-play')) p.played = !p.played; else p.encore = !p.encore;
+  PROG.songs[s.title] = p; saveProg(); renderIdolView();
+});
+
+$('#stampWrap').addEventListener('click', (e)=>{
+  const cell = e.target.closest('[data-stamp]');
+  const clr = e.target.closest('[data-stamp-clear]');
+  if(cell){
+    const parts = cell.dataset.stamp.split(':').map(Number);
+    const s = STAMPS[parts[0]]; if(!s) return;
+    const got = Object.assign({}, PROG.stamps[s.key] || {});
+    got[parts[1]] = !got[parts[1]];
+    PROG.stamps[s.key] = got; saveProg(); renderIdolView();
+  } else if(clr){
+    const s = STAMPS[Number(clr.dataset.stampClear)]; if(!s) return;
+    if(!confirm(`${s.name}のチェックをぜんぶ消す？`)) return;
+    PROG.stamps[s.key] = {}; saveProg(); renderIdolView();
+  }
+});
+
+$('#newsChips').addEventListener('click', (e)=>{
+  const b = e.target.closest('[data-nfilter]'); if(!b) return;
+  newsFilter = b.dataset.nfilter;
+  $$('#newsChips .chip').forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.nfilter === newsFilter)));
+  renderNewsView();
+});
+
+/* マイショット */
+$('#shotDate').value = todayISO();
+$('#shotFile').addEventListener('change', async (e)=>{
+  const files = e.target.files;
+  await handleShotFiles(files);
+  e.target.value = '';
+});
+$('#shotGrid').addEventListener('click', (e)=>{
+  const b = e.target.closest('[data-shot]'); if(b) openShot(b.dataset.shot);
+});
+$('#shotModalClose').addEventListener('click', closeShotModal);
+$('#shotModal').addEventListener('click', (e)=>{ if(e.target.id === 'shotModal') closeShotModal(); });
+$('#shotModalBody').addEventListener('click', (e)=>{
+  const d = e.target.closest('[data-shot-del]'); if(d) deleteShot(d.dataset.shotDel);
+});
+$('#shotExport').addEventListener('click', exportShots);
+$('#shotImport').addEventListener('change', (e)=>{
+  const f = e.target.files && e.target.files[0]; if(!f) return;
+  const fr = new FileReader();
+  fr.onload = ()=>importShots(fr.result);
+  fr.readAsText(f);
+  e.target.value = '';
+});
+$('#shotReset').addEventListener('click', ()=>{
+  if(!SHOTS.length){ toast('写真はまだないよ'); return; }
+  if(!confirm(`マイショット${SHOTS.length}枚をぜんぶ消す？（元に戻せません）`)) return;
+  if(persistShots([])){ renderShots(); toast('マイショットを消しました'); }
+});
+
+renderIdolView();
+renderNewsView();
+renderShots();
+updateHomeMini();
+
 
 /* ---------- init ---------- */
 buildFilters();
