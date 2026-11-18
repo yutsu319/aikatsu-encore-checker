@@ -1713,7 +1713,7 @@ function renderSheet(){
   a.setAttribute('href', imgDataUrl);
   if(imgUrl){ try{ URL.revokeObjectURL(imgUrl); }catch(e){} imgUrl = ''; }
   imgBlob = null; imgFile = null;
-  $('#imgMeta').textContent = IMG_W + '×' + cv.height + 'px ・ PNG ・ ' + IMG_MODE_LABEL[imgMode] + ' ・ ' + sheetCards(imgMode).length + '枚';
+  $('#imgMeta').textContent = cv.width + '×' + cv.height + 'px ・ PNG ・ ' + IMG_MODE_LABEL[imgMode] + ' ・ ' + sheetCards(imgMode).length + '枚';
 
   if(cv.toBlob){
     cv.toBlob(blob => {
@@ -1727,7 +1727,7 @@ function renderSheet(){
       }
       imgUrl = URL.createObjectURL(blob);
       a.setAttribute('href', imgUrl);
-      $('#imgMeta').textContent = IMG_W + '×' + cv.height + 'px ・ PNG ・ 約' + Math.max(1, Math.round(blob.size / 1024)) + 'KB ・ ' + IMG_MODE_LABEL[imgMode] + ' ・ ' + sheetCards(imgMode).length + '枚';
+      $('#imgMeta').textContent = cv.width + '×' + cv.height + 'px ・ PNG ・ 約' + Math.max(1, Math.round(blob.size / 1024)) + 'KB ・ ' + IMG_MODE_LABEL[imgMode] + ' ・ ' + sheetCards(imgMode).length + '枚';
     }, 'image/png');
   }
 }
