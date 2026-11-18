@@ -331,6 +331,23 @@ details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height
 .coord-mini{display:flex; gap:5px; flex-wrap:wrap}
 .coord-mini button{border:1.5px solid var(--line); background:#fff; border-radius:9px; padding:6px 8px; font-size:11px; font-weight:800; color:var(--ink-2)}
 
+/* ---------- image save ---------- */
+.img-cta{display:flex; align-items:center; gap:10px; background:linear-gradient(135deg,#fff 45%,#fff7e6 100%)}
+.img-cta .txt{flex:1; min-width:0}
+.img-cta .txt b{display:block; font-size:13px; font-weight:900; line-height:1.35}
+.img-cta .txt span{display:block; font-size:11px; font-weight:700; color:var(--ink-2); margin-top:2px; line-height:1.5}
+.img-cta .btn{flex:0 0 auto}
+.img-sheet .sheet-b{padding:12px}
+.img-modes{display:flex; gap:6px; margin-bottom:9px}
+.img-modes .chip{flex:1 1 0; padding:8px 4px; font-size:11.5px; text-align:center; justify-content:center}
+.img-modes .chip[aria-pressed="true"]{background:linear-gradient(135deg,#ff5c9d,#ff96c4); color:#fff; border-color:#ff87b8; box-shadow:0 3px 10px rgba(255,100,160,.28)}
+.img-tip{margin:0 0 9px; padding:7px 10px; border-radius:10px; background:#fff3f8; border:1px solid #ffd6e6; color:#c2417c; font-size:11px; font-weight:800; line-height:1.55}
+.img-scroll{border:1.5px solid var(--line); border-radius:12px; background:#fff8fb; padding:6px; max-height:54vh; overflow:auto; -webkit-overflow-scrolling:touch}
+.img-scroll img{display:block; width:100%; height:auto; border-radius:8px; -webkit-touch-callout:default}
+.img-actions{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px}
+.img-actions .btn{width:100%; text-decoration:none}
+.img-meta{margin:8px 0 0; font-size:11px; color:var(--ink-3); font-weight:700; line-height:1.6}
+
 /* ---------- toast ---------- */
 .toast{
   position:fixed; left:50%; bottom:calc(18px + env(safe-area-inset-bottom)); transform:translateX(-50%) translateY(20px);
@@ -374,6 +391,14 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
         <div class="hero-sub" id="homeSub"></div>
         <label class="switch"><input type="checkbox" id="parToggle" checked> パラレルも数える</label>
       </div>
+    </div>
+
+    <div class="panel img-cta">
+      <div class="txt">
+        <b>📷 所持一覧を画像で保存</b>
+        <span>コレクションを1枚のPNGに。写真アプリにも保存できるよ。</span>
+      </div>
+      <button class="btn sm" data-imgshot>画像をつくる</button>
     </div>
 
     <div class="grid2">
@@ -450,6 +475,9 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
       </div>
     </div>
     <div class="result-line" id="resultLine"></div>
+    <div class="btn-row" style="justify-content:flex-end; margin:-2px 0 9px">
+      <button class="btn ghost sm" data-imgshot>📷 所持一覧を画像で保存</button>
+    </div>
     <div class="card-grid" id="cardGrid"></div>
     <div class="empty" id="cardEmpty" hidden><span class="big">🔎</span>条件に合うカードがないよ。<br>絞り込みをゆるめてみてね。</div>
   </section>
@@ -485,6 +513,14 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
         <button class="btn gold sm" id="copyCode">🔗 共有コードをコピー</button>
       </div>
       <p class="muted" style="margin:8px 0 0">ファイルか共有コードを送れば、詩織さんたちと所持データをやりとりできます。共有コードは所持枚数だけの短い文字列（例: AEC1…）です。</p>
+    </div>
+
+    <div class="panel img-cta">
+      <div class="txt">
+        <b>📷 所持一覧を画像（PNG）で保存</b>
+        <span>印刷やおともだちへの共有にも。画像を長押しすると写真アプリに保存できます。</span>
+      </div>
+      <button class="btn gold sm" data-imgshot>画像をつくる</button>
     </div>
 
     <div class="panel">
@@ -539,7 +575,8 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
           2. カード画像や名前をタップで詳細。入手方法と「相場・最安をさがす」リンクが出ます。<br>
           3. 「コーデ」タブで、同じコーデの4部位がどこまで揃っているかを見られます。<br>
           4. データは自動保存。「データ」タブから書き出し・共有コード・読み込みができます。<br>
-          5. 第2弾が出たら、カードの配列を足すだけでタブや集計が自動で増えます。
+          5. 第2弾が出たら、カードの配列を足すだけでタブや集計が自動で増えます。<br>
+          6. 「📷 所持一覧を画像で保存」で、コレクションを1枚のPNGに。画像を長押しで写真アプリへ、「共有」でLINEなどにも送れます。
         </div>
       </details>
     </div>
@@ -559,6 +596,29 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
       <button class="x" id="modalClose" aria-label="閉じる">×</button>
     </div>
     <div class="sheet-b" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="imgModal" hidden>
+  <div class="sheet img-sheet" role="dialog" aria-modal="true" aria-labelledby="imgTitle">
+    <div class="sheet-h">
+      <b id="imgTitle">📷 所持一覧の画像</b>
+      <button class="x" id="imgClose" aria-label="閉じる">×</button>
+    </div>
+    <div class="sheet-b">
+      <div class="img-modes" id="imgModes">
+        <button class="chip" data-imgmode="own" aria-pressed="true">所持のみ</button>
+        <button class="chip" data-imgmode="none" aria-pressed="false">未所持のみ</button>
+        <button class="chip" data-imgmode="all" aria-pressed="false">全カード</button>
+      </div>
+      <p class="img-tip" id="imgTip">💡 画像を長押しして「“写真”に追加」を選ぶと、写真アプリに保存できます</p>
+      <div class="img-scroll" id="imgScroll"><img id="imgPreview" alt="所持一覧の画像"></div>
+      <div class="img-actions">
+        <a class="btn sm" id="imgDownload" download="aikatsu-encore-所持一覧.png">📥 画像をダウンロード</a>
+        <button class="btn ghost sm" id="imgShare">📤 共有 / 写真に保存</button>
+      </div>
+      <p class="img-meta" id="imgMeta"></p>
+    </div>
   </div>
 </div>
 
@@ -1231,6 +1291,7 @@ $('#modalClose').addEventListener('click', closeModal);
 $('#modal').addEventListener('click', (e)=>{ if(e.target.id==='modal') closeModal(); });
 document.addEventListener('keydown', (e)=>{
   if(e.key==='Escape' && !$('#modal').hidden) closeModal();
+  if(e.key==='Escape' && !$('#imgModal').hidden) closeImgSheet();
   if((e.key==='Enter'||e.key===' ') && e.target.classList && e.target.classList.contains('thumbwrap')){
     e.preventDefault(); e.target.click();
   }
@@ -1267,12 +1328,462 @@ $('#resetAll').addEventListener('click', ()=>{
   state.counts = {}; save(); refreshAll(); toast('所持データをリセットしました');
 });
 
+/* ============================================================
+   所持一覧を画像（PNG）で保存
+   Canvas 2D だけで描くので、外部画像の CORS で失敗しない
+   ============================================================ */
+const IMG_W = 1080, IMG_PAD = 44, IMG_MAX_H = 4600;
+const IMG_FONT = '-apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Maru Gothic ProN", "Yu Gothic", "Noto Sans JP", "Meiryo", sans-serif';
+const IMG_INK = '#3b2b34', IMG_INK2 = '#7b6874', IMG_INK3 = '#a7949f';
+const IMG_MODE_LABEL = {own:'所持のみ', none:'未所持のみ', all:'全カード（所持状況）'};
+const IMG_MODE_SHORT = {own:'所持のみ', none:'未所持のみ', all:'全カード'};
+const RARITY_PILL = {
+  'N':['#f0f0f3','#6b6b74'], 'R':['#e8f6ff','#2f7fa8'], 'PR':['#f5e9ff','#8340b8'],
+  'ER':['#fff0dd','#b06a10'], 'PR★':['#ffe9f5','#8a3fa0'], 'ER★':['#fff3cf','#a86a12']
+};
+let imgMode = 'own';
+let imgDataUrl = '', imgBlob = null, imgFile = null, imgUrl = '', imgFileName = '', imgSeq = 0;
+
+const pct1 = p => (p >= 100 ? '100' : (Math.round(p * 10) / 10).toFixed(1));
+function stampNow(d){
+  const p = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
+function stampFile(d){
+  const p = n => String(n).padStart(2, '0');
+  return '' + d.getFullYear() + p(d.getMonth()+1) + p(d.getDate());
+}
+function rr(ctx, x, y, w, h, r){
+  r = Math.max(0, Math.min(r, w/2, h/2));
+  ctx.beginPath();
+  if(ctx.roundRect){ ctx.roundRect(x, y, w, h, r); return; }
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y); ctx.arcTo(x+w, y, x+w, y+r, r);
+  ctx.lineTo(x+w, y+h-r); ctx.arcTo(x+w, y+h, x+w-r, y+h, r);
+  ctx.lineTo(x+r, y+h); ctx.arcTo(x, y+h, x, y+h-r, r);
+  ctx.lineTo(x, y+r); ctx.arcTo(x, y, x+r, y, r);
+  ctx.closePath();
+}
+function fitText(ctx, text, maxW){
+  text = String(text == null ? '' : text);
+  if(ctx.measureText(text).width <= maxW) return text;
+  let s = text;
+  while(s.length > 1 && ctx.measureText(s + '…').width > maxW) s = s.slice(0, -1);
+  return s + '…';
+}
+function wrapLines(ctx, text, maxW, maxLines){
+  const chars = Array.from(String(text == null ? '' : text));
+  const lines = [];
+  let cur = '';
+  for(let i = 0; i < chars.length; i++){
+    if(cur && ctx.measureText(cur + chars[i]).width > maxW){
+      lines.push(cur);
+      if(lines.length === maxLines - 1){
+        let rest = chars.slice(i).join('');
+        while(rest.length > 1 && ctx.measureText(rest + '…').width > maxW) rest = rest.slice(0, -1);
+        lines.push(rest + '…');
+        return lines;
+      }
+      cur = chars[i];
+    } else cur += chars[i];
+  }
+  if(cur) lines.push(cur);
+  return lines;
+}
+function drawBar(ctx, x, y, w, h, pct, c1, c2){
+  pct = Math.max(0, Math.min(100, pct || 0));
+  rr(ctx, x, y, w, h, h/2);
+  ctx.fillStyle = '#ffeef6'; ctx.fill();
+  const fw = w * pct / 100;
+  if(fw > 0.5){
+    ctx.save();
+    rr(ctx, x, y, w, h, h/2); ctx.clip();
+    const g = ctx.createLinearGradient(x, y, x + w, y);
+    g.addColorStop(0, c1 || '#ff7db5'); g.addColorStop(1, c2 || '#ffc46e');
+    ctx.fillStyle = g; ctx.fillRect(x, y, Math.max(h, fw), h);
+    ctx.restore();
+  }
+}
+
+/* 画像に入れるカード（モード別） */
+function sheetCards(mode){
+  let list = ALL.slice();
+  if(mode === 'own') list = list.filter(c => cnt(c.id) > 0);
+  else if(mode === 'none') list = list.filter(c => cnt(c.id) === 0);
+  return list;
+}
+function sheetGroups(list){
+  const out = [];
+  seriesDefs().forEach(g => {
+    const l = list.filter(g.match);
+    if(l.length) out.push({label:g.label, list:l, all:ALL.filter(g.match)});
+  });
+  const known = {};
+  out.forEach(g => g.list.forEach(c => { known[c.id] = 1; }));
+  const rest = list.filter(c => !known[c.id]);
+  if(rest.length) out.push({label:'その他のカード', list:rest, all:rest});
+  return out;
+}
+
+/* 1枚を描く */
+function drawCardTile(ctx, c, x, y, w, h, n){
+  const own = n > 0;
+  const col = TYPE_COLOR[c.type] || '#ffd0e3';
+  rr(ctx, x, y, w, h, 13);
+  ctx.fillStyle = own ? '#fffdf3' : '#fbf9fa'; ctx.fill();
+  ctx.lineWidth = own ? 2 : 1.5;
+  ctx.strokeStyle = own ? '#ffc44d' : '#efe6ea'; ctx.stroke();
+  ctx.save();
+  rr(ctx, x, y, w, h, 13); ctx.clip();
+  ctx.fillStyle = own ? col : '#e9dfe4';
+  ctx.fillRect(x, y, 6, h);
+  ctx.restore();
+
+  // レアリティ
+  const rp = RARITY_PILL[c.rarity] || ['#f0f0f3','#6b6b74'];
+  ctx.font = '900 11.5px ' + IMG_FONT;
+  const rw = Math.max(30, ctx.measureText(String(c.rarity)).width + 16);
+  rr(ctx, x + w - rw - 10, y + 10, rw, 20, 10);
+  ctx.fillStyle = rp[0]; ctx.fill();
+  ctx.fillStyle = rp[1]; ctx.textAlign = 'center';
+  ctx.fillText(String(c.rarity), x + w - rw/2 - 10, y + 24);
+  ctx.textAlign = 'left';
+
+  // カード番号
+  ctx.fillStyle = own ? IMG_INK3 : '#bda3b0';
+  ctx.font = '800 12.5px ' + IMG_FONT;
+  ctx.fillText(fitText(ctx, c.id, w - rw - 34), x + 15, y + 25);
+
+  // カード名（2行まで）
+  ctx.fillStyle = own ? IMG_INK : '#8d7f88';
+  ctx.font = (own ? '900 ' : '800 ') + '15px ' + IMG_FONT;
+  wrapLines(ctx, c.name, w - 28, 2).forEach((ln, i) => {
+    ctx.fillText(ln, x + 15, y + 48 + i * 19);
+  });
+
+  // 所持 / 未所持
+  const label = own ? ('✓ 所持' + (n > 1 ? ' ' + n + '枚' : '')) : '未所持';
+  ctx.font = '900 12.5px ' + IMG_FONT;
+  const bw = ctx.measureText(label).width + 18;
+  rr(ctx, x + w - bw - 10, y + h - 30, bw, 22, 11);
+  ctx.fillStyle = own ? '#ffe9b8' : '#f2edf0'; ctx.fill();
+  ctx.fillStyle = own ? '#a06a00' : IMG_INK3;
+  ctx.textAlign = 'center';
+  ctx.fillText(label, x + w - bw/2 - 10, y + h - 14);
+  ctx.textAlign = 'left';
+}
+
+/* 1枚のシートを描く。戻り値は高さ */
+function paintSheet(ctx, mode, cols){
+  const W = IMG_W, PAD = IMG_PAD, cw = W - PAD * 2;
+  const gap = 10, th = 104;
+  const tw = (cw - (cols - 1) * gap) / cols;
+  const base = state.hideParallel ? ALL.filter(c => !c.is_parallel) : ALL;
+  const stB = statOf(base);
+  const sheet = sheetCards(mode);
+  const groups = sheetGroups(sheet);
+
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, W, 20000);
+
+  /* ---- ヘッダ ---- */
+  const HH = 190;
+  const hg = ctx.createLinearGradient(0, 0, W, HH);
+  hg.addColorStop(0, '#ff6fae'); hg.addColorStop(0.55, '#ff9ecb'); hg.addColorStop(1, '#ffd98a');
+  ctx.fillStyle = hg; ctx.fillRect(0, 0, W, HH);
+  ctx.save();
+  ctx.globalAlpha = 0.26; ctx.fillStyle = '#ffffff';
+  for(let py = 12; py < HH; py += 20){
+    for(let px = 12; px < W; px += 20){
+      ctx.beginPath(); ctx.arc(px, py, 1.5, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  ctx.restore();
+  ctx.fillStyle = 'rgba(255,255,255,.92)';
+  ctx.font = '800 21px ' + IMG_FONT;
+  ctx.fillText('アイカツ！アンコール', PAD, 62);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '900 44px ' + IMG_FONT;
+  ctx.fillText('所持率チェッカー', PAD, 120);
+  ctx.textAlign = 'right';
+  ctx.fillStyle = 'rgba(255,255,255,.96)';
+  ctx.font = '900 20px ' + IMG_FONT;
+  ctx.fillText(IMG_MODE_LABEL[mode], W - PAD, 62);
+  ctx.font = '700 17px ' + IMG_FONT;
+  ctx.fillStyle = 'rgba(255,255,255,.92)';
+  ctx.fillText(stampNow(new Date()) + ' 作成', W - PAD, 92);
+  ctx.textAlign = 'left';
+
+  let y = HH + 26;
+
+  /* ---- サマリー ---- */
+  const gsRows = seriesDefs().map(g => ({label:g.label, s:statOf(base.filter(g.match))})).filter(r => r.s.total > 0);
+  const rarOrder = ['N','R','PR','ER','PR★','ER★'];
+  const rarList = uniq(base.map(c => c.rarity));
+  rarList.sort((a,b) => (rarOrder.indexOf(a)+1||99) - (rarOrder.indexOf(b)+1||99));
+  const rarRows = rarList.map(r => ({label:r, s:statOf(base.filter(c => c.rarity === r))})).filter(r => r.s.total > 0);
+  const tOrder2 = ['キュート','クール','セクシー','ポップ'];
+  const typeRows = uniq(base.map(c => c.type)).sort((a,b) => (tOrder2.indexOf(a)+1||99) - (tOrder2.indexOf(b)+1||99))
+    .map(t => ({label:t, s:statOf(base.filter(c => c.type === t))})).filter(r => r.s.total > 0);
+  const nRows = Math.max(gsRows.length, rarRows.length);
+  const rowH = 44;
+  const S_PAD = 28, S_TOP = 32, S_BIG = 74, S_BAR = 16, S_BAR_GAP = 16, S_COLS_TOP = 46, S_TYPE_H = 46, S_BOT = 28;
+  const typesH = typeRows.length ? (S_TYPE_H + 44) : 0;
+  const sumH = S_PAD + S_TOP + S_BIG + S_BAR + S_BAR_GAP + S_COLS_TOP + nRows * rowH + typesH + S_BOT;
+
+  rr(ctx, PAD, y, cw, sumH, 22);
+  ctx.fillStyle = '#fffdfa'; ctx.fill();
+  ctx.lineWidth = 2; ctx.strokeStyle = '#ffe1ee'; ctx.stroke();
+
+  const ix = PAD + S_PAD, iw = cw - S_PAD * 2;
+  let cy = y + S_PAD;
+
+  ctx.fillStyle = IMG_INK2; ctx.font = '900 16px ' + IMG_FONT;
+  ctx.fillText('ぜんぶの所持率', ix, cy + 18);
+  ctx.textAlign = 'right'; ctx.fillStyle = IMG_INK3; ctx.font = '700 14px ' + IMG_FONT;
+  ctx.fillText('全' + stB.total + '種 ・ 所持 ' + stB.owned + '種 ・ 未所持 ' + (stB.total - stB.owned) + '種', ix + iw, cy + 18);
+  ctx.textAlign = 'left';
+  cy += S_TOP;
+
+  // 大きな数字
+  const pstr = pct1(stB.pct);
+  ctx.font = '900 26px ' + IMG_FONT;
+  const unitW = ctx.measureText('%').width;
+  ctx.font = '900 60px ' + IMG_FONT;
+  const numW = ctx.measureText(pstr).width;
+  ctx.fillStyle = '#e0468a';
+  const numX = ix + iw - numW - unitW - 6;
+  ctx.fillText(pstr, numX, cy + 54);
+  ctx.font = '900 26px ' + IMG_FONT;
+  ctx.fillText('%', numX + numW + 6, cy + 54);
+  ctx.fillStyle = IMG_INK;
+  ctx.font = '900 34px ' + IMG_FONT;
+  ctx.fillText('所持 ' + stB.owned + ' / ' + stB.total + ' 枚', ix, cy + 52);
+  cy += S_BIG;
+
+  drawBar(ctx, ix, cy, iw, S_BAR, stB.pct);
+  cy += S_BAR + S_BAR_GAP;
+
+  ctx.strokeStyle = '#ffe1ee'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(ix, cy); ctx.lineTo(ix + iw, cy); ctx.stroke();
+  cy += S_COLS_TOP;
+
+  // 2列の内訳
+  const colW = (iw - 30) / 2;
+  const col2x = ix + colW + 30;
+  ctx.font = '900 14px ' + IMG_FONT; ctx.fillStyle = IMG_INK2;
+  ctx.fillText('区分べつ', ix, cy - 16);
+  ctx.fillText('レアリティべつ', col2x, cy - 16);
+  const statRow = (x, w2, top, label, s, barColor) => {
+    ctx.font = '800 14px ' + IMG_FONT; ctx.fillStyle = IMG_INK;
+    ctx.fillText(label, x, top + 15);
+    ctx.textAlign = 'right'; ctx.font = '800 12.5px ' + IMG_FONT; ctx.fillStyle = IMG_INK2;
+    ctx.fillText(s.owned + '/' + s.total + ' ・ ' + pct1(s.pct) + '%', x + w2, top + 15);
+    ctx.textAlign = 'left';
+    drawBar(ctx, x, top + 24, w2, 7, s.pct, barColor, '#ffc46e');
+  };
+  for(let i = 0; i < nRows; i++){
+    if(gsRows[i]) statRow(ix, colW, cy + i * rowH, gsRows[i].label, gsRows[i].s);
+    if(rarRows[i]) statRow(col2x, colW, cy + i * rowH, rarRows[i].label, rarRows[i].s, '#f0b62f');
+  }
+  cy += nRows * rowH;
+
+  // タイプべつ
+  if(typeRows.length){
+    cy += 18;
+    ctx.font = '900 14px ' + IMG_FONT; ctx.fillStyle = IMG_INK2;
+    ctx.fillText('タイプべつ', ix, cy + 2);
+    cy += 12;
+    const pw2 = (iw - (typeRows.length - 1) * 10) / typeRows.length;
+    typeRows.forEach((t, i) => {
+      const x = ix + i * (pw2 + 10);
+      const tc = TYPE_COLOR[t.label] || '#ff7db5';
+      rr(ctx, x, cy, pw2, S_TYPE_H, 12);
+      ctx.fillStyle = '#fff9fc'; ctx.fill();
+      ctx.lineWidth = 1.5; ctx.strokeStyle = '#ffe1ee'; ctx.stroke();
+      ctx.save();
+      rr(ctx, x, cy, pw2, S_TYPE_H, 12); ctx.clip();
+      ctx.fillStyle = tc; ctx.fillRect(x, cy, 5, S_TYPE_H);
+      ctx.restore();
+      ctx.fillStyle = IMG_INK; ctx.font = '900 13px ' + IMG_FONT;
+      ctx.fillText(t.label, x + 14, cy + 19);
+      ctx.fillStyle = IMG_INK3; ctx.font = '800 12px ' + IMG_FONT;
+      ctx.fillText(t.s.owned + '/' + t.s.total, x + 14, cy + 37);
+      ctx.textAlign = 'right'; ctx.fillStyle = tc; ctx.font = '900 15px ' + IMG_FONT;
+      ctx.fillText(pct1(t.s.pct) + '%', x + pw2 - 12, cy + 29);
+      ctx.textAlign = 'left';
+    });
+  }
+
+  y = y + sumH + 30;
+
+  /* ---- カード一覧 ---- */
+  ctx.fillStyle = IMG_INK; ctx.font = '900 22px ' + IMG_FONT;
+  ctx.fillText('カード一覧', PAD, y + 22);
+  ctx.textAlign = 'right'; ctx.fillStyle = IMG_INK2; ctx.font = '800 15px ' + IMG_FONT;
+  ctx.fillText(IMG_MODE_LABEL[mode] + ' ・ ' + sheet.length + '枚', PAD + cw, y + 22);
+  ctx.textAlign = 'left';
+  y += 38;
+
+  if(!groups.length){
+    rr(ctx, PAD, y, cw, 130, 18);
+    ctx.fillStyle = '#fff8fb'; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = '#ffe1ee'; ctx.stroke();
+    ctx.fillStyle = IMG_INK2; ctx.font = '800 17px ' + IMG_FONT; ctx.textAlign = 'center';
+    ctx.fillText(mode === 'own' ? 'まだ所持のカードがないよ。カードタブで持っているカードをタップしてね。'
+      : 'この条件のカードはないよ。', W / 2, y + 72);
+    ctx.textAlign = 'left';
+    y += 130;
+  }
+
+  groups.forEach(g => {
+    const sAll = statOf(g.all);
+    ctx.font = '900 17px ' + IMG_FONT;
+    const labelW = ctx.measureText(g.label).width;
+    rr(ctx, PAD, y, labelW + 30, 34, 17);
+    ctx.fillStyle = '#fff3f8'; ctx.fill();
+    ctx.lineWidth = 1.5; ctx.strokeStyle = '#ffd6e6'; ctx.stroke();
+    ctx.fillStyle = '#c2417c';
+    ctx.fillText(g.label, PAD + 15, y + 23);
+    ctx.textAlign = 'right'; ctx.fillStyle = IMG_INK2; ctx.font = '800 14px ' + IMG_FONT;
+    ctx.fillText('所持 ' + sAll.owned + '/' + sAll.total + ' 枚 ・ ' + pct1(sAll.pct) + '%', PAD + cw, y + 23);
+    ctx.textAlign = 'left';
+    y += 34 + 14;
+    g.list.forEach((c, i) => {
+      drawCardTile(ctx, c, PAD + (i % cols) * (tw + gap), y + Math.floor(i / cols) * (th + gap), tw, th, cnt(c.id));
+    });
+    y += Math.ceil(g.list.length / cols) * (th + gap) - gap;
+    y += 28;
+  });
+
+  /* ---- フッター ---- */
+  y += 4;
+  ctx.fillStyle = IMG_INK3; ctx.font = '700 13px ' + IMG_FONT; ctx.textAlign = 'center';
+  ctx.fillText('アイカツ！アンコール 所持率チェッカー ／ 非公式ファンツール（カードの権利は ©BNP/BANDAI）', W / 2, y + 16);
+  ctx.textAlign = 'left';
+  y += 44;
+  return y;
+}
+
+/* 高さを測って列数を決め、本番のキャンバスに描く */
+function buildSheetImage(mode){
+  const probe = document.createElement('canvas');
+  probe.width = IMG_W; probe.height = 8;
+  const pctx = probe.getContext('2d');
+  const tries = [3, 4, 5, 6];
+  let cols = 4, h = 0;
+  for(let i = 0; i < tries.length; i++){
+    cols = tries[i];
+    h = paintSheet(pctx, mode, cols);
+    if(h <= IMG_MAX_H) break;
+  }
+  const cv = document.createElement('canvas');
+  cv.width = IMG_W;
+  cv.height = Math.max(500, Math.min(16000, Math.ceil(h)));
+  paintSheet(cv.getContext('2d'), mode, cols);
+  return cv;
+}
+
+function renderSheet(){
+  const my = ++imgSeq;
+  const cv = buildSheetImage(imgMode);
+  imgDataUrl = cv.toDataURL('image/png');
+  const d = new Date();
+  imgFileName = 'aikatsu-encore-' + IMG_MODE_SHORT[imgMode] + '-' + stampFile(d) + '.png';
+
+  const prev = $('#imgPreview');
+  prev.src = imgDataUrl;
+
+  const a = $('#imgDownload');
+  a.setAttribute('download', imgFileName);
+  a.setAttribute('href', imgDataUrl);
+  if(imgUrl){ try{ URL.revokeObjectURL(imgUrl); }catch(e){} imgUrl = ''; }
+  imgBlob = null; imgFile = null;
+  $('#imgMeta').textContent = IMG_W + '×' + cv.height + 'px ・ PNG ・ ' + IMG_MODE_LABEL[imgMode] + ' ・ ' + sheetCards(imgMode).length + '枚';
+
+  if(cv.toBlob){
+    cv.toBlob(blob => {
+      if(my !== imgSeq) return;
+      if(!blob){ toast('画像をファイルにできなかったよ。長押しで保存してね'); return; }
+      imgBlob = blob;
+      try{ imgFile = new File([blob], imgFileName, {type:'image/png'}); }
+      catch(e){
+        imgFile = blob;
+        try{ imgFile.name = imgFileName; }catch(e2){}
+      }
+      imgUrl = URL.createObjectURL(blob);
+      a.setAttribute('href', imgUrl);
+      $('#imgMeta').textContent = IMG_W + '×' + cv.height + 'px ・ PNG ・ 約' + Math.max(1, Math.round(blob.size / 1024)) + 'KB ・ ' + IMG_MODE_LABEL[imgMode] + ' ・ ' + sheetCards(imgMode).length + '枚';
+    }, 'image/png');
+  }
+}
+
+function openImgSheet(mode){
+  if(!mode) mode = statOf(ALL).owned > 0 ? 'own' : 'all';
+  imgMode = mode;
+  $$('#imgModes .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.imgmode === imgMode)));
+  $('#imgModal').hidden = false;
+  document.body.style.overflow = 'hidden';
+  $('.img-sheet').scrollTop = 0;
+  toast('画像をつくっています…');
+  setTimeout(() => {
+    if($('#imgModal').hidden) return;
+    try{ renderSheet(); }
+    catch(e){ toast('画像をつくれませんでした（' + (e && e.message ? e.message : 'エラー') + '）'); }
+  }, 30);
+}
+function closeImgSheet(){
+  imgSeq++;
+  $('#imgModal').hidden = true;
+  document.body.style.overflow = '';
+  if(imgUrl){ try{ URL.revokeObjectURL(imgUrl); }catch(e){} imgUrl = ''; }
+  const prev = $('#imgPreview');
+  prev.removeAttribute('src');
+  imgDataUrl = ''; imgBlob = null; imgFile = null;
+}
+function setImgMode(mode){
+  if(!IMG_MODE_LABEL[mode] || mode === imgMode) return;
+  imgMode = mode;
+  $$('#imgModes .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.imgmode === imgMode)));
+  try{ renderSheet(); }
+  catch(e){ toast('画像をつくれませんでした'); }
+}
+function shareSheet(){
+  const name = imgFileName || 'aikatsu-encore-所持一覧.png';
+  let file = imgFile;
+  if(!file && imgBlob){
+    try{ file = new File([imgBlob], name, {type:'image/png'}); }
+    catch(e){ file = null; }
+  }
+  if(!file){ toast('画像を準備中だよ。少し待ってからもう一度押してね'); return; }
+  let canFiles = false;
+  try{ canFiles = !!(navigator.canShare && navigator.canShare({files:[file]})); }catch(e){ canFiles = false; }
+  if(!navigator.share || !canFiles){
+    toast('この端末は画像の共有に未対応。「画像をダウンロード」か長押しで保存してね');
+    return;
+  }
+  navigator.share({files:[file], title:'アイカツ！アンコール 所持一覧'})
+    .then(() => toast('共有メニューを開いたよ'))
+    .catch(err => {
+      if(err && err.name === 'AbortError') return;
+      toast('共有できなかったよ。画像を長押しして保存してね');
+    });
+}
+
 /* ---------- init ---------- */
 buildFilters();
 renderHeader();
 renderHome();
 renderCards();
 renderSaveInfo();
+
+$$('[data-imgshot]').forEach(b => b.addEventListener('click', () => openImgSheet()));
+$('#imgClose').addEventListener('click', closeImgSheet);
+$('#imgModal').addEventListener('click', (e)=>{ if(e.target.id === 'imgModal') closeImgSheet(); });
+$('#imgModes').addEventListener('click', (e)=>{ const b = e.target.closest('[data-imgmode]'); if(b) setImgMode(b.dataset.imgmode); });
+$('#imgShare').addEventListener('click', shareSheet);
+$('#imgDownload').addEventListener('click', ()=>{ if(!$('#imgDownload').getAttribute('href')) toast('画像を準備中だよ。少し待ってね'); });
 </script>
 </body>
 </html>
