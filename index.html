@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ff5c9d">
+<title>アイカツ！アンコール 所持率チェッカー</title>
+<style>
+:root{
+  --pink:#ff5c9d; --pink-2:#ff8ec0; --pink-l:#ffd6e6; --pink-xl:#fff3f8;
+  --gold:#e3aa2b; --gold-2:#f7d774; --gold-l:#fff2cf;
+  --ink:#3b2b34; --ink-2:#7b6874; --ink-3:#a7949f;
+  --cute:#ff6fa5; --cool:#4a8fe7; --sexy:#a06be0; --pop:#e9a800;
+  --ok:#2fa46a;
+  --card:#ffffff; --line:#ffdcea;
+  --shadow:0 4px 14px rgba(255,120,170,.14);
+  --radius:18px;
+  --sans: -apple-system, BlinkMacSystemFont, "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0; padding:0}
+body{
+  font-family:var(--sans); color:var(--ink);
+  background:
+    radial-gradient(circle at 12% 0%, #ffe7f2 0%, transparent 45%),
+    radial-gradient(circle at 88% 8%, #fff3d4 0%, transparent 42%),
+    linear-gradient(180deg,#fff8fc 0%, #fffdf8 55%, #fff4f9 100%);
+  background-attachment:fixed;
+  min-height:100vh; line-height:1.5; font-size:15px;
+  padding-bottom:calc(84px + env(safe-area-inset-bottom));
+}
+button,select,input,textarea{font-family:inherit; font-size:inherit; color:inherit}
+button{cursor:pointer}
+a{color:#2079c7}
+
+/* ---------- header ---------- */
+.app-header{
+  position:relative; overflow:hidden;
+  padding:calc(14px + env(safe-area-inset-top)) 16px 12px;
+  background:linear-gradient(135deg,#ff7ab6 0%,#ff9ecb 45%,#ffd98a 100%);
+  color:#fff; box-shadow:0 6px 22px rgba(255,110,160,.28);
+}
+.app-header::after{
+  content:""; position:absolute; inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.5) 1px, transparent 1px);
+  background-size:16px 16px; opacity:.35; pointer-events:none;
+}
+.app-header h1{
+  position:relative; margin:0; font-size:17px; font-weight:800; letter-spacing:.02em;
+  display:flex; align-items:center; gap:6px; text-shadow:0 1px 2px rgba(190,60,110,.28);
+}
+.app-header h1 .ribbon{font-size:20px}
+.app-header h1 .ttl{display:block; min-width:0}
+.app-header h1 .ttl em{display:block; font-style:normal; font-size:11.5px; font-weight:800; letter-spacing:.12em; opacity:.95; line-height:1.2}
+.app-header h1 .ttl strong{display:block; font-size:20px; font-weight:900; letter-spacing:.01em; line-height:1.25}
+.hdr-sub{position:relative; margin:4px 0 8px; font-size:11.5px; opacity:.95}
+.hdr-row{position:relative; display:flex; align-items:center; gap:10px}
+.hdr-bar{flex:1; height:9px; border-radius:99px; background:rgba(255,255,255,.42); overflow:hidden; box-shadow:inset 0 1px 3px rgba(150,40,90,.18)}
+.hdr-bar i{display:block; height:100%; width:0%; border-radius:99px; background:linear-gradient(90deg,#fff5c9,#ffffff); box-shadow:0 0 8px rgba(255,255,255,.8); transition:width .45s cubic-bezier(.2,.8,.3,1)}
+.hdr-count{font-size:12px; font-weight:800; white-space:nowrap; text-shadow:0 1px 2px rgba(190,60,110,.25)}
+
+/* ---------- tabs ---------- */
+.tabs{
+  position:sticky; top:0; z-index:40;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:6px;
+  padding:8px 10px; background:rgba(255,250,252,.92);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.tabs button{
+  border:1.5px solid transparent; background:#fff; border-radius:99px;
+  min-height:42px; font-weight:800; font-size:13px; color:var(--ink-2);
+  box-shadow:0 2px 8px rgba(255,140,180,.10); display:flex; align-items:center; justify-content:center; gap:4px;
+  transition:all .18s;
+}
+.tabs button[aria-selected="true"]{
+  background:linear-gradient(135deg,#ff5c9d,#ff8fbe 55%,#ffcf6e);
+  color:#fff; border-color:rgba(255,255,255,.6);
+  box-shadow:0 4px 14px rgba(255,90,150,.35);
+}
+.tabs button:active{transform:scale(.97)}
+
+main{padding:12px 12px 8px; max-width:980px; margin:0 auto}
+.view[hidden]{display:none!important}
+
+/* ---------- generic ---------- */
+.panel{
+  background:var(--card); border:1.5px solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:14px; margin-bottom:12px;
+}
+.panel h2{
+  margin:0 0 10px; font-size:13.5px; font-weight:800; color:var(--ink);
+  display:flex; align-items:center; gap:6px;
+}
+.panel h2 .ico{font-size:15px}
+.panel h2 .right{margin-left:auto; font-size:11.5px; font-weight:700; color:var(--ink-3)}
+.bar{height:10px; border-radius:99px; background:#ffeef6; overflow:hidden}
+.bar i{display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#ff7db5,#ffb3d1); transition:width .45s}
+.bar.gold i{background:linear-gradient(90deg,#f0b62f,#ffdf94)}
+.bar.cool i{background:linear-gradient(90deg,#4a8fe7,#9ec7ff)}
+.muted{color:var(--ink-2); font-size:12px}
+.tag{
+  display:inline-flex; align-items:center; gap:3px; padding:1px 7px; border-radius:99px;
+  font-size:10.5px; font-weight:800; border:1px solid transparent; white-space:nowrap;
+}
+.t-cute{background:#ffe6f0; color:#d6337a; border-color:#ffc4dc}
+.t-cool{background:#e6f0ff; color:#2a6fc4; border-color:#bcd9ff}
+.t-sexy{background:#f1e7ff; color:#7b45c0; border-color:#dcc7ff}
+.t-pop{background:#fff5d6; color:#9a7100; border-color:#ffe49a}
+.r-N{background:#f3f3f5; color:#6b6b74; border-color:#e2e2e8}
+.r-R{background:#e8f6ff; color:#2f7fa8; border-color:#c3e6f7}
+.r-PR{background:#f5e9ff; color:#8340b8; border-color:#e2c8f7}
+.r-ER{background:#fff0dd; color:#b06a10; border-color:#ffdcaa}
+.r-PR★{background:linear-gradient(90deg,#ffe1f2,#e8e1ff,#fff6cf,#e0f7ea); color:#8a3fa0; border-color:#f0cbe6}
+.r-ER★{background:linear-gradient(90deg,#fff3cf,#ffe1ec,#e6ecff); color:#a86a12; border-color:#f5d68f}
+.badge-series{background:#fff6fb; border:1px solid var(--line); color:var(--ink-2)}
+
+/* ---------- home ---------- */
+.hero{display:flex; gap:14px; align-items:center; background:linear-gradient(135deg,#fff 60%, #fff7e6 100%)}
+.ring{
+  --pct:0; flex:0 0 auto; width:118px; height:118px; border-radius:50%;
+  background:conic-gradient(from -90deg,#ff5c9d 0%, #ff8ec0 calc(var(--pct)*.55%), #ffd97a calc(var(--pct)*1%), #ffeaf3 0);
+  display:grid; place-items:center; position:relative;
+  box-shadow:0 6px 18px rgba(255,120,170,.22);
+}
+.ring::before{content:""; position:absolute; inset:11px; background:#fff; border-radius:50%; box-shadow:inset 0 2px 8px rgba(255,150,190,.18)}
+.ring .ring-in{position:relative; text-align:center}
+.ring .ring-pct{font-size:27px; font-weight:900; line-height:1; color:#e0468a; letter-spacing:-.02em}
+.ring .ring-pct span{font-size:13px}
+.ring .ring-lbl{font-size:10.5px; font-weight:800; color:var(--ink-2); margin-top:3px}
+.hero-body{min-width:0; flex:1}
+.hero-body .big{font-size:19px; font-weight:900}
+.hero-body .big b{color:#e0468a}
+.hero-sub{margin-top:6px; display:flex; flex-wrap:wrap; gap:5px}
+.switch{display:flex; align-items:center; gap:7px; margin-top:9px; font-size:11.5px; color:var(--ink-2); font-weight:700}
+.switch input{appearance:none; width:40px; height:23px; border-radius:99px; background:#ffdcea; position:relative; transition:.2s; flex:0 0 auto; border:none}
+.switch input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(180,60,110,.3); transition:.2s}
+.switch input:checked{background:linear-gradient(90deg,#ff7ab5,#ffc86b)}
+.switch input:checked::after{left:19.5px}
+
+.stat-list{display:grid; gap:9px}
+.stat-row{display:grid; grid-template-columns:1fr auto; gap:4px 8px; align-items:center; cursor:pointer; background:none; border:none; text-align:left; padding:2px 0; width:100%}
+.stat-row .nm{font-size:12.5px; font-weight:800}
+.stat-row .vv{font-size:11.5px; font-weight:800; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.stat-row .bar{grid-column:1/-1}
+.stat-row:active{opacity:.7}
+.grid2{display:grid; gap:12px}
+@media(min-width:720px){ .grid2{grid-template-columns:1fr 1fr} }
+.type-bars .bar i{background:currentColor}
+.mini-cards{display:flex; gap:8px; flex-wrap:wrap}
+.mini-card{
+  flex:1 1 110px; border:1.5px solid var(--line); border-radius:14px; padding:9px 10px; background:#fffafd;
+  text-align:left; min-height:44px;
+}
+.mini-card b{display:block; font-size:19px; line-height:1.1}
+.mini-card span{font-size:10.5px; color:var(--ink-2); font-weight:700}
+
+/* ---------- filters ---------- */
+.toolbar{position:sticky; top:58px; z-index:30; background:rgba(255,248,252,.96); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:8px 2px; margin:-12px -12px 10px; padding-left:14px; padding-right:14px}
+.search-wrap{position:relative; margin-bottom:8px}
+.search-wrap input{
+  width:100%; border:1.5px solid var(--line); border-radius:99px; padding:10px 14px 10px 38px;
+  background:#fff; outline:none; font-size:14px; box-shadow:0 2px 8px rgba(255,150,190,.08);
+}
+.search-wrap input:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
+.search-wrap .mag{position:absolute; left:13px; top:50%; transform:translateY(-50%); font-size:14px; color:var(--ink-3)}
+.search-wrap .clr{position:absolute; right:6px; top:50%; transform:translateY(-50%); border:none; background:#ffe9f2; color:#d14a86; width:26px; height:26px; border-radius:50%; font-weight:900; line-height:1; display:none}
+.search-wrap input:not(:placeholder-shown)+.clr{display:block}
+.chips{display:flex; gap:6px; overflow-x:auto; padding-bottom:2px; scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto; border:1.5px solid var(--line); background:#fff; color:var(--ink-2);
+  border-radius:99px; padding:7px 12px; font-size:12px; font-weight:800; min-height:36px;
+}
+.chip[aria-pressed="true"]{background:linear-gradient(135deg,#ff5c9d,#ff96c4); color:#fff; border-color:#ff87b8; box-shadow:0 3px 10px rgba(255,100,160,.28)}
+.selects{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; margin-top:8px}
+.selects[hidden]{display:none}
+.chip .fcount{display:inline-grid; place-items:center; min-width:16px; height:16px; margin-left:4px; border-radius:99px; background:#ff5c9d; color:#fff; font-size:10px; font-weight:900; padding:0 4px; vertical-align:1px}
+.chip .fcount:empty{display:none}
+.chip.active{border-color:#ffb8d5; color:#c2417c; background:#fff4f9}
+@media(min-width:560px){ .selects{grid-template-columns:repeat(4,minmax(0,1fr))} }
+.selects label{display:block; font-size:10px; font-weight:800; color:var(--ink-3); margin-bottom:2px}
+.selects select{
+  width:100%; border:1.5px solid var(--line); border-radius:11px; padding:8px 6px; background:#fff;
+  font-size:12px; font-weight:700; min-height:38px; appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,#d9a0b9 50%),linear-gradient(135deg,#d9a0b9 50%,transparent 50%);
+  background-position:calc(100% - 13px) 17px, calc(100% - 8px) 17px; background-size:5px 5px,5px 5px; background-repeat:no-repeat;
+}
+.result-line{display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--ink-2); font-weight:700; margin:2px 2px 8px}
+.result-line b{color:#d6337a}
+
+/* ---------- card grid ---------- */
+.card-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px}
+@media(min-width:480px){ .card-grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media(min-width:760px){ .card-grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media(min-width:980px){ .card-grid{grid-template-columns:repeat(5,minmax(0,1fr))} }
+.ccard{
+  position:relative; background:#fff; border:2px solid var(--line); border-radius:14px; overflow:hidden;
+  box-shadow:0 3px 10px rgba(255,140,180,.12); transition:transform .12s, box-shadow .2s, border-color .2s;
+}
+.ccard:active{transform:scale(.985)}
+.ccard .thumbwrap{position:relative; aspect-ratio:460/670; background:linear-gradient(135deg,#ffe9f3,#fff6df); cursor:pointer}
+.ccard .thumbwrap img{width:100%; height:100%; object-fit:cover; display:block}
+.ccard .thumbwrap.imgfail img{display:none}
+.ccard .thumbwrap.imgfail::after{content:attr(data-id); position:absolute; inset:0; display:grid; place-items:center; font-size:11px; font-weight:900; color:#c98aa8; padding:6px; text-align:center}
+.ccard .topbadges{position:absolute; top:5px; left:5px; display:flex; gap:3px; flex-wrap:wrap; max-width:calc(100% - 34px)}
+.ccard .topbadges .tag{backdrop-filter:blur(4px); box-shadow:0 1px 4px rgba(120,40,80,.15)}
+.ccard .typebar{position:absolute; left:0; top:0; bottom:0; width:4px}
+.ccard .cnt{
+  position:absolute; top:5px; right:5px; min-width:24px; height:24px; padding:0 6px; border-radius:99px;
+  background:rgba(255,255,255,.92); color:#c2417c; font-size:11.5px; font-weight:900; display:none; place-items:center;
+  box-shadow:0 1px 5px rgba(150,60,100,.25); border:1px solid #ffd0e3;
+}
+.ccard.owned .cnt{display:grid}
+.ccard.owned{border-color:#ffc44d; box-shadow:0 4px 14px rgba(240,170,40,.28)}
+.ccard .stamp{
+  position:absolute; right:6px; bottom:6px; width:30px; height:30px; border-radius:50%;
+  background:linear-gradient(135deg,#ffcf5c,#ff9f43); color:#fff; display:none; place-items:center;
+  font-size:16px; font-weight:900; box-shadow:0 2px 8px rgba(240,150,40,.45); border:2px solid #fff;
+}
+.ccard.owned .stamp{display:grid}
+.ccard .body{padding:7px 8px 8px}
+.ccard .nm{font-size:12px; font-weight:800; line-height:1.3; min-height:2.6em; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical}
+.ccard .meta{display:flex; align-items:center; gap:4px; margin-top:4px; font-size:10px; color:var(--ink-3); font-weight:800; font-variant-numeric:tabular-nums}
+.ccard .meta .cat{color:var(--ink-2)}
+.ccard .row2{display:flex; align-items:center; gap:4px; margin-top:6px}
+.stepper{display:flex; align-items:center; gap:0; border:1.5px solid var(--line); border-radius:99px; overflow:hidden; background:#fff8fb; flex:1}
+.stepper button{border:none; background:none; width:34px; min-height:32px; font-size:15px; font-weight:900; color:#c2417c; display:grid; place-items:center}
+.stepper button:disabled{color:#e6c6d5}
+.stepper .num{flex:1; text-align:center; font-size:12px; font-weight:900; font-variant-numeric:tabular-nums; color:var(--ink)}
+.stepper .num.zero{color:#bda3b0}
+.icobtn{
+  border:1.5px solid var(--line); background:#fff; border-radius:10px; width:34px; min-height:32px;
+  display:grid; place-items:center; font-size:14px; color:var(--ink-2); flex:0 0 auto;
+}
+.empty{text-align:center; padding:34px 12px; color:var(--ink-2); font-size:13px}
+.empty .big{font-size:34px; display:block; margin-bottom:8px}
+
+/* ---------- coords ---------- */
+.coord{border:1.5px solid var(--line); border-radius:16px; background:#fff; padding:11px 12px; margin-bottom:10px; box-shadow:var(--shadow)}
+.coord.done{border-color:#ffc44d; background:linear-gradient(135deg,#fffdf5,#fff8e8)}
+.coord-h{display:flex; align-items:flex-start; gap:8px}
+.coord-h .nm{font-size:13.5px; font-weight:900; line-height:1.25}
+.coord-h .tags{display:flex; gap:4px; flex-wrap:wrap; margin-top:4px}
+.coord-h .pt{margin-left:auto; text-align:right; flex:0 0 auto}
+.coord-h .pt b{font-size:16px; font-weight:900; color:#d6337a; font-variant-numeric:tabular-nums}
+.coord-h .pt span{font-size:10px; color:var(--ink-3); font-weight:800}
+.coord .bar{margin:7px 0 8px; height:7px}
+.pieces{list-style:none; margin:0; padding:0; display:grid; gap:5px}
+.pieces li{display:flex; align-items:center; gap:6px; border-radius:10px; padding:2px; background:#fffafd}
+.pieces li.miss{background:#fff6f9}
+.pieces li .slot{font-size:9.5px; font-weight:900; color:#fff; background:#c9a6b8; border-radius:6px; padding:2px 5px; flex:0 0 auto; min-width:52px; text-align:center}
+.pieces li .pnm{font-size:12px; font-weight:700; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.pieces li.own .pnm{color:var(--ink)}
+.pieces li.miss .pnm{color:#a5788c}
+.pieces li .tick{width:24px; min-height:24px; border-radius:50%; border:1.5px solid #e8cfdb; background:#fff; display:grid; place-items:center; font-size:12px; color:#c9a6b8; flex:0 0 auto}
+.pieces li.own .tick{background:linear-gradient(135deg,#ffcf5c,#ff9f43); border-color:#ffb43a; color:#fff}
+.pieces li .go{font-size:10px; font-weight:900; border:1px solid #bcd9ff; background:#eef6ff; color:#2a6fc4; border-radius:8px; padding:3px 6px; text-decoration:none; flex:0 0 auto}
+.coord .missline{margin-top:7px; font-size:10.5px; color:var(--ink-2); font-weight:700; line-height:1.45}
+
+/* ---------- data view ---------- */
+.btn{
+  border:none; border-radius:12px; min-height:44px; padding:0 14px; font-weight:900; font-size:13px;
+  background:linear-gradient(135deg,#ff5c9d,#ff96c4); color:#fff; box-shadow:0 4px 12px rgba(255,90,150,.28);
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+}
+.btn.ghost{background:#fff; color:#d14a86; border:1.5px solid var(--line); box-shadow:none}
+.btn.gold{background:linear-gradient(135deg,#f0b62f,#ffd97a); color:#6b4a00; box-shadow:0 4px 12px rgba(230,170,40,.28)}
+.btn.danger{background:#fff; color:#c0392b; border:1.5px solid #ffd2cc; box-shadow:none}
+.btn.sm{min-height:38px; font-size:12px; border-radius:10px; padding:0 11px}
+.btn:active{transform:scale(.98)}
+.btn-row{display:flex; gap:8px; flex-wrap:wrap}
+textarea{
+  width:100%; border:1.5px solid var(--line); border-radius:12px; padding:10px; min-height:86px;
+  background:#fff; font-size:11.5px; line-height:1.4; resize:vertical; outline:none;
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+textarea:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
+.filepick{display:block; border:1.5px dashed #ffc5db; border-radius:12px; padding:12px; text-align:center; font-size:11.5px; font-weight:800; color:#c2417c; background:#fffafd; margin-bottom:8px}
+.filepick input{display:none}
+.kv{display:grid; grid-template-columns:auto 1fr; gap:4px 10px; font-size:12px}
+.kv dt{color:var(--ink-2); font-weight:800}
+.kv dd{margin:0; font-weight:700; word-break:break-word}
+hr.sep{border:none; border-top:1px dashed var(--line); margin:12px 0}
+details.help summary{font-size:12.5px; font-weight:900; cursor:pointer; color:#c2417c}
+details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height:1.7}
+.srcs{list-style:none; padding:0; margin:0; font-size:11.5px; color:var(--ink-2)}
+.srcs li{margin-bottom:4px; word-break:break-all}
+
+/* ---------- modal ---------- */
+.modal{position:fixed; inset:0; z-index:100; display:grid; place-items:end center; background:rgba(70,30,50,.45); backdrop-filter:blur(3px); padding:0}
+@media(min-width:620px){ .modal{place-items:center; padding:20px} }
+.modal[hidden]{display:none}
+.sheet{
+  width:100%; max-width:560px; max-height:92vh; overflow:auto; background:#fff; border-radius:22px 22px 0 0;
+  box-shadow:0 -8px 40px rgba(120,40,80,.3); animation:up .22s ease-out;
+}
+@media(min-width:620px){ .sheet{border-radius:22px; max-height:88vh} }
+@keyframes up{from{transform:translateY(24px); opacity:.6} to{transform:none; opacity:1}}
+.sheet-h{position:sticky; top:0; z-index:2; display:flex; align-items:center; gap:8px; padding:10px 14px; background:linear-gradient(135deg,#ff7ab6,#ffb0d2 60%,#ffd98a); color:#fff}
+.sheet-h b{font-size:13px; font-weight:900}
+.sheet-h .x{margin-left:auto; border:none; background:rgba(255,255,255,.28); color:#fff; width:34px; height:34px; border-radius:50%; font-size:17px; font-weight:900}
+.sheet-b{padding:14px}
+.detail-top{display:flex; gap:12px}
+.detail-img{flex:0 0 150px; position:relative; border-radius:12px; overflow:hidden; background:linear-gradient(135deg,#ffe9f3,#fff6df); aspect-ratio:460/670}
+.detail-img img{width:100%; height:100%; object-fit:cover; display:block}
+.detail-img.imgfail img{display:none}
+.detail-img .flip{position:absolute; bottom:6px; right:6px; border:none; border-radius:99px; background:rgba(255,255,255,.9); padding:5px 9px; font-size:10px; font-weight:900; color:#c2417c; box-shadow:0 1px 6px rgba(120,40,80,.2)}
+.detail-info{flex:1; min-width:0}
+.detail-info h3{margin:0 0 4px; font-size:15px; font-weight:900; line-height:1.3}
+.detail-info .id{font-size:11.5px; font-weight:800; color:var(--ink-3); font-variant-numeric:tabular-nums}
+.detail-info .tags{display:flex; gap:4px; flex-wrap:wrap; margin-top:6px}
+.detail-kv{display:grid; grid-template-columns:auto 1fr; gap:5px 10px; margin-top:10px; font-size:12px}
+.detail-kv dt{color:var(--ink-2); font-weight:800; white-space:nowrap}
+.detail-kv dd{margin:0; font-weight:700}
+.own-box{display:flex; align-items:center; gap:9px; margin-top:12px; padding:10px; border-radius:14px; background:#fff8fb; border:1.5px solid var(--line)}
+.own-box .stepper{flex:1}
+.own-box .cntbig{font-size:12px; font-weight:900; color:#d6337a}
+.links{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; margin-top:4px}
+.links a{
+  display:flex; align-items:center; justify-content:center; gap:5px; text-decoration:none;
+  border:1.5px solid var(--line); border-radius:11px; min-height:42px; font-size:12px; font-weight:900; color:var(--ink);
+  background:#fff; box-shadow:0 2px 6px rgba(255,150,190,.1);
+}
+.links a.mercari{background:#fff0f4; border-color:#ffc9d9; color:#d6337a}
+.links a.yahoo{background:#fff6ea; border-color:#ffdda8; color:#b56a00}
+.links a.suruga{background:#eef4ff; border-color:#c6d9ff; color:#2a5fb4}
+.sec-title{font-size:11.5px; font-weight:900; color:var(--ink-2); margin:16px 0 7px; display:flex; align-items:center; gap:5px}
+.sec-title::before{content:""; width:4px; height:13px; border-radius:2px; background:linear-gradient(#ff7ab5,#ffd36e)}
+.note-box{border:1.5px solid var(--line); border-radius:12px; background:#fffafd; padding:9px 10px; font-size:12px; line-height:1.6}
+.coord-mini{display:flex; gap:5px; flex-wrap:wrap}
+.coord-mini button{border:1.5px solid var(--line); background:#fff; border-radius:9px; padding:6px 8px; font-size:11px; font-weight:800; color:var(--ink-2)}
+
+/* ---------- toast ---------- */
+.toast{
+  position:fixed; left:50%; bottom:calc(18px + env(safe-area-inset-bottom)); transform:translateX(-50%) translateY(20px);
+  background:rgba(59,43,52,.94); color:#fff; padding:10px 16px; border-radius:99px; font-size:12.5px; font-weight:800;
+  opacity:0; pointer-events:none; transition:.25s; z-index:200; max-width:90vw; text-align:center;
+}
+.toast.show{opacity:1; transform:translateX(-50%)}
+footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14px 16px 22px; line-height:1.7}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <h1><span class="ribbon">🎀</span><span class="ttl"><em>アイカツ！アンコール</em><strong>所持率チェッカー</strong></span></h1>
+  <p class="hdr-sub" id="hdrSub"></p>
+  <div class="hdr-row">
+    <div class="hdr-bar"><i id="hdrBar"></i></div>
+    <div class="hdr-count" id="hdrCount">0 / 0 枚</div>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="画面切り替え">
+  <button role="tab" aria-selected="true" data-view="home">🏠 ホーム</button>
+  <button role="tab" aria-selected="false" data-view="cards">🃏 カード</button>
+  <button role="tab" aria-selected="false" data-view="coords">👗 コーデ</button>
+  <button role="tab" aria-selected="false" data-view="data">💾 データ</button>
+</nav>
+
+<main>
+  <!-- ================= HOME ================= -->
+  <section class="view" id="view-home">
+    <div class="panel hero">
+      <div class="ring" id="ring">
+        <div class="ring-in">
+          <div class="ring-pct" id="ringPct">0<span>%</span></div>
+          <div class="ring-lbl">ぜんぶの所持率</div>
+        </div>
+      </div>
+      <div class="hero-body">
+        <div class="big">所持 <b id="homeOwned">0</b> / <span id="homeTotal">0</span> 枚</div>
+        <div class="hero-sub" id="homeSub"></div>
+        <label class="switch"><input type="checkbox" id="parToggle" checked> パラレルも数える</label>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h2><span class="ico">📚</span>弾・区分べつの所持率</h2>
+        <div class="stat-list" id="homeGroups"></div>
+      </div>
+      <div class="panel">
+        <h2><span class="ico">💎</span>レアリティべつ</h2>
+        <div class="stat-list" id="homeRarity"></div>
+      </div>
+    </div>
+
+    <div class="panel type-bars">
+      <h2><span class="ico">🌈</span>タイプべつ<span class="right">片寄りチェック</span></h2>
+      <div class="stat-list" id="homeTypes"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h2><span class="ico">👗</span>コーデの揃い具合</h2>
+        <div class="mini-cards" id="homeCoords"></div>
+        <div style="margin-top:10px"><button class="btn ghost sm" data-go="coords">コーデを見にいく →</button></div>
+      </div>
+      <div class="panel">
+        <h2><span class="ico">🔍</span>きょうの目標</h2>
+        <div id="homeTodo"></div>
+        <div class="btn-row" style="margin-top:10px">
+          <button class="btn sm" id="goUnowned">未所持をさがす</button>
+          <button class="btn ghost sm" data-go="data">データを共有</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">🧩</span>部位べつ</h2>
+      <div class="stat-list" id="homeCats"></div>
+    </div>
+  </section>
+
+  <!-- ================= CARDS ================= -->
+  <section class="view" id="view-cards" hidden>
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="mag">🔍</span>
+        <input type="search" id="q" placeholder="カード名・番号・コーデ・ブランドで検索" autocomplete="off">
+        <button class="clr" id="qClear" aria-label="検索をクリア">×</button>
+      </div>
+      <div class="chips" id="statusChips">
+        <button class="chip" data-status="all" aria-pressed="true">すべて</button>
+        <button class="chip" data-status="none" aria-pressed="false">未所持</button>
+        <button class="chip" data-status="own" aria-pressed="false">所持</button>
+        <button class="chip" data-status="dup" aria-pressed="false">重複あり</button>
+        <button class="chip" id="filterToggle" aria-expanded="false">⚙ 絞り込み<span class="fcount" id="filterCount"></span></button>
+      </div>
+      <div class="selects" id="advFilters" hidden>
+        <div><label for="fSeries">弾・区分</label><select id="fSeries"></select></div>
+        <div><label for="fRarity">レアリティ</label><select id="fRarity"></select></div>
+        <div><label for="fType">タイプ</label><select id="fType"></select></div>
+        <div><label for="fCat">部位</label><select id="fCat"></select></div>
+        <div><label for="fBrand">ブランド</label><select id="fBrand"></select></div>
+        <div><label for="fHow">入手方法</label><select id="fHow"></select></div>
+        <div><label for="fGen">コーデ</label><select id="fGen"></select></div>
+        <div><label for="fSort">ならびかえ</label><select id="fSort">
+          <option value="no">カード番号順</option>
+          <option value="none">未所持が先</option>
+          <option value="owncnt">持っている枚数が多い順</option>
+          <option value="name">名前順</option>
+        </select></div>
+        <div style="grid-column:1/-1; display:flex; gap:6px; justify-content:flex-end">
+          <button class="btn ghost sm" id="clearFilters" style="min-height:34px">絞り込みをクリア</button>
+          <button class="btn sm" id="closeFilters" style="min-height:34px">閉じる</button>
+        </div>
+      </div>
+    </div>
+    <div class="result-line" id="resultLine"></div>
+    <div class="card-grid" id="cardGrid"></div>
+    <div class="empty" id="cardEmpty" hidden><span class="big">🔎</span>条件に合うカードがないよ。<br>絞り込みをゆるめてみてね。</div>
+  </section>
+
+  <!-- ================= COORDS ================= -->
+  <section class="view" id="view-coords" hidden>
+    <div class="panel">
+      <h2><span class="ico">👗</span>コーデの揃い具合<span class="right" id="coordSummary"></span></h2>
+      <div class="chips" id="coordChips">
+        <button class="chip" data-cfilter="all" aria-pressed="true">すべて</button>
+        <button class="chip" data-cfilter="incomplete" aria-pressed="false">あと少しで揃う</button>
+        <button class="chip" data-cfilter="missing" aria-pressed="false">未所持あり</button>
+        <button class="chip" data-cfilter="done" aria-pressed="false">コンプ済み</button>
+      </div>
+      <div class="muted" style="margin-top:8px">同じコーデのトップス・ボトムス・シューズ・アクセを1組で見られます。ピースをタップすると所持に切りかえ。</div>
+    </div>
+    <div id="coordList"></div>
+  </section>
+
+  <!-- ================= DATA ================= -->
+  <section class="view" id="view-data" hidden>
+    <div class="panel">
+      <h2><span class="ico">💾</span>保存とバックアップ</h2>
+      <dl class="kv">
+        <dt>保存先</dt><dd>この端末のブラウザ（localStorage）に自動保存<br><span class="muted">※ファイルを直接開く環境などで保存できないときは、こまめに書き出してください</span></dd>
+        <dt>最終保存</dt><dd id="lastSaved">まだ保存されていません</dd>
+        <dt>所持</dt><dd id="saveSummary">0 / 0 枚</dd>
+      </dl>
+      <hr class="sep">
+      <div class="btn-row">
+        <button class="btn sm" id="exportFile">📄 JSONファイルに書き出し</button>
+        <button class="btn ghost sm" id="copyJson">📋 JSONをコピー</button>
+        <button class="btn gold sm" id="copyCode">🔗 共有コードをコピー</button>
+      </div>
+      <p class="muted" style="margin:8px 0 0">ファイルか共有コードを送れば、詩織さんたちと所持データをやりとりできます。共有コードは所持枚数だけの短い文字列（例: AEC1…）です。</p>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">📥</span>読み込み（別の端末・お友だちのデータ）</h2>
+      <label class="filepick">📁 ファイルを選ぶ<input type="file" id="importFile" accept=".json,application/json,text/plain"></label>
+      <textarea id="importText" placeholder="ここにJSONまたは共有コード（AEC1…）を貼り付け"></textarea>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn sm" id="importBtn">このデータを読み込む</button>
+        <button class="btn ghost sm" id="importClear">クリア</button>
+      </div>
+      <p class="muted" style="margin:8px 0 0">読み込むと今の所持データは置きかわります（カードの追加データは残ります）。</p>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">➕</span>カードを追加（第2弾・新プロモ）</h2>
+      <p class="muted" style="margin:0 0 8px">カードオブジェクトの配列（<code>[{ "id":"E2-01_N", "series":"第2弾", … }]</code>）を貼り付けると、この端末だけに取り込めます。弾・レアリティ・タイプ・コーデの絞り込みや集計は自動で増えます。</p>
+      <textarea id="extraText" placeholder='[{"id":"E2-01_N","series":"第2弾","name":"カード名","rarity":"N","type":"キュート","category":"トップス","brand":"Angely Sugar","coord":"あたらしいコーデ","ap":500,"how_to_get":"第2弾収録","is_parallel":false}]'></textarea>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn sm" id="addCardsBtn">カードを取り込む</button>
+        <button class="btn ghost sm" id="resetExtra">追加カードを消す</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">⚠️</span>リセット</h2>
+      <p class="muted" style="margin:0 0 8px">この端末の所持データをすべて0に戻します。書き出しをしてからにすると安心です。</p>
+      <button class="btn danger sm" id="resetAll">すべての所持データを消す</button>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">📖</span>収録データ</h2>
+      <dl class="kv">
+        <dt>バージョン</dt><dd id="metaVer"></dd>
+        <dt>収録</dt><dd id="metaCounts"></dd>
+        <dt>コーデ</dt><dd id="metaCoords"></dd>
+      </dl>
+      <hr class="sep">
+      <p class="muted" style="margin:0 0 6px">出典（2026-11-18 時点）</p>
+      <ul class="srcs">
+        <li>公式サイト カードリスト … 第1弾 85枚／プロモーションカード 33枚</li>
+        <li><a href="https://dcd.aikatsu.com/encore/cardlist/" target="_blank" rel="noopener">dcd.aikatsu.com/encore/cardlist/</a></li>
+        <li>カード研究所（非公式）… カード名・レアリティ・部位・タイプ・ブランド・AP・コーデ</li>
+        <li><a href="https://card-search.com/aikatsu-encore/cards" target="_blank" rel="noopener">card-search.com/aikatsu-encore/cards</a></li>
+        <li>入手方法は公式カードリストの文言に準拠（配布・プロモ一覧）</li>
+        <li><a href="https://card-search.com/aikatsu-encore/promos" target="_blank" rel="noopener">card-search.com/aikatsu-encore/promos</a></li>
+      </ul>
+      <hr class="sep">
+      <details class="help">
+        <summary>つかいかた</summary>
+        <div>
+          1. 「カード」タブで、持っているカードをタップすると所持になります。もう一度タップで未所持。＋/−で枚数も数えられます。<br>
+          2. カード画像や名前をタップで詳細。入手方法と「相場・最安をさがす」リンクが出ます。<br>
+          3. 「コーデ」タブで、同じコーデの4部位がどこまで揃っているかを見られます。<br>
+          4. データは自動保存。「データ」タブから書き出し・共有コード・読み込みができます。<br>
+          5. 第2弾が出たら、カードの配列を足すだけでタブや集計が自動で増えます。
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer class="foot">
+    非公式のファン用ツールです。カード画像の著作権はバンダイ・各権利者にあります（©BNP/BANDAI）。<br>
+    価格・在庫は各ショップのページでご確認ください。
+  </footer>
+</main>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="sheet-h">
+      <b id="modalTitle">カードの詳細</b>
+      <button class="x" id="modalClose" aria-label="閉じる">×</button>
+    </div>
+    <div class="sheet-b" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   アイカツ！アンコール 所持率チェッカー
+   データ: MASTER_CARDS / MASTER_META（HTML内に埋め込み）
+   ============================================================ */
+const MASTER_CARDS = [{"id":"E1-01_PR","series":"第1弾","name":"オーロラキスキャミソール","rarity":"PR","type":"キュート","category":"トップス","brand":"Angely Sugar","coord":"オーロラキスコーデ","ap":1100,"appeal":"スピニングレボリューション","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-01_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-01_PR_b.webp","note":"袖のフリルがまるで天から舞い降りた天使★ ふんわりスカートと合わせてみてね！"},{"id":"E1-01_PR_p1","series":"第1弾","name":"オーロラキスキャミソール","rarity":"PR★","type":"キュート","category":"トップス","brand":"Angely Sugar","coord":"オーロラキスコーデ","ap":1100,"appeal":"スピニングレボリューション","idol":"星宮いちご","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-01_PR_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-01_PR_p1_b.webp","note":"袖のフリルがまるで天から舞い降りた天使★ ふんわりスカートと合わせてみてね！"},{"id":"E1-02_PR","series":"第1弾","name":"オーロラキスドレープスカート","rarity":"PR","type":"キュート","category":"ボトムス","brand":"Angely Sugar","coord":"オーロラキスコーデ","ap":1000,"appeal":"エモーショナルショット","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-02_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-02_PR_b.webp","note":"何枚も広がるレースのスカート。着るだけで天使のようなキュートスタイルに変身できちゃう！"},{"id":"E1-02_PR_p1","series":"第1弾","name":"オーロラキスドレープスカート","rarity":"PR★","type":"キュート","category":"ボトムス","brand":"Angely Sugar","coord":"オーロラキスコーデ","ap":1000,"appeal":"エモーショナルショット","idol":"星宮いちご","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-02_PR_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-02_PR_p1_b.webp","note":"何枚も広がるレースのスカート。着るだけで天使のようなキュートスタイルに変身できちゃう！"},{"id":"E1-03_PR","series":"第1弾","name":"オーロラキスバレエシューズ","rarity":"PR","type":"キュート","category":"シューズ","brand":"Angely Sugar","coord":"オーロラキスコーデ","ap":950,"appeal":"ステップイルミネーション","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-03_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-03_PR_b.webp","note":"ピンクのリボンの編み上げは足長効果ばつぐんだよ！ ミニスカートと合わせてね★"},{"id":"E1-03_PR_p1","series":"第1弾","name":"オーロラキスバレエシューズ","rarity":"PR★","type":"キュート","category":"シューズ","brand":"Angely Sugar","coord":"オーロラキスコーデ","ap":950,"appeal":"ステップイルミネーション","idol":"星宮いちご","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-03_PR_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-03_PR_p1_b.webp","note":"ピンクのリボンの編み上げは足長効果ばつぐんだよ！ ミニスカートと合わせてね★"},{"id":"E1-04_PR","series":"第1弾","name":"オーロラキスリボン","rarity":"PR","type":"キュート","category":"アクセサリー","brand":"Angely Sugar","coord":"オーロラキスコーデ","ap":600,"appeal":"","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-04_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-04_PR_b.webp","note":"ピンクのリボンと大きな羽でキュートなエンジェルコーデになれちゃう！"},{"id":"E1-04_PR_p1","series":"第1弾","name":"オーロラキスリボン","rarity":"PR★","type":"キュート","category":"アクセサリー","brand":"Angely Sugar","coord":"オーロラキスコーデ","ap":600,"appeal":"","idol":"星宮いちご","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-04_PR_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-04_PR_p1_b.webp","note":"ピンクのリボンと大きな羽でキュートなエンジェルコーデになれちゃう！"},{"id":"E1-05_R","series":"第1弾","name":"アイスブルーフリルキャミソール","rarity":"R","type":"キュート","category":"トップス","brand":"Angely Sugar","coord":"アイスブルーフリルコーデ","ap":600,"appeal":"リズミカルトップス","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-05_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-05_R_b.webp","note":"1枚でキュートになれちゃうレースやリボン盛りだくさんなトップスだよ！"},{"id":"E1-06_R","series":"第1弾","name":"アイスブルーフリルパニエ","rarity":"R","type":"キュート","category":"ボトムス","brand":"Angely Sugar","coord":"アイスブルーフリルコーデ","ap":750,"appeal":"ボトムススパイラル","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-06_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-06_R_b.webp","note":"女の子全開のパニエ風スカートはアイスブルーで上品に！ ピンクのリボンがポイント！"},{"id":"E1-07_R","series":"第1弾","name":"アイスブルーシューズ","rarity":"R","type":"キュート","category":"シューズ","brand":"Angely Sugar","coord":"アイスブルーフリルコーデ","ap":750,"appeal":"ダンシングシューズ","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-07_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-07_R_b.webp","note":"折り返しのフリルが女の子らしさを引き出してくれる！ 足元のリボンがアクセント★"},{"id":"E1-08_R","series":"第1弾","name":"ジュエルつきパープルリボン","rarity":"R","type":"キュート","category":"アクセサリー","brand":"ノーブランド","coord":"アイスブルーフリルコーデ","ap":450,"appeal":"","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-08_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-08_R_b.webp","note":"ラベンダーとジュエルの組み合わせが上品なリボン★"},{"id":"E1-09_R","series":"第1弾","name":"小花柄イエローワンピ","rarity":"R","type":"キュート","category":"トップス＆ボトムス","brand":"Angely Sugar","coord":"小花柄ワンピコーデ","ap":1450,"appeal":"リズミカルトップス＆ボトムススパイラル","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-09_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-09_R_b.webp","note":"優しくキュートな柄は女の子らしさを演出できる1枚！ 着ると元気になれるワンピース☆"},{"id":"E1-10_R","series":"第1弾","name":"ドリーミースタートップス","rarity":"R","type":"キュート","category":"トップス","brand":"Dreamy Crown","coord":"ドリーミースターコーデ","ap":750,"appeal":"リズミカルトップス","idol":"大空あかり","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-10_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-10_R_b.webp","note":"甘いモチーフがたっぷり☆ドリーミークラウンらしいネイビー×ピンクがキュート♥"},{"id":"E1-11_R","series":"第1弾","name":"ドリーミースタースカート","rarity":"R","type":"キュート","category":"ボトムス","brand":"Dreamy Crown","coord":"ドリーミースターコーデ","ap":650,"appeal":"ボトムススパイラル","idol":"大空あかり","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-11_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-11_R_b.webp","note":"純白レースの3段ティアードがドリーミーなスカート♥ 腰周りのパールがキラリ☆"},{"id":"E1-12_R","series":"第1弾","name":"ドリーミースターパンプス","rarity":"R","type":"キュート","category":"シューズ","brand":"Dreamy Crown","coord":"ドリーミースターコーデ","ap":700,"appeal":"ダンシングシューズ","idol":"大空あかり","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-12_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-12_R_b.webp","note":"ゴールドの差し色がお上品なエナメルパンプス。足首のリボンが超キュート♥"},{"id":"E1-13_R","series":"第1弾","name":"チャーミーリボントップス","rarity":"R","type":"キュート","category":"トップス","brand":"Maple Ribbon","coord":"チャーミーリボンコーデ","ap":650,"appeal":"リズミカルトップス","idol":"姫石らき","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-13_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-13_R_b.webp","note":"ピンク×ホワイトがスイートなトップス★2本の編み上げリボンがポイント♪"},{"id":"E1-14_R","series":"第1弾","name":"チャーミーリボンスカート","rarity":"R","type":"キュート","category":"ボトムス","brand":"Maple Ribbon","coord":"チャーミーリボンコーデ","ap":700,"appeal":"ボトムススパイラル","idol":"姫石らき","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-14_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-14_R_b.webp","note":"ふんわりピンクにドットとレースを合わせた女子力高めのスカートだよ☆"},{"id":"E1-15_R","series":"第1弾","name":"チャーミーリボンサンダル","rarity":"R","type":"キュート","category":"シューズ","brand":"Maple Ribbon","coord":"チャーミーリボンコーデ","ap":750,"appeal":"ダンシングシューズ","idol":"姫石らき","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-15_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-15_R_b.webp","note":"足首のピンクリボンがかわいいサンダル★白のフリルソックスと合わせたよ♪"},{"id":"E1-16_R","series":"第1弾","name":"チャーミーリボンアクセ","rarity":"R","type":"キュート","category":"アクセサリー","brand":"Maple Ribbon","coord":"チャーミーリボンコーデ","ap":450,"appeal":"","idol":"姫石らき","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-16_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-16_R_b.webp","note":"女の子らしい色づかいの3連ハートアクセ！ ラブリーなイヤリングつき♥"},{"id":"E1-17_R","series":"第1弾","name":"クリアネスイエロートップス","rarity":"R","type":"キュート","category":"トップス","brand":"Angely Sugar","coord":"クリアネスイエローコーデ","ap":700,"appeal":"リズミカルトップス","idol":"音城ノエル","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-17_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-17_R_b.webp","note":"大きめのえりがキュートなトップス！ グリーン×水色の色合いがさわやか★"},{"id":"E1-18_R","series":"第1弾","name":"クリアネスイエロースカート","rarity":"R","type":"キュート","category":"ボトムス","brand":"Angely Sugar","coord":"クリアネスイエローコーデ","ap":750,"appeal":"ボトムススパイラル","idol":"音城ノエル","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-18_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-18_R_b.webp","note":"腰についたリボンがポイント★黄色のフリルがかわいいスカートだよ♪"},{"id":"E1-19_R","series":"第1弾","name":"クリアネスイエローパンプス","rarity":"R","type":"キュート","category":"シューズ","brand":"Angely Sugar","coord":"クリアネスイエローコーデ","ap":650,"appeal":"ダンシングシューズ","idol":"音城ノエル","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-19_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-19_R_b.webp","note":"あざやかグリーンのパンプス♥太めのヒールがとってもガーリー☆"},{"id":"E1-20_R","series":"第1弾","name":"クリアネスイエローアクセ","rarity":"R","type":"キュート","category":"アクセサリー","brand":"Angely Sugar","coord":"クリアネスイエローコーデ","ap":450,"appeal":"","idol":"音城ノエル","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-20_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-20_R_b.webp","note":"水色のリボンにハートをあしらったヘアアクセ。カラフルビーズがステキ♪"},{"id":"E1-21_N","series":"第1弾","name":"ピンクステージベスト","rarity":"N","type":"キュート","category":"トップス","brand":"ノーブランド","coord":"ピンクステージコーデ","ap":500,"appeal":"トップスウェーブ","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-21_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-21_N_b.webp","note":"フロントリボンがポイントのベストだよ。カラフルチェックは、あこがれの「スターライト学園」のあかし！"},{"id":"E1-22_N","series":"第1弾","name":"ピンクステージスカート","rarity":"N","type":"キュート","category":"ボトムス","brand":"ノーブランド","coord":"ピンクステージコーデ","ap":400,"appeal":"ボトムスチャーム","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-22_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-22_N_b.webp","note":"「スターライト学園」オリジナルデザインのピンクチェック！ボリュームのあるミニ丈が今流！"},{"id":"E1-23_N","series":"第1弾","name":"ピンクステージシューズ","rarity":"N","type":"キュート","category":"シューズ","brand":"ノーブランド","coord":"ピンクステージコーデ","ap":350,"appeal":"ホッピングシューズ","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-23_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-23_N_b.webp","note":"大きなリボンがポイントのピンクシューズ。同じピンクカラーで全身キメたいね！"},{"id":"E1-24_N","series":"第1弾","name":"パフスリーブレモンカラーボレロ","rarity":"N","type":"キュート","category":"トップス","brand":"ノーブランド","coord":"レモンカラーボレロコーデ","ap":450,"appeal":"トップスウェーブ","idol":"姫乃みえる","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-24_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-24_N_b.webp","note":"腕を細く見せてくれるボレロは薄手のインナーのはおりに大活躍！"},{"id":"E1-25_N","series":"第1弾","name":"ラベンダーフリルスカート","rarity":"N","type":"キュート","category":"ボトムス","brand":"ノーブランド","coord":"レモンカラーボレロコーデ","ap":450,"appeal":"ボトムスチャーム","idol":"ハナ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-25_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-25_N_b.webp","note":"やさしいラベンダーカラーのスカート。大きめのフリルが裾に広がりを出してくれるよ！"},{"id":"E1-26_N","series":"第1弾","name":"イエロー編み上げブーツ","rarity":"N","type":"キュート","category":"シューズ","brand":"ノーブランド","coord":"レモンカラーボレロコーデ","ap":350,"appeal":"ホッピングシューズ","idol":"姫石らき","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-26_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-26_N_b.webp","note":"キュートな編み上げブーツはミニスカートと相性バツグン。"},{"id":"E1-27_N","series":"第1弾","name":"ピンクブロッサムトップス","rarity":"N","type":"キュート","category":"トップス","brand":"ノーブランド","coord":"ピンクブロッサムコーデ","ap":500,"appeal":"トップスウェーブ","idol":"姫乃みえる","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-27_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-27_N_b.webp","note":"「アイカツアカデミー」のスクールドレス！クリーム色とネイビーがポイント♪"},{"id":"E1-28_N","series":"第1弾","name":"ピンクブロッサムスカート","rarity":"N","type":"キュート","category":"ボトムス","brand":"ノーブランド","coord":"ピンクブロッサムコーデ","ap":400,"appeal":"ボトムスチャーム","idol":"姫乃みえる","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-28_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-28_N_b.webp","note":"「アイカツアカデミー」オリジナルデザインのチェック柄！ハートのチャームに注目！"},{"id":"E1-29_N","series":"第1弾","name":"ピンクブロッサムブーツ","rarity":"N","type":"キュート","category":"シューズ","brand":"ノーブランド","coord":"ピンクブロッサムコーデ","ap":350,"appeal":"ホッピングシューズ","idol":"姫乃みえる","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-29_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-29_N_b.webp","note":"ビジュー付きのリボンがポイントのショートブーツ♪足元からキュートに決めよう！"},{"id":"E1-30_ER","series":"第1弾","name":"オデットスワン","rarity":"ER","type":"キュート","category":"フルコーデ","brand":"Dreamy Crown","coord":"オデットスワンコーデ","ap":3650,"appeal":"","idol":"大空あかり","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-30_ER.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-30_ER_b.webp","note":"まるで「白鳥の湖」のプリマのようにたくさんの羽をまとったドレス！深紅のリボンがポイントだよ！"},{"id":"E1-30_ER_p1","series":"第1弾","name":"オデットスワン","rarity":"ER★","type":"キュート","category":"フルコーデ","brand":"Dreamy Crown","coord":"オデットスワンコーデ","ap":3650,"appeal":"","idol":"大空あかり","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-30_ER_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-30_ER_p1_b.webp","note":"まるで「白鳥の湖」のプリマのようにたくさんの羽をまとったドレス！深紅のリボンがポイントだよ！"},{"id":"E1-31_ER","series":"第1弾","name":"リルリボンストーリー","rarity":"ER","type":"キュート","category":"フルコーデ","brand":"Maple Ribbon","coord":"リルリボンストーリーコーデ","ap":3650,"appeal":"","idol":"姫石らき","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-31_ER.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-31_ER_b.webp","note":"パープルのギンガムチェックと赤いリボンがキュート♪レースとリボンがいっぱいのガーリーコーデ♡"},{"id":"E1-31_ER_p1","series":"第1弾","name":"リルリボンストーリー","rarity":"ER★","type":"キュート","category":"フルコーデ","brand":"Maple Ribbon","coord":"リルリボンストーリーコーデ","ap":3650,"appeal":"","idol":"姫石らき","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-31_ER_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-31_ER_p1_b.webp","note":"パープルのギンガムチェックと赤いリボンがキュート♪レースとリボンがいっぱいのガーリーコーデ♡"},{"id":"E1-32_ER","series":"第1弾","name":"オーロラペガサス","rarity":"ER","type":"キュート","category":"フルコーデ","brand":"ノーブランド","coord":"オーロラペガサスコーデ","ap":3650,"appeal":"","idol":"ハナ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-32_ER.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-32_ER_b.webp","note":"オーロラ色に輝くバレエスタイルのフレアドレス！ペガサスの羽が神秘的！"},{"id":"E1-32_ER_p1","series":"第1弾","name":"オーロラペガサス","rarity":"ER★","type":"キュート","category":"フルコーデ","brand":"ノーブランド","coord":"オーロラペガサスコーデ","ap":3650,"appeal":"","idol":"ハナ","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-32_ER_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-32_ER_p1_b.webp","note":"オーロラ色に輝くバレエスタイルのフレアドレス！ペガサスの羽が神秘的！"},{"id":"E1-33_PR","series":"第1弾","name":"天の川コズミックワンショルダー","rarity":"PR","type":"クール","category":"トップス","brand":"FUTURING GIRL","coord":"天の川コズミックコーデ","ap":1100,"appeal":"スピニングレボリューション","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-33_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-33_PR_b.webp","note":"流れていくようなキレイなフレア袖は踊るたびにキラキラ揺れてみんなトリコに！"},{"id":"E1-33_PR_p1","series":"第1弾","name":"天の川コズミックワンショルダー","rarity":"PR★","type":"クール","category":"トップス","brand":"FUTURING GIRL","coord":"天の川コズミックコーデ","ap":1100,"appeal":"スピニングレボリューション","idol":"霧矢あおい","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-33_PR_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-33_PR_p1_b.webp","note":"流れていくようなキレイなフレア袖は踊るたびにキラキラ揺れてみんなトリコに！"},{"id":"E1-34_PR","series":"第1弾","name":"天の川コズミックスカート","rarity":"PR","type":"クール","category":"ボトムス","brand":"FUTURING GIRL","coord":"天の川コズミックコーデ","ap":950,"appeal":"エモーショナルショット","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-34_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-34_PR_b.webp","note":"星空柄のアシンメトリースカートは歩くたびにキラキラ揺れて天の川のよう！"},{"id":"E1-34_PR_p1","series":"第1弾","name":"天の川コズミックスカート","rarity":"PR★","type":"クール","category":"ボトムス","brand":"FUTURING GIRL","coord":"天の川コズミックコーデ","ap":950,"appeal":"エモーショナルショット","idol":"霧矢あおい","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-34_PR_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-34_PR_p1_b.webp","note":"星空柄のアシンメトリースカートは歩くたびにキラキラ揺れて天の川のよう！"},{"id":"E1-35_PR","series":"第1弾","name":"天の川コズミックブーツ","rarity":"PR","type":"クール","category":"シューズ","brand":"FUTURING GIRL","coord":"天の川コズミックコーデ","ap":1000,"appeal":"ステップイルミネーション","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-35_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-35_PR_b.webp","note":"かっちりブーツはあえてふわっとシルエットのコーデに合わせて引き締めアイテムにしてね！"},{"id":"E1-35_PR_p1","series":"第1弾","name":"天の川コズミックブーツ","rarity":"PR★","type":"クール","category":"シューズ","brand":"FUTURING GIRL","coord":"天の川コズミックコーデ","ap":1000,"appeal":"ステップイルミネーション","idol":"霧矢あおい","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-35_PR_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-35_PR_p1_b.webp","note":"かっちりブーツはあえてふわっとシルエットのコーデに合わせて引き締めアイテムにしてね！"},{"id":"E1-36_PR","series":"第1弾","name":"天の川コズミックカチューシャ","rarity":"PR","type":"クール","category":"アクセサリー","brand":"FUTURING GIRL","coord":"天の川コズミックコーデ","ap":600,"appeal":"","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-36_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-36_PR_b.webp","note":"近未来的なクールなカチューシャでコーデをまとめちゃおう！"},{"id":"E1-36_PR_p1","series":"第1弾","name":"天の川コズミックカチューシャ","rarity":"PR★","type":"クール","category":"アクセサリー","brand":"FUTURING GIRL","coord":"天の川コズミックコーデ","ap":600,"appeal":"","idol":"霧矢あおい","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-36_PR_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-36_PR_p1_b.webp","note":"近未来的なクールなカチューシャでコーデをまとめちゃおう！"},{"id":"E1-37_R","series":"第1弾","name":"プリズムサイバーグラフィックワンピ","rarity":"R","type":"クール","category":"トップス＆ボトムス","brand":"FUTURING GIRL","coord":"プリズムサイバーワンピコーデ","ap":1450,"appeal":"リズミカルトップス＆ボトムススパイラル","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-37_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-37_R_b.webp","note":"虹色の柄がポイントのワンピ。メタリックの質感とサイバーなデザインであなたもフューチャリングガールに変身！"},{"id":"E1-38_R","series":"第1弾","name":"ブラックモダンボレロ","rarity":"R","type":"クール","category":"トップス","brand":"FUTURING GIRL","coord":"ブラックフューチャーコーデ","ap":700,"appeal":"リズミカルトップス","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-38_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-38_R_b.webp","note":"エッジのきいた格子柄のボレロは、はおるだけで一気に最先端のコーデが出来ちゃう★"},{"id":"E1-39_R","series":"第1弾","name":"ブラックフューチャーエナメルショートパンツ","rarity":"R","type":"クール","category":"ボトムス","brand":"FUTURING GIRL","coord":"ブラックフューチャーコーデ","ap":750,"appeal":"ボトムススパイラル","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-39_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-39_R_b.webp","note":"シンプルだけどインパクト大なエナメルのショーパン。クールなブラックコーデに挑戦して！"},{"id":"E1-40_R","series":"第1弾","name":"ブラックフューチャーブーツ","rarity":"R","type":"クール","category":"シューズ","brand":"FUTURING GIRL","coord":"ブラックフューチャーコーデ","ap":650,"appeal":"ダンシングシューズ","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-40_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-40_R_b.webp","note":"光沢感のあるエナメルブーツはコーデを一気に大人っぽくしてくれるアイテムだよ！！"},{"id":"E1-41_N","series":"第1弾","name":"ブルーステージブラウス","rarity":"N","type":"クール","category":"トップス","brand":"ノーブランド","coord":"ブルーステージコーデ","ap":400,"appeal":"トップスウェーブ","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-41_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-41_N_b.webp","note":"「スターライト学園」のセーラーカラーのブラウスはさわやかな印象になれる！これであなたもアイドルに！？"},{"id":"E1-42_N","series":"第1弾","name":"ブルーステージスカート","rarity":"N","type":"クール","category":"ボトムス","brand":"ノーブランド","coord":"ブルーステージコーデ","ap":500,"appeal":"ボトムスチャーム","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-42_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-42_N_b.webp","note":"「スターライト学園」オリジナルのブルーチェックスカート！フリフリで可愛いね♪"},{"id":"E1-43_N","series":"第1弾","name":"ブルーステージブーツ","rarity":"N","type":"クール","category":"シューズ","brand":"ノーブランド","coord":"ブルーステージコーデ","ap":350,"appeal":"ホッピングシューズ","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-43_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-43_N_b.webp","note":"さわやかなホワイトブーツは好感度大の合わせやすいアイテム★クールにダンスしよう！"},{"id":"E1-44_N","series":"第1弾","name":"ブラックストライプジャケット","rarity":"N","type":"クール","category":"トップス","brand":"ノーブランド","coord":"ダイヤモンドチェックコーデ","ap":400,"appeal":"トップスウェーブ","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-44_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-44_N_b.webp","note":"定番のストライプジャケットはなんにでも合う万能アイテムだよ！ネクタイをしめてクールに。"},{"id":"E1-45_N","series":"第1弾","name":"ダイヤモンドチェックスカート","rarity":"N","type":"クール","category":"ボトムス","brand":"ノーブランド","coord":"ダイヤモンドチェックコーデ","ap":450,"appeal":"ボトムスチャーム","idol":"真未夢メエ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-45_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-45_N_b.webp","note":"ダイヤ型のチェックにチャームがキラキラ光るよ。クールに着こなそう！"},{"id":"E1-46_N","series":"第1弾","name":"ブルーストラップシューズ","rarity":"N","type":"クール","category":"シューズ","brand":"ノーブランド","coord":"ダイヤモンドチェックコーデ","ap":400,"appeal":"ホッピングシューズ","idol":"音城ノエル","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-46_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-46_N_b.webp","note":"ブラックのニーハイソックスは脚長効果大★3連のストラップはポイントに！"},{"id":"E1-47_N","series":"第1弾","name":"ネイビーブロッサムトップス","rarity":"N","type":"クール","category":"トップス","brand":"ノーブランド","coord":"ネイビーブロッサムコーデ","ap":400,"appeal":"トップスウェーブ","idol":"真未夢メエ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-47_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-47_N_b.webp","note":"「アイカツアカデミー」のスクールドレス！エンジ色とネイビーでクールにキメ★"},{"id":"E1-48_N","series":"第1弾","name":"ネイビーブロッサムスカート","rarity":"N","type":"クール","category":"ボトムス","brand":"ノーブランド","coord":"ネイビーブロッサムコーデ","ap":500,"appeal":"ボトムスチャーム","idol":"真未夢メエ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-48_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-48_N_b.webp","note":"「アイカツアカデミー」オリジナルデザインのチェック柄！ダイヤのチャームに注目！"},{"id":"E1-49_N","series":"第1弾","name":"ネイビーブロッサムブーツ","rarity":"N","type":"クール","category":"シューズ","brand":"ノーブランド","coord":"ネイビーブロッサムコーデ","ap":350,"appeal":"ホッピングシューズ","idol":"真未夢メエ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-49_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-49_N_b.webp","note":"キラッキラなシルバーのショートブーツに、ネイビーの差し色でクールさをひとさじ♪"},{"id":"E1-50_ER","series":"第1弾","name":"ドリームエミネンス","rarity":"ER","type":"クール","category":"フルコーデ","brand":"ノーブランド","coord":"ドリームエミネンスコーデ","ap":3650,"appeal":"スピニングレボリューション＆エモーショナルショット","idol":"音城ノエル","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-50_ER.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-50_ER_b.webp","note":"赤のチェックとリボンがかわいいお嬢様コーデ♪お揃いのミニハットで上品に着こなして！"},{"id":"E1-50_ER_p1","series":"第1弾","name":"ドリームエミネンス","rarity":"ER★","type":"クール","category":"フルコーデ","brand":"ノーブランド","coord":"ドリームエミネンスコーデ","ap":3650,"appeal":"スピニングレボリューション＆エモーショナルショット","idol":"音城ノエル","how_to_get":"第1弾収録（パラレル）","how_note":"","is_parallel":true,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-50_ER_p1.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-50_ER_p1_b.webp","note":"赤のチェックとリボンがかわいいお嬢様コーデ♪お揃いのミニハットで上品に着こなして！"},{"id":"E1-51_PR","series":"第1弾","name":"レジェンダリールージュドレス","rarity":"PR","type":"セクシー","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"レジェンダリールージュコーデ","ap":2000,"appeal":"スピニングレボリューション＆エモーショナルショット","idol":"橋本環奈","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-51_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-51_PR_b.webp","note":"ルージュのような赤が美しいオフショルダードレス！リボンとパールがポイント★"},{"id":"E1-52_PR","series":"第1弾","name":"レジェンダリールージュパンプス","rarity":"PR","type":"セクシー","category":"シューズ","brand":"ノーブランド","coord":"レジェンダリールージュコーデ","ap":1050,"appeal":"ステップイルミネーション","idol":"橋本環奈","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-52_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-52_PR_b.webp","note":"宝石が輝くリボンパンプスでレッドカーペットを歩こう！みんなの視線を独り占め♡"},{"id":"E1-53_R","series":"第1弾","name":"アゲハレッドコクーンワンピ","rarity":"R","type":"セクシー","category":"トップス＆ボトムス","brand":"SPICY AGEHA","coord":"アゲハレッドコーデ","ap":1450,"appeal":"リズミカルトップス＆ボトムスパイラル","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-53_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-53_R_b.webp","note":"コクーンワンピはスタイルがよく見えるよ！鮮やかカラーでドレッシーにコーデして。"},{"id":"E1-54_R","series":"第1弾","name":"アゲハレッドミュール","rarity":"R","type":"セクシー","category":"シューズ","brand":"SPICY AGEHA","coord":"アゲハレッドコーデ","ap":650,"appeal":"ダンシングシューズ","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-54_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-54_R_b.webp","note":"キラキラのゴールドチェーンがゴージャス！ミニスカートにぴったりのミュール。"},{"id":"E1-55_R","series":"第1弾","name":"パープルジュエリーワンピ","rarity":"R","type":"セクシー","category":"トップス＆ボトムス","brand":"SPICY AGEHA","coord":"パープルジュエリーワンピコーデ","ap":1450,"appeal":"リズミカルトップス＆ボトムスパイラル","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-55_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-55_R_b.webp","note":"ラグジュアリーなワンピは1枚でさらっと着こなして。ロングスカーフが特徴的だね！"},{"id":"E1-56_R","series":"第1弾","name":"ゴールドチェーングラディエーター","rarity":"R","type":"セクシー","category":"シューズ","brand":"SPICY AGEHA","coord":"パープルジュエリーワンピコーデ","ap":650,"appeal":"ダンシングシューズ","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-56_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-56_R_b.webp","note":"ゴールドは大人のカラーでコーデを一気にセクシーにしてくれるよ。"},{"id":"E1-57_R","series":"第1弾","name":"アゲハロゴフリルトップス","rarity":"R","type":"セクシー","category":"トップス","brand":"SPICY AGEHA","coord":"アゲハロゴフリルコーデ","ap":700,"appeal":"リズミカルトップス","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-57_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-57_R_b.webp","note":"紫と黒のセクシーな色合いのトップス。セクシーアゲハのロゴ柄が So Good！"},{"id":"E1-58_R","series":"第1弾","name":"アゲハファーつきスカート","rarity":"R","type":"セクシー","category":"ボトムス","brand":"SPICY AGEHA","coord":"アゲハロゴフリルコーデ","ap":750,"appeal":"ボトムスパイラル","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-58_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-58_R_b.webp","note":"人気のティアードのミニスカート★ファーのチャームがコーデのポイントになってかわいい！"},{"id":"E1-59_R","series":"第1弾","name":"ブラックシフォンカチューシャ","rarity":"R","type":"セクシー","category":"アクセサリー","brand":"ノーブランド","coord":"アゲハロゴフリルコーデ","ap":450,"appeal":"","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-59_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-59_R_b.webp","note":"何に合わせてもドレッシーに仕上げてくれるカチューシャ★"},{"id":"E1-60_N","series":"第1弾","name":"パープルステージトップス","rarity":"N","type":"セクシー","category":"トップス","brand":"ノーブランド","coord":"パープルステージコーデ","ap":500,"appeal":"トップスウェーブ","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-60_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-60_N_b.webp","note":"オフショルダーとへそだしスタイルが大人セクシーな「スターライト学園」ステージ衣装！"},{"id":"E1-61_N","series":"第1弾","name":"パープルステージスカート","rarity":"N","type":"セクシー","category":"ボトムス","brand":"ノーブランド","coord":"パープルステージコーデ","ap":350,"appeal":"ボトムスチャーム","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-61_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-61_N_b.webp","note":"ふんわりフレア×大人パープルで小悪魔力UP！みんなをとりこにできるスカートだよ！"},{"id":"E1-62_N","series":"第1弾","name":"パープルステージニーハイパンプス","rarity":"N","type":"セクシー","category":"シューズ","brand":"ノーブランド","coord":"パープルステージコーデ","ap":400,"appeal":"ホッピングシューズ","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-62_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-62_N_b.webp","note":"ミニスカートにぴったりなニーハイパンプス！ピンクローズが可愛さを演出しているよ！"},{"id":"E1-63_N","series":"第1弾","name":"プッチがらシャイニングトップス","rarity":"N","type":"セクシー","category":"トップス","brand":"ノーブランド","coord":"プッチがらシャイニングコーデ","ap":450,"appeal":"トップスウェーブ","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-63_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-63_N_b.webp","note":"憧れのプッチがらトップス！Vに開いた胸元と袖のフレアがポイント。"},{"id":"E1-64_N","series":"第1弾","name":"ブラックウォッシュデニムミニ","rarity":"N","type":"セクシー","category":"ボトムス","brand":"ノーブランド","coord":"プッチがらシャイニングコーデ","ap":450,"appeal":"ボトムスチャーム","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-64_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-64_N_b.webp","note":"定番のデニムミニは必ず持っておきたい1着。クラッシュ加工がオシャレだね！"},{"id":"E1-65_N","series":"第1弾","name":"セクシーロゴチューブトップ","rarity":"N","type":"セクシー","category":"トップス","brand":"ノーブランド","coord":"セクシーロゴコーデ","ap":400,"appeal":"トップスウェーブ","idol":"凛堂たいむ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-65_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-65_N_b.webp","note":"大胆な肌見せのベアトップ！ひょうがら×ブラックでよりセクシーになるよ！"},{"id":"E1-66_N","series":"第1弾","name":"ベルトつきレザースカート","rarity":"N","type":"セクシー","category":"ボトムス","brand":"ノーブランド","coord":"セクシーロゴコーデ","ap":450,"appeal":"ボトムスチャーム","idol":"凛堂たいむ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-66_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-66_N_b.webp","note":"セクシーコーデにかかせない、レザースカート。ベージュはどんなトップスにもあう定番色。"},{"id":"E1-67_N","series":"第1弾","name":"サイハイレザーブーツ","rarity":"N","type":"セクシー","category":"シューズ","brand":"ノーブランド","coord":"プッチがらシャイニングコーデ","ap":400,"appeal":"ホッピングシューズ","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-67_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-67_N_b.webp","note":"ニーハイより長いサイハイは足長効果大！ミニボトムと相性抜群。"},{"id":"E1-68_N","series":"第1弾","name":"パープルブロッサムトップス","rarity":"N","type":"セクシー","category":"トップス","brand":"ノーブランド","coord":"パープルブロッサムコーデ","ap":500,"appeal":"トップスウェーブ","idol":"凛堂たいむ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-68_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-68_N_b.webp","note":"「アイカツアカデミー！」のスクールドレス！ブラック×パープルが大人かわいい！"},{"id":"E1-69_N","series":"第1弾","name":"パープルブロッサムスカート","rarity":"N","type":"セクシー","category":"ボトムス","brand":"ノーブランド","coord":"パープルブロッサムコーデ","ap":350,"appeal":"ボトムスチャーム","idol":"凛堂たいむ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-69_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-69_N_b.webp","note":"「アイカツアカデミー」オリジナルデザインのチェック柄！スペードのチャームに注目！"},{"id":"E1-70_N","series":"第1弾","name":"パープルブロッサムブーツ","rarity":"N","type":"セクシー","category":"シューズ","brand":"ノーブランド","coord":"パープルブロッサムコーデ","ap":400,"appeal":"ホッピングシューズ","idol":"凛堂たいむ","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-70_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-70_N_b.webp","note":"動きやすさ抜群なショートブーツでダンス！踊るたびにビジューがきらめくよ★"},{"id":"E1-71_PR","series":"第1弾","name":"サンシャインスターウェイトップス","rarity":"PR","type":"ポップ","category":"トップス","brand":"ノーブランド","coord":"サンシャインスターウェイコーデ","ap":1000,"appeal":"スピニングレボリューション","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-71_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-71_PR_b.webp","note":"おひさまの輝きをまとったキラキラトップス！ロンググローブでおしゃれに合わせて♪"},{"id":"E1-72_PR","series":"第1弾","name":"サンシャインスターウェイスカート","rarity":"PR","type":"ポップ","category":"ボトムス","brand":"ノーブランド","coord":"サンシャインスターウェイコーデ","ap":1100,"appeal":"エモーショナルショット","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-72_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-72_PR_b.webp","note":"雲の飾りとおひさまのチャームがポイントのボリューミーなピンキッシュカラースカート♡"},{"id":"E1-73_PR","series":"第1弾","name":"サンシャインスターウェイシューズ","rarity":"PR","type":"ポップ","category":"シューズ","brand":"ノーブランド","coord":"サンシャインスターウェイコーデ","ap":950,"appeal":"ステップイルミネーション","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-73_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-73_PR_b.webp","note":"太陽の下で輝くキラキラな宝石がちりばめられているよ！軽やかにスキップしよう♪"},{"id":"E1-74_PR","series":"第1弾","name":"サンシャインスターウェイカチューシャ","rarity":"PR","type":"ポップ","category":"アクセサリー","brand":"ノーブランド","coord":"サンシャインスターウェイコーデ","ap":600,"appeal":"","idol":"星宮いちご","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-74_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-74_PR_b.webp","note":"雲のようにふわふわなイヤリングとティアラカチューシャでチャーミングにきめよう！"},{"id":"E1-75_PR","series":"第1弾","name":"サンライズスターウェイトップス","rarity":"PR","type":"ポップ","category":"トップス","brand":"ノーブランド","coord":"サンライズスターウェイコーデ","ap":1100,"appeal":"スピニングレボリューション","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-75_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-75_PR_b.webp","note":"青空に輝く太陽のようなオレンジのトップス！ブルーのフリルと宝石がアクセント♪"},{"id":"E1-76_PR","series":"第1弾","name":"サンライズスターウェイスカート","rarity":"PR","type":"ポップ","category":"ボトムス","brand":"ノーブランド","coord":"サンライズスターウェイコーデ","ap":950,"appeal":"エモーショナルショット","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-76_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-76_PR_b.webp","note":"朝のおひさまみたいにまぶしいキラキラなスカート♡後ろのリボンもボリューミー！"},{"id":"E1-77_PR","series":"第1弾","name":"サンライズスターウェイシューズ","rarity":"PR","type":"ポップ","category":"シューズ","brand":"ノーブランド","coord":"サンライズスターウェイコーデ","ap":1000,"appeal":"ステップイルミネーション","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-77_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-77_PR_b.webp","note":"宝石がきらめくシューズで軽やかに踊ろう♪陽の光をあびてキラキラ輝くよ！"},{"id":"E1-78_PR","series":"第1弾","name":"サンライズスターウェイカチューシャ","rarity":"PR","type":"ポップ","category":"アクセサリー","brand":"ノーブランド","coord":"サンライズスターウェイコーデ","ap":600,"appeal":"","idol":"霧矢あおい","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-78_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-78_PR_b.webp","note":"まるで青空に流れる雲のようなふわふわカチューシャ♡イヤリングもお揃いでキメ★"},{"id":"E1-79_PR","series":"第1弾","name":"サンセットスターウェイトップス","rarity":"PR","type":"ポップ","category":"トップス","brand":"ノーブランド","coord":"サンセットスターウェイコーデ","ap":950,"appeal":"スピニングレボリューション","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-79_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-79_PR_b.webp","note":"夕焼けの太陽のように赤いワンショルダートップス！ヘルシーに着こなして★"},{"id":"E1-80_PR","series":"第1弾","name":"サンセットスターウェイスカート","rarity":"PR","type":"ポップ","category":"ボトムス","brand":"ノーブランド","coord":"サンセットスターウェイコーデ","ap":1000,"appeal":"エモーショナルショット","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-80_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-80_PR_b.webp","note":"紫のフリルがまるで夕暮れの空のよう！ふわっと広がるスカートでダンスしよう♪"},{"id":"E1-81_PR","series":"第1弾","name":"サンセットスターウェイシューズ","rarity":"PR","type":"ポップ","category":"シューズ","brand":"ノーブランド","coord":"サンセットスターウェイコーデ","ap":1100,"appeal":"ステップイルミネーション","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-81_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-81_PR_b.webp","note":"宝石が輝くゴージャスなシューズ♪動きに合わせてカラフルにきらめく！"},{"id":"E1-82_PR","series":"第1弾","name":"サンセットスターウェイカチューシャ","rarity":"PR","type":"ポップ","category":"アクセサリー","brand":"ノーブランド","coord":"サンセットスターウェイコーデ","ap":600,"appeal":"","idol":"紫吹蘭","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-82_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-82_PR_b.webp","note":"紫の宝石がアクセントのふわふわカチューシャ♪太陽の輝きをまとってね♡"},{"id":"E1-83_N","series":"第1弾","name":"イエローブロッサムトップス","rarity":"N","type":"ポップ","category":"トップス","brand":"ノーブランド","coord":"イエローブロッサムコーデ","ap":400,"appeal":"トップスウェーブ","idol":"和央パリン","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-83_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-83_N_b.webp","note":"「アイカツアカデミー」のスクールドレス！ビタミンカラーで元気をもらえちゃう！"},{"id":"E1-84_N","series":"第1弾","name":"イエローブロッサムスカート","rarity":"N","type":"ポップ","category":"ボトムス","brand":"ノーブランド","coord":"イエローブロッサムコーデ","ap":350,"appeal":"ボトムスチャーム","idol":"和央パリン","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-84_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-84_N_b.webp","note":"「アイカツアカデミー」オリジナルデザインのチェック柄！クラブのチャームに注目！"},{"id":"E1-85_N","series":"第1弾","name":"イエローブロッサムブーツ","rarity":"N","type":"ポップ","category":"シューズ","brand":"ノーブランド","coord":"イエローブロッサムコーデ","ap":500,"appeal":"ホッピングシューズ","idol":"和央パリン","how_to_get":"第1弾収録","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-85_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/E1-85_N_b.webp","note":"ぱりぱりっとはじけるビタミンカラーのシューズで元気いっぱいはじけちゃおう★"},{"id":"EP-001_N","series":"プロモ","name":"ピンクステージベスト＆スカート","rarity":"N","type":"キュート","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"ピンクステージコーデ","ap":900,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"星宮いちご","how_to_get":"アイカツ！はじめようプレゼントキャンペーン","how_note":"店頭配布・2026/10/16（第2弾）〜／1人1枚・なくなり次第終了","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-001_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-001_N_b.webp","note":"リボンがポイントのベストと「スターライト学園」オリジナルデザインのピンクチェックスカート♡"},{"id":"EP-002_PR","series":"プロモ","name":"レジェンダリールージュティアラ","rarity":"PR","type":"セクシー","category":"アクセサリー","brand":"ノーブランド","coord":"レジェンダリールージュコーデ","ap":600,"appeal":"","idol":"橋本環奈","how_to_get":"アイカツ！はじめようプレゼントキャンペーン","how_note":"店頭配布・2026/10/8（第1弾）〜／1人1枚・なくなり次第終了","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-002_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-002_PR_b.webp","note":"宝石がたくさんちりばめられたゴージャスなティアラ！ドレスと合わせてコーデして♡"},{"id":"EP-003_N","series":"プロモ","name":"エメラルドコクーンワンピ","rarity":"N","type":"セクシー","category":"トップス＆ボトムス","brand":"SPICY AGEHA","coord":"エメラルドコクーンコーデ","ap":900,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"紫吹蘭","how_to_get":"アイカツ！スタイル購入特典配布","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-003_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-003_N_b.webp","note":"鮮やかなエメラルドが目をひくコクーンの形のドレスはバタフライモチーフが素敵♥"},{"id":"EP-004_N","series":"プロモ","name":"エメラルドアゲハミュール","rarity":"N","type":"セクシー","category":"シューズ","brand":"SPICY AGEHA","coord":"エメラルドコクーンコーデ","ap":350,"appeal":"ホッピングシューズ","idol":"紫吹蘭","how_to_get":"アイカツ！スタイル購入特典配布","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-004_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-004_N_b.webp","note":"編み上げのニーハイソックスがセットになったアゲハモチーフがポイントのミュールだよ。"},{"id":"EP-005_N","series":"プロモ","name":"ピンクシフォンカチューシャ","rarity":"N","type":"セクシー","category":"アクセサリー","brand":"ノーブランド","coord":"エメラルドコクーンコーデ","ap":350,"appeal":"","idol":"紫吹蘭","how_to_get":"アイカツ！スタイル購入特典配布","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-005_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-005_N_b.webp","note":"レースやパール、女の子みんなの大好きがつまったキラキラ宝石カチューシャだよ。"},{"id":"EP-006_N","series":"プロモ","name":"ピンクリボンつきフリルシャツ","rarity":"N","type":"キュート","category":"トップス","brand":"ノーブランド","coord":"ピンクリボンフリルコーデ","ap":400,"appeal":"トップスウェーブ","idol":"星宮いちご","how_to_get":"パフュームハンド アイカツ！","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-006_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-006_N_b.webp","note":"フリルいっぱいの白トップスは、キュートの定番アイテム！どんなボトムスにもぴったり！"},{"id":"EP-007_N","series":"プロモ","name":"ピンクアーガイルカーデ","rarity":"N","type":"キュート","category":"トップス","brand":"Angely Sugar","coord":"ピンクアーガイルコーデ","ap":400,"appeal":"トップスウェーブ","idol":"星宮いちご","how_to_get":"アイカツフォン アンコール","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-007_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-007_N_b.webp","note":"明るいピンクがポイントのアーガイルニットだよ！プレッピー風に決めて優等生に見えるかな♪"},{"id":"EP-008_N","series":"プロモ","name":"ピンクプリーツスカート","rarity":"N","type":"キュート","category":"ボトムス","brand":"Angely Sugar","coord":"ピンクアーガイルコーデ","ap":500,"appeal":"ボトムスチャーム","idol":"霧矢あおい","how_to_get":"アイカツフォン アンコール","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-008_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-008_N_b.webp","note":"使いまわしのきく、ピンクのプリーツスカート！トップスによって色々なコーデができるよ！"},{"id":"EP-009_N","series":"プロモ","name":"ガーリーローファー","rarity":"N","type":"キュート","category":"シューズ","brand":"Angely Sugar","coord":"ピンクアーガイルコーデ","ap":350,"appeal":"ホッピングシューズ","idol":"紫吹蘭","how_to_get":"アイカツフォン アンコール","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-009_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-009_N_b.webp","note":"学生の定番のローファーだよ。ピンクのステッチとリボンでかわいらしさも忘れないよ♥"},{"id":"EP-010_N","series":"プロモ","name":"ピンクリボンカチューシャ","rarity":"N","type":"キュート","category":"アクセサリー","brand":"ノーブランド","coord":"ピンクアーガイルコーデ","ap":350,"appeal":"","idol":"星宮いちご","how_to_get":"アイカツフォンキャリー","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-010_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-010_N_b.webp","note":"ピンクのリボンがキュートなカチューシャだよ。ハートのピアスもかわいいね！"},{"id":"EP-011_N","series":"プロモ","name":"スターライト学園ピンクジャージ","rarity":"N","type":"キュート","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"スターライト学園ピンクジャージコーデ","ap":850,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"星宮いちご","how_to_get":"アイカツ！おうえんスターライト キュートタイプver.","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-011_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-011_N_b.webp","note":"アイドルはレッスンのときもオシャレに★「スターライト学園」オリジナルのジャージ。"},{"id":"EP-012_N","series":"プロモ","name":"スターライト学園ブルージャージ","rarity":"N","type":"クール","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"スターライト学園ブルージャージコーデ","ap":850,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"霧矢あおい","how_to_get":"アイカツ！おうえんスターライト クールタイプver.","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-012_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-012_N_b.webp","note":"「スターライト学園」オリジナルブルージャージでクールにダンスレッスンしちゃお☆"},{"id":"EP-013_N","series":"プロモ","name":"スターライト学園パープルジャージ","rarity":"N","type":"セクシー","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"スターライト学園パープルジャージコーデ","ap":850,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"紫吹蘭","how_to_get":"アイカツ！おうえんスターライト セクシータイプver.","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-013_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-013_N_b.webp","note":"パープルの配色がセクシーな「スターライト学園」オリジナルジャージ。"},{"id":"EP-014_N","series":"プロモ","name":"スターライト学園オレンジジャージ","rarity":"N","type":"ポップ","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"スターライト学園オレンジジャージコーデ","ap":850,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"星宮いちご","how_to_get":"アイカツ！おうえんスターライト ポップタイプver.","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-014_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-014_N_b.webp","note":"「スターライト学園」オリジナルのオレンジジャージで元気にレッスンしちゃお★"},{"id":"EP-015_N","series":"プロモ","name":"スターライト学園スニーカー","rarity":"N","type":"キュート","category":"シューズ","brand":"ノーブランド","coord":"スターライト学園ピンクジャージコーデ","ap":400,"appeal":"ホッピングシューズ","idol":"星宮いちご","how_to_get":"アイカツ！おうえんスターライト（キュート／クール／セクシー／ポップタイプver.）","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-015_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-015_N_b.webp","note":"星のマークが可愛い学園スニーカーはとても動きやすいレッスン必須アイテム！"},{"id":"EP-016_N","series":"プロモ","name":"ブラックダイヤモンドジュエリーワンピ","rarity":"N","type":"セクシー","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"ブラックダイヤモンドコーデ","ap":850,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"紫吹蘭","how_to_get":"アイカツ！オフィシャルストア購入特典","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-016_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-016_N_b.webp","note":"ドレープのシルエットがとってもセクシーなワンピースだよ★ブラック×赤で大人っぽい！"},{"id":"EP-017_N","series":"プロモ","name":"ピンクの小花柄ワンピ","rarity":"N","type":"キュート","category":"トップス＆ボトムス","brand":"Angely Sugar","coord":"ピンク小花柄ワンピコーデ","ap":900,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"星宮いちご","how_to_get":"アイカツ！オフィシャルストア購入特典","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-017_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-017_N_b.webp","note":"可愛さ満点の小花柄ワンピ！両手のオシャレなブレスレットで気分をアゲル！"},{"id":"EP-018_N","series":"プロモ","name":"編み上げラベンダーブーツ","rarity":"N","type":"キュート","category":"シューズ","brand":"Angely Sugar","coord":"ピンク小花柄ワンピコーデ","ap":350,"appeal":"ホッピングシューズ","idol":"霧矢あおい","how_to_get":"アイカツ！オフィシャルストア購入特典","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-018_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-018_N_b.webp","note":"ラベンダー色がポイントの定番ホワイトブーツ！歌って踊りたくなるようなキレイ色ブーツ！"},{"id":"EP-019_N","series":"プロモ","name":"エンジェリーベアフリルトップス","rarity":"N","type":"キュート","category":"トップス","brand":"Angely Sugar","coord":"エンジェリーベアコーデ","ap":400,"appeal":"トップスウェーブ","idol":"星宮いちご","how_to_get":"しまむら「アイカツスターズ！」「アイカツ！」グッズ","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-019_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-019_N_b.webp","note":"お目立ち度100%のエンジェリーベアプリントとフリルたっぷりな超キュートトップス♪"},{"id":"EP-020_N","series":"プロモ","name":"エンジェリーベアパステルスカート","rarity":"N","type":"キュート","category":"ボトムス","brand":"Angely Sugar","coord":"エンジェリーベアコーデ","ap":450,"appeal":"ボトムスチャーム","idol":"霧矢あおい","how_to_get":"しまむら「アイカツスターズ！」「アイカツ！」グッズ","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-020_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-020_N_b.webp","note":"パステルカラーチェックのプリーツスカート、膝でゆれるエンジェリーベアがラブリー♥"},{"id":"EP-021_N","series":"プロモ","name":"エンジェリーベアスニーカー","rarity":"N","type":"キュート","category":"シューズ","brand":"Angely Sugar","coord":"エンジェリーベアコーデ","ap":400,"appeal":"ホッピングシューズ","idol":"紫吹蘭","how_to_get":"しまむら「アイカツスターズ！」「アイカツ！」グッズ","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-021_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-021_N_b.webp","note":"キュートなベアモチーフがついた、元気ピンクのハイカットスニーカー★"},{"id":"EP-022_N","series":"プロモ","name":"エンジェリーベアリボン","rarity":"N","type":"キュート","category":"アクセサリー","brand":"Angely Sugar","coord":"エンジェリーベアコーデ","ap":350,"appeal":"","idol":"星宮いちご","how_to_get":"しまむら「アイカツスターズ！」「アイカツ！」グッズ","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-022_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-022_N_b.webp","note":"水玉ブルー＆ピンクリボンにベビーピンクのベアをのせたキュートすぎるアイテム！"},{"id":"EP-029_R","series":"プロモ","name":"スターライト学園制服","rarity":"R","type":"キュート","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"スターライト学園制服コーデ","ap":1450,"appeal":"リズミカルトップス＆ボトムスバイラル","idol":"星宮いちご","how_to_get":"アイカツ！はじめようプレゼントキャンペーン","how_note":"店頭配布・2026/10/30（第3弾）〜／1人1枚・なくなり次第終了","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-029_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-029_R_b.webp","note":"カットのかわいい袖口が特徴のブレザー！「スターライト学園」オリジナルの制服だよ★"},{"id":"EP-030_R","series":"プロモ","name":"スターライト学園ブーツ","rarity":"R","type":"キュート","category":"シューズ","brand":"ノーブランド","coord":"スターライト学園制服コーデ","ap":650,"appeal":"ダンシングシューズ","idol":"霧矢あおい","how_to_get":"アイカツ！はじめようプレゼントキャンペーン","how_note":"店頭配布・2026/11/13（第4弾）〜／1人1枚・なくなり次第終了","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-030_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-030_R_b.webp","note":"「スターライト学園」オリジナルのホワイトブーツ！フロントのリボンで爽やかさに可愛さもプラス♥"},{"id":"EP-031_R","series":"プロモ","name":"ガーリーデビルトップス","rarity":"R","type":"キュート","category":"トップス","brand":"Angely Sugar","coord":"ガーリーデビルコーデ","ap":800,"appeal":"リズミカルトップス","idol":"星宮いちご","how_to_get":"データカードダス アイカツ！アンコール アイカツ！キャンペーン","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-031_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-031_R_b.webp","note":"小悪魔風ギザギザカットにレースとリボンをプラス。かわいさ満点のトップスだよ♥"},{"id":"EP-032_R","series":"プロモ","name":"ガーリーデビルスカート","rarity":"R","type":"キュート","category":"ボトムス","brand":"Angely Sugar","coord":"ガーリーデビルコーデ","ap":650,"appeal":"ボトムスバイラル","idol":"紫吹蘭","how_to_get":"データカードダス アイカツ！アンコール アイカツ！キャンペーン","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-032_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-032_R_b.webp","note":"コウモリモチーフのスカートから小悪魔のしっぽがチラリ。みんなにいたずらしちゃお♥"},{"id":"EP-033_R","series":"プロモ","name":"ガーリーデビルパンプス","rarity":"R","type":"キュート","category":"シューズ","brand":"Angely Sugar","coord":"ガーリーデビルコーデ","ap":650,"appeal":"ダンシングシューズ","idol":"大空あかり","how_to_get":"データカードダス アイカツ！アンコール アイカツ！キャンペーン","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-033_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-033_R_b.webp","note":"カワイイ小悪魔ピンクのパンプス。しっぽもようのソックスが存在感大♪"},{"id":"EP-034_R","series":"プロモ","name":"モンスターキャットトップス","rarity":"R","type":"キュート","category":"トップス","brand":"Dreamy Crown","coord":"モンスターキャットコーデ","ap":650,"appeal":"リズミカルトップス","idol":"大空あかり","how_to_get":"データカードダス アイカツ！アンコール アイカツ！キャンペーン","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-034_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-034_R_b.webp","note":"ハロウィンにぴったりな、モンスターキャットのトップス。胸元のネコミミ形が個性的♥"},{"id":"EP-035_R","series":"プロモ","name":"モンスターキャットスカート","rarity":"R","type":"キュート","category":"ボトムス","brand":"Dreamy Crown","coord":"モンスターキャットコーデ","ap":650,"appeal":"ボトムスバイラル","idol":"霧矢あおい","how_to_get":"データカードダス アイカツ！アンコール アイカツ！キャンペーン","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-035_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-035_R_b.webp","note":"大きなネコの顔にみんなの視線ひとりじめ♪後ろについてるネコのしっぽがキュート★"},{"id":"EP-036_R","series":"プロモ","name":"モンスターキャットファーブーツ","rarity":"R","type":"キュート","category":"シューズ","brand":"Dreamy Crown","coord":"モンスターキャットコーデ","ap":800,"appeal":"ダンシングシューズ","idol":"星宮いちご","how_to_get":"データカードダス アイカツ！アンコール アイカツ！キャンペーン","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-036_R.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-036_R_b.webp","note":"ネコになった気分になれちゃうファーブーツ♥歩くと鈴の音がするよ。"},{"id":"EP-037_N","series":"プロモ","name":"エンブレムつきセーラーマリントップス＆スカート","rarity":"N","type":"キュート","category":"トップス＆ボトムス","brand":"ノーブランド","coord":"セーラーマリンコーデ","ap":850,"appeal":"トップスウェーブ＆ボトムスチャーム","idol":"星宮いちご","how_to_get":"ちゃお2026年11月号ふろく","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-037_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-037_N_b.webp","note":"エンブレムがついたセーラーカラーのトップスとスカート★キュートに元気よく着こなして！"},{"id":"EP-038_N","series":"プロモ","name":"ブルーワークブーツ","rarity":"N","type":"キュート","category":"シューズ","brand":"ノーブランド","coord":"セーラーマリンコーデ","ap":400,"appeal":"ホッピングシューズ","idol":"霧矢あおい","how_to_get":"ちゃお2026年11月号ふろく","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-038_N.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-038_N_b.webp","note":"ごつめのワークブーツは、ハイソックスと合わせてバランスの良いコーデにしてね！"},{"id":"EP-042_PR","series":"プロモ","name":"たまごっちパラダイスカチューシャ","rarity":"PR","type":"ポップ","category":"アクセサリー","brand":"ノーブランド","coord":"たまごっちランドコーデ","ap":600,"appeal":"","idol":"星宮いちご","how_to_get":"Tamagotchi Paradise アイカツフォン アンコール","how_note":"","is_parallel":false,"img":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-042_PR.webp","img_back":"https://dcd.aikatsu.com/encore/images/cardlist/card/EP-042_PR_b.webp","note":"たまごっちたちが仲良く座っているカチューシャ☆つけるだけで楽しい気持ちになれちゃうね！"}];
+const MASTER_META  = {"title":"アイカツ！アンコール カードマスタ（第1弾＋プロモ）","version":"2026-11-18","sources":["公式サイト カードリスト https://dcd.aikatsu.com/encore/cardlist/（第1弾=85枚／プロモーションカード=33枚）","カード研究所（非公式） https://card-search.com/aikatsu-encore/cards（カード名・レアリティ・部位・タイプ・ブランド・AP・コーデ）","配布・プロモ一覧 https://card-search.com/aikatsu-encore/promos（入手方法は公式カードリストの文言）"],"note":"cards 配列に第2弾などのオブジェクトを足すと、アプリのタブ・集計・絞り込みが自動で増えます。","counts":{"total":130,"第1弾":85,"第1弾パラレル":12,"プロモ":33},"series":["第1弾","プロモ"],"rarities":["N","R","PR","ER","PR★","ER★"],"types":["キュート","クール","セクシー","ポップ"],"categories":["トップス","ボトムス","シューズ","アクセサリー","トップス＆ボトムス","フルコーデ"],"brands":["Angely Sugar","Dreamy Crown","FUTURING GIRL","Maple Ribbon","SPICY AGEHA","ノーブランド"],"how_to_get":["第1弾収録","第1弾収録（パラレル）","アイカツ！はじめようプレゼントキャンペーン","アイカツ！スタイル購入特典配布","パフュームハンド アイカツ！","アイカツフォン アンコール","アイカツフォンキャリー","アイカツ！おうえんスターライト キュートタイプver.","アイカツ！おうえんスターライト クールタイプver.","アイカツ！おうえんスターライト セクシータイプver.","アイカツ！おうえんスターライト ポップタイプver.","アイカツ！おうえんスターライト（キュート／クール／セクシー／ポップタイプver.）","アイカツ！オフィシャルストア購入特典","しまむら「アイカツスターズ！」「アイカツ！」グッズ","データカードダス アイカツ！アンコール アイカツ！キャンペーン","ちゃお2026年11月号ふろく","Tamagotchi Paradise アイカツフォン アンコール"]};
+
+const LS_KEY = 'aikatsu-encore-checker.v1';
+const TYPE_CLASS = {'キュート':'t-cute','クール':'t-cool','セクシー':'t-sexy','ポップ':'t-pop'};
+const TYPE_COLOR = {'キュート':'#ff6fa5','クール':'#4a8fe7','セクシー':'#a06be0','ポップ':'#e9a800'};
+const CAT_ORDER = ['トップス','トップス＆ボトムス','ボトムス','シューズ','アクセサリー','フルコーデ'];
+const SLOT_LABEL = {'トップス':'トップス','ボトムス':'ボトムス','シューズ':'シューズ','アクセサリー':'アクセ','トップス＆ボトムス':'上下','フルコーデ':'フル'};
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+/* ---------- state ---------- */
+function blankState(){ return {counts:{}, extraCards:[], hideParallel:false, updated:null}; }
+let state = loadState();
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return blankState();
+    const s = JSON.parse(raw) || {};
+    return {
+      counts: (s.counts && typeof s.counts==='object') ? s.counts : {},
+      extraCards: Array.isArray(s.extraCards) ? s.extraCards : [],
+      hideParallel: !!s.hideParallel,
+      updated: s.updated || null
+    };
+  }catch(e){ return blankState(); }
+}
+let saveTimer = null, warnedStorage = false;
+function save(){
+  state.updated = new Date().toISOString();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+    catch(e){
+      if(!warnedStorage){ warnedStorage = true; toast('この環境では自動保存ができません。「データ」から書き出してね'); }
+    }
+    renderSaveInfo();
+  }, 120);
+  renderSaveInfo();
+}
+
+let ALL = [];
+function rebuildAll(){
+  const seen = new Set();
+  ALL = [];
+  MASTER_CARDS.concat(state.extraCards).forEach(c=>{
+    if(!c || !c.id || seen.has(c.id)) return;
+    seen.add(c.id); ALL.push(c);
+  });
+}
+rebuildAll();
+
+const cnt   = id => Number(state.counts[id] || 0);
+const owned = c  => cnt(c.id) > 0;
+const fmt   = n => Number(n||0).toLocaleString('ja-JP');
+
+/* ---------- filters ---------- */
+const filters = {q:'', status:'all', series:'all', rarity:'all', type:'all', cat:'all', brand:'all', how:'all', gen:'all', sort:'no'};
+let coordFilter = 'all';
+
+/* ---------- stats helpers ---------- */
+function statOf(list){
+  let o=0, pieces=0;
+  list.forEach(c=>{ const n=cnt(c.id); if(n>0){o++; pieces+=n;} });
+  return {total:list.length, owned:o, pieces, pct: list.length ? (o/list.length*100) : 0};
+}
+function pctText(p){ return (p>=99.95 && p<100) ? p.toFixed(1) : Math.round(p)+''; }
+function bar(p, cls=''){ return `<div class="bar ${cls}"><i style="width:${Math.max(0,Math.min(100,p)).toFixed(2)}%"></i></div>`; }
+
+/* シリーズ＋パラレル区分のリスト（データから自動生成） */
+function seriesDefs(){
+  const out = [];
+  const list = [];
+  ALL.forEach(c=>{ if(!list.includes(c.series)) list.push(c.series); });
+  list.forEach(s=>{
+    const hasNorm = ALL.some(c=>c.series===s && !c.is_parallel);
+    const hasPar  = ALL.some(c=>c.series===s &&  c.is_parallel);
+    if(hasNorm) out.push({value:s+'::n', label: hasPar ? s+'（通常）' : s, match:c=>c.series===s && !c.is_parallel});
+    if(hasPar)  out.push({value:s+'::p', label: s+'（パラレル）', match:c=>c.series===s && c.is_parallel});
+  });
+  return out;
+}
+function uniq(arr){ return Array.from(new Set(arr.filter(v=>v!=null && v!==''))); }
+
+/* ---------- header ---------- */
+function renderHeader(){
+  const list = state.hideParallel ? ALL.filter(c=>!c.is_parallel) : ALL;
+  const st = statOf(list);
+  const p = list.length ? (st.owned/list.length*100) : 0;
+  $('#hdrBar').style.width = p.toFixed(2)+'%';
+  $('#hdrCount').textContent = `${st.owned} / ${list.length} 枚`;
+  const c = MASTER_META.counts || {};
+  $('#hdrSub').textContent = `全${ALL.length}枚 ・ 第1弾${c['第1弾']||0} / パラレル${c['第1弾パラレル']||0} / プロモ${c['プロモ']||0}${state.extraCards.length?` ・ 追加${state.extraCards.length}`:''}`;
+}
+function idx(c){
+  const i = ALL.indexOf(c);
+  return i<0 ? 9999 : i;
+}
+
+/* ---------- home ---------- */
+function renderHome(){
+  const list = state.hideParallel ? ALL.filter(c=>!c.is_parallel) : ALL;
+  const st = statOf(list);
+  const p = st.pct;
+  $('#ring').style.setProperty('--pct', Math.min(100,p));
+  $('#ringPct').innerHTML = `${pctText(p)}<span>%</span>`;
+  $('#homeOwned').textContent = st.owned;
+  $('#homeTotal').textContent = st.total;
+  $('#homeSub').innerHTML = `<span class="tag badge-series">所持 ${st.pieces} 枚</span>`
+    + `<span class="tag badge-series">未所持 ${st.total-st.owned} 種</span>`
+    + (state.extraCards.length?`<span class="tag t-pop">追加 ${state.extraCards.length}種</span>`:'');
+  $('#parToggle').checked = !state.hideParallel;
+
+  // 区分
+  const gs = seriesDefs();
+  $('#homeGroups').innerHTML = gs.map(g=>{
+    const l = ALL.filter(g.match);
+    const s = statOf(l);
+    return `<button class="stat-row" data-series="${esc(g.value)}">
+      <span class="nm">${esc(g.label)}</span>
+      <span class="vv">${s.owned}/${s.total} ・ ${pctText(s.pct)}%</span>
+      ${bar(s.pct)}
+    </button>`;
+  }).join('');
+
+  // レアリティ
+  const rar = uniq(ALL.map(c=>c.rarity));
+  const rarOrder = ['N','R','PR','ER','PR★','ER★'];
+  rar.sort((a,b)=> (rarOrder.indexOf(a)+1||99) - (rarOrder.indexOf(b)+1||99) || a.localeCompare(b,'ja'));
+  $('#homeRarity').innerHTML = rar.map(r=>{
+    const l = list.filter(c=>c.rarity===r); if(!l.length) return '';
+    const s = statOf(l);
+    return `<button class="stat-row" data-rarity="${esc(r)}">
+      <span class="nm"><span class="tag r-${esc(r)}">${esc(r)}</span></span>
+      <span class="vv">${s.owned}/${s.total} ・ ${pctText(s.pct)}%</span>
+      ${bar(s.pct)}
+    </button>`;
+  }).join('');
+
+  // タイプ
+  const types = uniq(ALL.map(c=>c.type));
+  const tOrder = ['キュート','クール','セクシー','ポップ'];
+  types.sort((a,b)=> (tOrder.indexOf(a)+1||99) - (tOrder.indexOf(b)+1||99));
+  $('#homeTypes').innerHTML = types.map(t=>{
+    const l = list.filter(c=>c.type===t); if(!l.length) return '';
+    const s = statOf(l);
+    return `<button class="stat-row" data-type="${esc(t)}" style="color:${TYPE_COLOR[t]||'#ff7db5'}">
+      <span class="nm" style="color:var(--ink)"><span class="tag ${TYPE_CLASS[t]||''}">${esc(t)}</span></span>
+      <span class="vv">${s.owned}/${s.total} ・ ${pctText(s.pct)}%</span>
+      ${bar(s.pct)}
+    </button>`;
+  }).join('');
+
+  // コーデ
+  const cg = coordGroups();
+  const done = cg.filter(g=>g.complete).length;
+  const near = cg.filter(g=>!g.complete && g.owned>0 && g.owned>=g.list.length-1).length;
+  $('#homeCoords').innerHTML = `
+    <div class="mini-card"><b>${done}<span style="font-size:12px">/${cg.length}</span></b><span>コンプしたコーデ</span></div>
+    <div class="mini-card"><b>${near}</b><span>あと1枚で揃う</span></div>
+    <div class="mini-card"><b>${cg.length-done}</b><span>まだ揃ってない</span></div>`;
+  $('#coordSummary').textContent = `${done}/${cg.length} コンプ`;
+
+  // 目標
+  const none = ALL.filter(c=>!owned(c));
+  const nonePromo = none.filter(c=>c.series!=='第1弾');
+  const dupCount = ALL.filter(c=>cnt(c.id)>1).length;
+  $('#homeTodo').innerHTML = `
+    <div class="stat-list">
+      <div class="stat-row"><span class="nm">未所持のカード</span><span class="vv">${none.length} 種</span></div>
+      <div class="stat-row"><span class="nm">そのうちプロモ</span><span class="vv">${nonePromo.length} 種</span></div>
+      <div class="stat-row"><span class="nm">重複して持っているカード</span><span class="vv">${dupCount} 種</span></div>
+    </div>`;
+
+  // 部位
+  const cats = uniq(ALL.map(c=>c.category));
+  cats.sort((a,b)=>(CAT_ORDER.indexOf(a)+1||99)-(CAT_ORDER.indexOf(b)+1||99));
+  $('#homeCats').innerHTML = cats.map(k=>{
+    const l = list.filter(c=>c.category===k); if(!l.length) return '';
+    const s = statOf(l);
+    return `<button class="stat-row" data-cat="${esc(k)}">
+      <span class="nm">${esc(k)}</span><span class="vv">${s.owned}/${s.total} ・ ${pctText(s.pct)}%</span>${bar(s.pct)}
+    </button>`;
+  }).join('');
+}
+
+/* ---------- coord groups ---------- */
+function coordGroups(){
+  const map = new Map();
+  ALL.forEach(c=>{
+    const k = c.coord || '（コーデ未設定）';
+    if(!map.has(k)) map.set(k, []);
+    map.get(k).push(c);
+  });
+  const out = Array.from(map.entries()).map(([name,list])=>{
+    list.sort((a,b)=> (CAT_ORDER.indexOf(a.category)+1||99)-(CAT_ORDER.indexOf(b.category)+1||99) || idx(a)-idx(b));
+    const s = statOf(list);
+    const typeCount = {};
+    list.forEach(c=>{ typeCount[c.type]=(typeCount[c.type]||0)+1; });
+    const type = Object.keys(typeCount).sort((a,b)=>typeCount[b]-typeCount[a])[0] || '';
+    const brand = list.map(c=>c.brand).find(b=>b && b!=='ノーブランド') || 'ノーブランド';
+    return {name, list, ...s, type, brand, complete: list.length>0 && s.owned===list.length};
+  });
+  out.sort((a,b)=> (a.complete===b.complete ? 0 : (a.complete?1:-1)) || a.name.localeCompare(b.name,'ja'));
+  return out;
+}
+
+/* ---------- card list ---------- */
+function matchSeries(c){
+  if(filters.series==='all') return true;
+  const [s,kind] = filters.series.split('::');
+  return c.series===s && (kind==='p' ? !!c.is_parallel : !c.is_parallel);
+}
+function filterCards(){
+  const q = filters.q.trim().toLowerCase();
+  let list = ALL.filter(c=>{
+    if(!matchSeries(c)) return false;
+    if(filters.rarity!=='all' && c.rarity!==filters.rarity) return false;
+    if(filters.type!=='all' && c.type!==filters.type) return false;
+    if(filters.cat!=='all' && c.category!==filters.cat) return false;
+    if(filters.brand!=='all' && c.brand!==filters.brand) return false;
+    if(filters.how!=='all' && c.how_to_get!==filters.how) return false;
+    if(filters.gen!=='all' && c.coord!==filters.gen) return false;
+    if(filters.status==='none' && owned(c)) return false;
+    if(filters.status==='own' && !owned(c)) return false;
+    if(filters.status==='dup' && cnt(c.id)<2) return false;
+    if(q){
+      const hay = [c.name,c.id,c.coord,c.brand,c.series,c.category,c.type,c.rarity,c.how_to_get].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  if(filters.sort==='none') list.sort((a,b)=> (owned(a)-owned(b)) || idx(a)-idx(b));
+  else if(filters.sort==='owncnt') list.sort((a,b)=> cnt(b.id)-cnt(a.id) || idx(a)-idx(b));
+  else if(filters.sort==='name') list.sort((a,b)=> a.name.localeCompare(b.name,'ja'));
+  return list;
+}
+function cardTile(c){
+  const n = cnt(c.id);
+  const tcls = TYPE_CLASS[c.type] || '';
+  return `<div class="ccard ${n>0?'owned':''}" data-card="${esc(c.id)}">
+    <div class="thumbwrap" data-act="toggle" data-id="${esc(c.id)}" role="button" tabindex="0" aria-label="${esc(c.name)}を所持・未所持に切りかえ">
+      <span class="typebar" style="background:${TYPE_COLOR[c.type]||'#ffd0e3'}"></span>
+      <img src="${esc(c.img||'')}" alt="${esc(c.name)}" loading="lazy" decoding="async"
+           onerror="this.parentNode.classList.add('imgfail')">
+      <div class="topbadges">
+        <span class="tag r-${esc(c.rarity)}">${esc(c.rarity)}</span>
+        ${c.is_parallel?'<span class="tag t-pop">パラレル</span>':''}
+      </div>
+      <div class="cnt">${n}</div>
+      <div class="stamp">✓</div>
+    </div>
+    <div class="body">
+      <div class="nm">${esc(c.name)}</div>
+      <div class="meta"><span>${esc(c.id)}</span><span class="cat">・${esc(c.category)}</span></div>
+      <div class="row2">
+        <div class="stepper">
+          <button data-act="dec" data-id="${esc(c.id)}" aria-label="へらす" ${n<=0?'disabled':''}>−</button>
+          <span class="num ${n?'':'zero'}">${n}</span>
+          <button data-act="inc" data-id="${esc(c.id)}" aria-label="ふやす">＋</button>
+        </div>
+        <button class="icobtn" data-act="detail" data-id="${esc(c.id)}" aria-label="詳細">ⓘ</button>
+      </div>
+    </div>
+  </div>`;
+}
+function updateFilterBadge(){
+  const keys = ['series','rarity','type','cat','brand','how','gen'];
+  const n = keys.filter(k=>filters[k]!=='all').length + (filters.sort!=='no'?1:0);
+  const el = $('#filterCount'); if(!el) return;
+  el.textContent = n ? String(n) : '';
+  const chip = $('#filterToggle');
+  if(chip) chip.classList.toggle('active', n>0);
+}
+function renderCards(){
+  updateFilterBadge();
+  const list = filterCards();
+  const un = list.filter(c=>!owned(c)).length;
+  $('#resultLine').innerHTML = `表示中 <b>${list.length}</b> 枚 ・ 未所持 <b>${un}</b> 枚 ・ 所持 <b>${list.length-un}</b> 枚`;
+  $('#cardGrid').innerHTML = list.map(cardTile).join('');
+  $('#cardEmpty').hidden = list.length>0;
+}
+
+/* ---------- coords view ---------- */
+function renderCoords(){
+  let gs = coordGroups();
+  if(coordFilter==='done') gs = gs.filter(g=>g.complete);
+  else if(coordFilter==='incomplete') gs = gs.filter(g=>!g.complete && g.owned>0);
+  else if(coordFilter==='missing') gs = gs.filter(g=>!g.complete);
+  const all = coordGroups();
+  $('#coordSummary').textContent = `${all.filter(g=>g.complete).length}/${all.length} コンプ`;
+  $('#coordList').innerHTML = gs.length ? gs.map(g=>{
+    const p = g.list.length ? g.owned/g.list.length*100 : 0;
+    const pieces = g.list.map(c=>{
+      const o = owned(c);
+      return `<li class="${o?'own':'miss'}">
+        <span class="slot">${esc(SLOT_LABEL[c.category]||c.category)}</span>
+        <span class="pnm" data-act="toggle" data-id="${esc(c.id)}">${esc(c.name)}</span>
+        <button class="tick" data-act="toggle" data-id="${esc(c.id)}" aria-label="${o?'未所持にする':'所持にする'}">${o?'✓':''}</button>
+        ${o?'':`<a class="go" href="${esc(mercariUrl(c))}" target="_blank" rel="noopener">探す</a>`}
+      </li>`;
+    }).join('');
+    const missing = g.list.filter(c=>!owned(c));
+    return `<div class="coord ${g.complete?'done':''}">
+      <div class="coord-h">
+        <div style="min-width:0">
+          <div class="nm">${g.complete?'👑 ':''}${esc(g.name)}</div>
+          <div class="tags">
+            ${g.type?`<span class="tag ${TYPE_CLASS[g.type]||''}">${esc(g.type)}</span>`:''}
+            <span class="tag badge-series">${esc(g.brand)}</span>
+            <span class="tag badge-series">${esc(g.list[0]?g.list[0].series:'')}</span>
+          </div>
+        </div>
+        <div class="pt"><b>${g.owned}</b><span>/${g.list.length}</span></div>
+      </div>
+      ${bar(p, g.complete?'gold':'')}
+      <ul class="pieces">${pieces}</ul>
+      ${missing.length?`<div class="missline">未所持：${missing.map(c=>esc(c.name)).join('、')}${missing[0].how_to_get?`<br>入手方法：${esc(missing[0].how_to_get)}`:''}</div>`
+        :`<div class="missline" style="color:#b8860b">✨ このコーデ、ぜんぶ揃ってる！</div>`}
+    </div>`;
+  }).join('') : `<div class="empty"><span class="big">👗</span>この条件のコーデはないよ。</div>`;
+}
+
+/* ---------- modal ---------- */
+let modalId = null, showBack = false;
+function openDetail(id){
+  const c = ALL.find(x=>x.id===id); if(!c) return;
+  modalId = id; showBack = false;
+  renderDetail();
+  $('#modal').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  $('#modal').hidden = true;
+  document.body.style.overflow = '';
+  modalId = null;
+}
+function renderDetail(){
+  const c = ALL.find(x=>x.id===modalId); if(!c) return;
+  const n = cnt(c.id);
+  const img = showBack ? (c.img_back || c.img) : c.img;
+  const samecoord = ALL.filter(x=>x.coord===c.coord && x.id!==c.id);
+  $('#modalBody').innerHTML = `
+    <div class="detail-top">
+      <div class="detail-img ${img?'':'imgfail'}">
+        <img src="${esc(img||'')}" alt="${esc(c.name)}" onerror="this.parentNode.classList.add('imgfail')">
+        ${c.img_back?`<button class="flip" id="flipBtn">${showBack?'表面':'うら面'}を見る</button>`:''}
+      </div>
+      <div class="detail-info">
+        <h3>${esc(c.name)}</h3>
+        <div class="id">${esc(c.id)} ・ ${esc(c.series)}${c.is_parallel?' ・ パラレル':''}</div>
+        <div class="tags">
+          <span class="tag r-${esc(c.rarity)}">${esc(c.rarity)}</span>
+          <span class="tag ${TYPE_CLASS[c.type]||''}">${esc(c.type)}</span>
+          <span class="tag badge-series">${esc(c.category)}</span>
+          <span class="tag badge-series">${esc(c.brand)}</span>
+        </div>
+        <dl class="detail-kv">
+          <dt>AP</dt><dd>${c.ap?fmt(c.ap):'—'}</dd>
+          <dt>アピール</dt><dd>${esc(c.appeal||'—')}</dd>
+          <dt>コーデ</dt><dd>${esc(c.coord||'—')}</dd>
+          <dt>アイドル</dt><dd>${esc(c.idol||'—')}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="own-box">
+      <div class="stepper" style="flex:1">
+        <button data-act="dec" data-id="${esc(c.id)}" ${n<=0?'disabled':''}>−</button>
+        <span class="num ${n?'':'zero'}">${n} 枚</span>
+        <button data-act="inc" data-id="${esc(c.id)}">＋</button>
+      </div>
+      <button class="btn sm ${n?'ghost':''}" data-act="toggle" data-id="${esc(c.id)}">${n?'未所持にする':'所持にする'}</button>
+    </div>
+
+    <div class="sec-title">入手方法</div>
+    <div class="note-box">
+      ${esc(c.how_to_get||'—')}
+      ${c.how_note?`<div class="muted" style="margin-top:4px">${esc(c.how_note)}</div>`:''}
+      ${c.note?`<div class="muted" style="margin-top:6px">${esc(c.note)}</div>`:''}
+    </div>
+
+    <div class="sec-title">${n?'相場・在庫をチェック':'相場・最安をさがす'}</div>
+    <div class="links">
+      <a class="mercari" href="${esc(mercariUrl(c))}" target="_blank" rel="noopener">🛍 メルカリ（安い順）</a>
+      <a class="yahoo" href="${esc(yahooUrl(c))}" target="_blank" rel="noopener">🅿 Yahoo!フリマ</a>
+      <a class="suruga" href="${esc(surugaUrl(c))}" target="_blank" rel="noopener">🏬 駿河屋</a>
+      <a href="${esc(googleSiteUrl('yuyu-tei.jp', c))}" target="_blank" rel="noopener">🎴 遊々亭</a>
+      <a href="${esc(googleSiteUrl('full-ahead.net', c))}" target="_blank" rel="noopener">🎴 フルアヘッド</a>
+      <a href="${esc(googleUrl(c))}" target="_blank" rel="noopener">🔎 Googleで最安</a>
+    </div>
+    <p class="muted" style="margin:6px 0 0">検索ワード: ${esc(searchKeyword(c))}</p>
+
+    ${samecoord.length?`
+      <div class="sec-title">同じコーデのカード</div>
+      <div class="coord-mini">
+        ${samecoord.map(x=>`<button data-act="open" data-id="${esc(x.id)}" class="${owned(x)?'':'miss'}">${owned(x)?'✓ ':''}${esc(x.name)}</button>`).join('')}
+      </div>`:''}
+
+    <div class="btn-row" style="margin-top:14px">
+      <button class="btn ghost sm" data-go="coords" data-coord="${esc(c.coord)}">このコーデをまとめて見る</button>
+      <a class="btn ghost sm" style="text-decoration:none" href="${esc('https://card-search.com/aikatsu-encore/cards/'+c.id)}" target="_blank" rel="noopener">交換のようすを見る</a>
+    </div>`;
+
+  const fb = $('#flipBtn');
+  if(fb) fb.onclick = ()=>{ showBack = !showBack; renderDetail(); };
+}
+
+/* ---------- market links ---------- */
+function searchKeyword(c){
+  const base = 'アイカツアンコール ' + c.name;
+  return c.is_parallel ? base + ' パラレル' : base;
+}
+function mercariUrl(c){ return 'https://jp.mercari.com/search?keyword=' + encodeURIComponent(searchKeyword(c)) + '&status=on_sale&sort=price&order=asc'; }
+function yahooUrl(c){ return 'https://paypayfleamarket.yahoo.co.jp/search/' + encodeURIComponent(searchKeyword(c)) + '?sort=price&order=asc'; }
+function surugaUrl(c){ return 'https://www.suruga-ya.jp/search?category=&search_word=' + encodeURIComponent(searchKeyword(c)) + '&searchbox=1'; }
+function googleUrl(c){ return 'https://www.google.com/search?q=' + encodeURIComponent(searchKeyword(c) + ' 最安'); }
+function googleSiteUrl(site, c){ return 'https://www.google.com/search?q=' + encodeURIComponent('site:' + site + ' ' + searchKeyword(c)); }
+
+/* ---------- toggle / count ---------- */
+function setCount(id, n){
+  n = Math.max(0, Math.min(99, Math.round(n||0)));
+  if(n===0) delete state.counts[id]; else state.counts[id]=n;
+  save();
+  refreshCardEls(id);
+  if(!$('#view-home').hidden) renderHome();
+  if(!$('#view-coords').hidden) renderCoords();
+  if(!$('#view-cards').hidden && (filters.status!=='all')) renderCards();
+  renderHeader();
+  if(modalId===id) renderDetail();
+}
+function refreshCardEls(id){
+  const c = ALL.find(x=>x.id===id); if(!c) return;
+  const n = cnt(id);
+  $$('[data-card="'+cssEsc(id)+'"]').forEach(el=>{
+    el.classList.toggle('owned', n>0);
+    const cn = $('.cnt', el); if(cn) cn.textContent = n;
+    const num = $('.stepper .num', el); if(num){ num.textContent = n; num.classList.toggle('zero', n===0); }
+    const dec = $('[data-act="dec"]', el); if(dec) dec.disabled = n<=0;
+  });
+}
+function cssEsc(s){ return (window.CSS && CSS.escape) ? CSS.escape(s) : String(s).replace(/["\\]/g,'\\$&'); }
+
+/* ---------- toolbar building ---------- */
+function buildFilters(){
+  const gs = seriesDefs();
+  $('#fSeries').innerHTML = `<option value="all">すべて</option>` + gs.map(g=>`<option value="${esc(g.value)}">${esc(g.label)}</option>`).join('');
+  const rar = uniq(ALL.map(c=>c.rarity));
+  const rarOrder = ['N','R','PR','ER','PR★','ER★'];
+  rar.sort((a,b)=>(rarOrder.indexOf(a)+1||99)-(rarOrder.indexOf(b)+1||99));
+  $('#fRarity').innerHTML = `<option value="all">すべて</option>` + rar.map(r=>`<option value="${esc(r)}">${esc(r)}</option>`).join('');
+  const types = uniq(ALL.map(c=>c.type));
+  const tOrder = ['キュート','クール','セクシー','ポップ'];
+  types.sort((a,b)=>(tOrder.indexOf(a)+1||99)-(tOrder.indexOf(b)+1||99));
+  $('#fType').innerHTML = `<option value="all">すべて</option>` + types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('');
+  const cats = uniq(ALL.map(c=>c.category));
+  cats.sort((a,b)=>(CAT_ORDER.indexOf(a)+1||99)-(CAT_ORDER.indexOf(b)+1||99));
+  $('#fCat').innerHTML = `<option value="all">すべて</option>` + cats.map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join('');
+  const brands = uniq(ALL.map(c=>c.brand)).sort((a,b)=>a.localeCompare(b,'ja'));
+  $('#fBrand').innerHTML = `<option value="all">すべて</option>` + brands.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
+  const hows = uniq(ALL.map(c=>c.how_to_get));
+  $('#fHow').innerHTML = `<option value="all">すべて</option>` + hows.map(h=>`<option value="${esc(h)}">${esc(h)}</option>`).join('');
+  const gens = coordGroups().map(g=>g.name);
+  $('#fGen').innerHTML = `<option value="all">すべて</option>` + gens.map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join('');
+}
+
+/* ---------- save info ---------- */
+function renderSaveInfo(){
+  const el = $('#lastSaved'); if(!el) return;
+  if(state.updated){
+    const d = new Date(state.updated);
+    el.textContent = d.toLocaleString('ja-JP', {month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'});
+  } else el.textContent = 'まだ保存されていません';
+  const st = statOf(ALL);
+  $('#saveSummary').textContent = `${st.owned} / ${st.total} 種（所持 ${st.pieces} 枚）`;
+  const c = MASTER_META.counts || {};
+  $('#metaVer').textContent = MASTER_META.version || '—';
+  $('#metaCounts').textContent = `第1弾 ${c['第1弾']||0}枚 ・ パラレル ${c['第1弾パラレル']||0}枚 ・ プロモ ${c['プロモ']||0}枚（合計 ${ALL.length}枚）`;
+  $('#metaCoords').textContent = `${coordGroups().length} コーデ`;
+}
+
+/* ---------- toast ---------- */
+let toastTimer;
+function toast(msg){
+  const t = $('#toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ---------- export / import ---------- */
+function exportObject(){
+  return {
+    type: 'aikatsu-encore-ownership',
+    version: 1,
+    app: 'アイカツ！アンコール 所持率チェッカー',
+    masterVersion: MASTER_META.version || '',
+    exportedAt: new Date().toISOString(),
+    counts: state.counts,
+    extraCards: state.extraCards
+  };
+}
+function downloadJson(){
+  const blob = new Blob([JSON.stringify(exportObject(), null, 1)], {type:'application/json'});
+  const a = document.createElement('a');
+  const d = new Date();
+  const stamp = `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+  a.href = URL.createObjectURL(blob);
+  a.download = `aikatsu-encore-所持データ-${stamp}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
+  toast('JSONファイルを書き出しました');
+}
+function copyText(text, okMsg){
+  const done = ()=>toast(okMsg);
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text, done));
+  } else fallbackCopy(text, done);
+}
+function fallbackCopy(text, done){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }catch(e){ toast('コピーできませんでした'); }
+  ta.remove();
+}
+function b64encode(str){ return btoa(unescape(encodeURIComponent(str))); }
+function b64decode(str){ return decodeURIComponent(escape(atob(str))); }
+function shareCode(){
+  const compact = {};
+  Object.keys(state.counts).forEach(k=>{ if(state.counts[k]) compact[k]=state.counts[k]; });
+  return 'AEC1.' + b64encode(JSON.stringify(compact));
+}
+function applyImport(text){
+  text = (text||'').trim();
+  if(!text){ toast('読み込むデータを入れてね'); return false; }
+  if(text.startsWith('AEC1.')){
+    try{
+      const counts = JSON.parse(b64decode(text.slice(5)));
+      if(!counts || typeof counts!=='object') throw new Error('bad');
+      state.counts = counts; save(); refreshAll(); toast('共有コードを読み込みました'); return true;
+    }catch(e){ toast('共有コードが読み取れませんでした'); return false; }
+  }
+  let obj;
+  try{ obj = JSON.parse(text); }catch(e){ toast('JSONとして読み取れませんでした'); return false; }
+  if(Array.isArray(obj)) return mergeCards(obj);
+  if(obj && Array.isArray(obj.cards)) {
+    const hadCounts = obj.counts && typeof obj.counts==='object';
+    const added = mergeCards(obj.cards, true);
+    if(hadCounts){ state.counts = obj.counts; save(); refreshAll(); }
+    if(!added && !hadCounts) toast('カードはすでに全部入っています');
+    return true;
+  }
+  if(obj && obj.counts && typeof obj.counts==='object'){
+    state.counts = obj.counts;
+    if(Array.isArray(obj.extraCards)) state.extraCards = obj.extraCards;
+    rebuildAll(); buildFilters(); save(); refreshAll(); toast('所持データを読み込みました'); return true;
+  }
+  toast('この形式は読み込めませんでした'); return false;
+}
+function mergeCards(arr, silent){
+  let added = 0;
+  arr.forEach(c=>{
+    if(!c || !c.id || !c.name) return;
+    if(ALL.some(x=>x.id===c.id)) return;
+    state.extraCards.push(c); added++;
+  });
+  if(added){
+    rebuildAll(); buildFilters(); save(); refreshAll();
+    if(!silent) toast(added + '枚のカードを追加しました');
+  }
+  return added>0;
+}
+
+/* ---------- refresh ---------- */
+function refreshAll(){
+  renderHeader(); renderHome();
+  if(!$('#view-cards').hidden) renderCards();
+  if(!$('#view-coords').hidden) renderCoords();
+  renderSaveInfo();
+}
+
+/* ---------- events ---------- */
+function switchView(name){
+  $$('.tabs button').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.view===name)));
+  ['home','cards','coords','data'].forEach(v=>{ $('#view-'+v).hidden = (v!==name); });
+  if(name==='home') renderHome();
+  if(name==='cards'){ renderCards(); }
+  if(name==='coords') renderCoords();
+  if(name==='data') renderSaveInfo();
+  window.scrollTo({top:0, behavior:'auto'});
+}
+function applySeriesFilter(v){
+  filters.series = v;
+  $('#fSeries').value = v;
+  switchView('cards'); renderCards();
+}
+
+document.addEventListener('click', (ev)=>{
+  const t = ev.target.closest('[data-act],[data-view],[data-go],[data-series],[data-rarity],[data-type],[data-cat],[data-status],[data-cfilter]');
+  if(!t) return;
+  if(t.dataset.act){
+    const id = t.dataset.id;
+    if(t.dataset.act==='toggle'){ if(id) setCount(id, cnt(id)>0?0:1); }
+    else if(t.dataset.act==='inc'){ if(id) setCount(id, cnt(id)+1); }
+    else if(t.dataset.act==='dec'){ if(id) setCount(id, Math.max(0,cnt(id)-1)); }
+    else if(t.dataset.act==='detail'){ if(id) openDetail(id); }
+    else if(t.dataset.act==='open'){ if(id) openDetail(id); }
+    return;
+  }
+  if(t.dataset.view){ switchView(t.dataset.view); return; }
+  if(t.dataset.go){
+    if(t.dataset.coord){ filters.gen = t.dataset.coord; $('#fGen').value = t.dataset.coord; }
+    switchView(t.dataset.go); closeModal(); return;
+  }
+  if(t.dataset.series){ applySeriesFilter(t.dataset.series); return; }
+  if(t.dataset.rarity){ filters.rarity = t.dataset.rarity; $('#fRarity').value = t.dataset.rarity; switchView('cards'); renderCards(); return; }
+  if(t.dataset.type){ filters.type = t.dataset.type; $('#fType').value = t.dataset.type; switchView('cards'); renderCards(); return; }
+  if(t.dataset.cat){ filters.cat = t.dataset.cat; $('#fCat').value = t.dataset.cat; switchView('cards'); renderCards(); return; }
+  if(t.dataset.status){
+    filters.status = t.dataset.status;
+    $$('#statusChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.status===filters.status)));
+    renderCards(); return;
+  }
+  if(t.dataset.cfilter){
+    coordFilter = t.dataset.cfilter;
+    $$('#coordChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.cfilter===coordFilter)));
+    renderCoords(); return;
+  }
+});
+
+$('#q').addEventListener('input', (e)=>{ filters.q = e.target.value; renderCards(); });
+$('#qClear').addEventListener('click', ()=>{ const q=$('#q'); q.value=''; filters.q=''; renderCards(); q.focus(); });
+$('#fSeries').addEventListener('change', e=>{ filters.series = e.target.value; renderCards(); });
+$('#fRarity').addEventListener('change', e=>{ filters.rarity = e.target.value; renderCards(); });
+$('#fType').addEventListener('change', e=>{ filters.type = e.target.value; renderCards(); });
+$('#fCat').addEventListener('change', e=>{ filters.cat = e.target.value; renderCards(); });
+$('#fBrand').addEventListener('change', e=>{ filters.brand = e.target.value; renderCards(); });
+$('#fHow').addEventListener('change', e=>{ filters.how = e.target.value; renderCards(); });
+$('#fGen').addEventListener('change', e=>{ filters.gen = e.target.value; renderCards(); });
+$('#fSort').addEventListener('change', e=>{ filters.sort = e.target.value; renderCards(); });
+$('#filterToggle').addEventListener('click', ()=>{
+  const box = $('#advFilters');
+  box.hidden = !box.hidden;
+  $('#filterToggle').setAttribute('aria-expanded', String(!box.hidden));
+});
+$('#closeFilters').addEventListener('click', ()=>{
+  $('#advFilters').hidden = true;
+  $('#filterToggle').setAttribute('aria-expanded','false');
+});
+$('#clearFilters').addEventListener('click', ()=>{
+  ['series','rarity','type','cat','brand','how','gen'].forEach(k=>{ filters[k]='all'; const sel=$('#f'+k.charAt(0).toUpperCase()+k.slice(1)); if(sel) sel.value='all'; });
+  filters.sort='no'; $('#fSort').value='no';
+  renderCards();
+});
+$('#parToggle').addEventListener('change', e=>{ state.hideParallel = !e.target.checked; save(); renderHeader(); renderHome(); });
+$('#goUnowned').addEventListener('click', ()=>{ filters.status='none'; $$('#statusChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.status==='none'))); switchView('cards'); renderCards(); });
+$('#modalClose').addEventListener('click', closeModal);
+$('#modal').addEventListener('click', (e)=>{ if(e.target.id==='modal') closeModal(); });
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='Escape' && !$('#modal').hidden) closeModal();
+  if((e.key==='Enter'||e.key===' ') && e.target.classList && e.target.classList.contains('thumbwrap')){
+    e.preventDefault(); e.target.click();
+  }
+});
+
+$('#exportFile').addEventListener('click', downloadJson);
+$('#copyJson').addEventListener('click', ()=>copyText(JSON.stringify(exportObject(), null, 1), 'JSONをコピーしました'));
+$('#copyCode').addEventListener('click', ()=>copyText(shareCode(), '共有コードをコピーしました'));
+$('#importBtn').addEventListener('click', ()=>{ if(applyImport($('#importText').value)) { $('#importText').value=''; } });
+$('#importClear').addEventListener('click', ()=>{ $('#importText').value=''; });
+$('#importFile').addEventListener('change', (e)=>{
+  const f = e.target.files && e.target.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{ if(applyImport(String(r.result))) toast('ファイルを読み込みました'); };
+  r.readAsText(f);
+  e.target.value = '';
+});
+$('#addCardsBtn').addEventListener('click', ()=>{
+  const t = $('#extraText').value.trim();
+  if(!t){ toast('カードの配列を貼り付けてね'); return; }
+  let arr;
+  try{ arr = JSON.parse(t); }catch(e){ toast('JSONとして読み取れませんでした'); return; }
+  if(!Array.isArray(arr)){ toast('配列（[ ... ]）で貼り付けてね'); return; }
+  if(mergeCards(arr)) $('#extraText').value = '';
+});
+$('#resetExtra').addEventListener('click', ()=>{
+  if(!state.extraCards.length){ toast('追加カードはありません'); return; }
+  if(!confirm('取り込んだ追加カードを消しますか？（所持データは残ります）')) return;
+  state.extraCards = []; rebuildAll(); buildFilters(); save(); refreshAll(); toast('追加カードを消しました');
+});
+$('#resetAll').addEventListener('click', ()=>{
+  if(!confirm('この端末の所持データをすべて消します。よろしいですか？')) return;
+  state.counts = {}; save(); refreshAll(); toast('所持データをリセットしました');
+});
+
+/* ---------- init ---------- */
+buildFilters();
+renderHeader();
+renderHome();
+renderCards();
+renderSaveInfo();
+</script>
+</body>
+</html>
