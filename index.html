@@ -1442,7 +1442,8 @@ function drawCardTile(ctx, c, x, y, w, h, n){
   ctx.strokeStyle = own ? '#ffc44d' : '#efe6ea'; ctx.stroke();
   ctx.save();
   rr(ctx, x, y, w, h, 13); ctx.clip();
-  ctx.fillStyle = own ? col : '#e9dfe4';
+  ctx.fillStyle = col;
+  ctx.globalAlpha = own ? 1 : 0.38;
   ctx.fillRect(x, y, 6, h);
   ctx.restore();
 
@@ -1462,8 +1463,9 @@ function drawCardTile(ctx, c, x, y, w, h, n){
   ctx.fillText(fitText(ctx, c.id, w - rw - 34), x + 15, y + 25);
 
   // カード名（2行まで）
+  const nameSize = w < 240 ? 14 : 15;
   ctx.fillStyle = own ? IMG_INK : '#8d7f88';
-  ctx.font = (own ? '900 ' : '800 ') + '15px ' + IMG_FONT;
+  ctx.font = (own ? '900 ' : '800 ') + nameSize + 'px ' + IMG_FONT;
   wrapLines(ctx, c.name, w - 28, 2).forEach((ln, i) => {
     ctx.fillText(ln, x + 15, y + 48 + i * 19);
   });
