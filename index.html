@@ -107,6 +107,15 @@ main{padding:12px 12px 8px; max-width:980px; margin:0 auto}
 .t-cool{background:#e6f0ff; color:#2a6fc4; border-color:#bcd9ff}
 .t-sexy{background:#f1e7ff; color:#7b45c0; border-color:#dcc7ff}
 .t-pop{background:#fff5d6; color:#9a7100; border-color:#ffe49a}
+.t-all{background:linear-gradient(90deg,#ffe6f0,#e6f0ff,#f1e7ff,#fff5d6); color:#54466f; border-color:#ded5f0}
+.brand-badge{display:inline-flex; align-items:center; gap:3px; padding:1px 7px; border-radius:99px; font-size:9.5px;
+  font-weight:900; line-height:1.5; border:1px solid transparent; white-space:nowrap}
+.brand-badge .bdot{width:5px; height:5px; border-radius:50%; background:currentColor; flex:0 0 auto}
+.brand-maple{background:#fde8f3; color:#a92762; border-color:#f7bcd9}
+.brand-crown{background:#eaeefe; color:#353c85; border-color:#ccd3f6}
+.brand-future{background:#e2f5fc; color:#0d5f83; border-color:#b6e4f5}
+.brand-spicy{background:#ffe7ec; color:#9f1d41; border-color:#ffbfcd}
+.brand-none{background:#f5f4f7; color:#65626e; border-color:#e4e1ea}
 .r-N{background:#f3f3f5; color:#6b6b74; border-color:#e2e2e8}
 .r-R{background:#e8f6ff; color:#2f7fa8; border-color:#c3e6f7}
 .r-PR{background:#f5e9ff; color:#8340b8; border-color:#e2c8f7}
@@ -470,6 +479,28 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
 .song-row:last-child{border-bottom:none; padding-bottom:2px}
 .song-title{font-weight:900; font-size:13px; line-height:1.35}
 .song-sub{font-size:10px; color:var(--ink-3); font-weight:700; margin-top:1px; line-height:1.35}
+.song-tags{display:flex; flex-wrap:wrap; align-items:center; gap:4px; margin-top:4px}
+.song-main{min-width:0; cursor:pointer}
+.song-head{display:flex; align-items:flex-start; gap:5px; width:100%; padding:0; margin:0; border:0; background:none; color:inherit; font:inherit; text-align:left; cursor:pointer}
+.song-head .song-title{flex:1 1 auto; min-width:0}
+.song-caret{flex:0 0 auto; font-size:9px; color:var(--ink-3); line-height:1.9; transition:transform .18s ease}
+.song-row.open .song-caret{transform:rotate(180deg)}
+.song-detail{margin-top:8px; border:1.5px solid var(--line); border-radius:12px; background:var(--pink-xl); padding:9px 10px; cursor:auto}
+.song-detail[hidden]{display:none}
+.sd-rows{display:grid; gap:5px}
+.sd-row{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+.sd-k{font-size:10px; font-weight:900; color:var(--ink-3); min-width:78px}
+.sd-msg{margin:8px 0 0; font-size:12px; font-weight:800; line-height:1.55; color:var(--ink)}
+.sd-msg b{color:var(--acc-2)}
+.sd-own{margin:6px 0 0; font-size:10.5px; font-weight:800; color:var(--ink-2); line-height:1.55}
+.sd-own b{color:var(--acc-2)}
+.sd-acts{margin-top:8px; display:flex; gap:6px; flex-wrap:wrap}
+.sd-acts .btn{flex:1 1 100%; justify-content:center; font-size:11px; padding:0 8px}
+.song-filter{margin:2px 0 4px}
+#songTypeChips{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; overflow:visible}
+#songTypeChips .chip{font-size:10.5px; font-weight:800; padding:5px 4px; min-height:32px; border-radius:99px; text-align:center; justify-content:center}
+#songTypeChips .chip .fcount{background:#f3e6ee; color:#8a6a7c; min-width:15px; height:15px; font-size:9.5px; margin-left:3px}
+#songTypeChips .chip[aria-pressed="true"] .fcount{background:rgba(255,255,255,.34); color:#fff}
 .unlock-badge{font-size:10px; font-weight:800; color:#8a4b00; background:#fff3d6; border:1px solid #ffd98a; border-radius:99px; padding:2px 7px; display:inline-block; margin-top:5px; margin-right:4px; line-height:1.45}
 .togs{display:flex; flex-direction:column; gap:4px; align-items:stretch; min-width:86px}
 .tog{font-size:10.5px; font-weight:800; border:1.5px solid var(--line); background:#fff; color:var(--ink-3); border-radius:99px; padding:5px 8px; min-height:31px; white-space:nowrap}
@@ -1881,6 +1912,18 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-msg,
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-lead{color:var(--ink-2)}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-src{color:var(--ink-3)}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-hit .hit-add[disabled]{opacity:.55}
+/* 楽曲のタイプ・ブランドバッジ（ダーク系4テーマは暗い地に合わせた色にする） */
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .tag.t-cute{background:rgba(255,110,165,.18); color:#ffadcf; border-color:rgba(255,110,165,.48)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .tag.t-cool{background:rgba(74,143,231,.20); color:#a3c8ff; border-color:rgba(74,143,231,.50)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .tag.t-sexy{background:rgba(160,107,224,.22); color:#d3b8ff; border-color:rgba(160,107,224,.52)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .tag.t-pop{background:rgba(233,168,0,.20); color:#ffd873; border-color:rgba(233,168,0,.50)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .tag.t-all{background:rgba(255,255,255,.09); color:#f2e6ff; border-color:rgba(255,255,255,.34)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .brand-badge.brand-maple{background:rgba(233,80,143,.22); color:#ffb9d8; border-color:rgba(233,80,143,.50)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .brand-badge.brand-crown{background:rgba(96,112,200,.26); color:#c2caff; border-color:rgba(96,112,200,.55)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .brand-badge.brand-future{background:rgba(31,127,191,.26); color:#96e7ff; border-color:rgba(31,127,191,.55)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .brand-badge.brand-spicy{background:rgba(192,48,94,.24); color:#ffa6bd; border-color:rgba(192,48,94,.55)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd-row) .brand-badge.brand-none{background:var(--s2); color:var(--ink-2); border-color:var(--line2)}
+
 </style>
 </head>
 <body>
@@ -2218,14 +2261,17 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-hit .hit-add
     </div>
 
     <div class="panel">
-      <h2><span class="ico">🎵</span>あそべる楽曲（全11曲）</h2>
+      <h2><span class="ico">🎵</span>あそべる楽曲（全11曲）<span class="right" id="songSum"></span></h2>
+      <div class="song-filter">
+        <div class="chips" id="songTypeChips" role="group" aria-label="タイプで絞り込み"></div>
+      </div>
       <div class="idol-songs" style="margin-bottom:6px">
         <span class="mode-badge">TVアニメ＝テレビアニメ アイカツ！モード</span>
         <span class="mode-badge">オールスター＝アイカツ！オールスターモード</span>
         <span class="mode-badge">じゆうに＝じゆうにアイカツ！モード</span>
       </div>
       <div id="songList"></div>
-      <p class="muted" style="margin:9px 0 0">出典：<a href="https://dcd.aikatsu.com/encore/pdf/music-list.pdf" target="_blank" rel="noopener">公式サイト 楽曲リスト（PDF）</a></p>
+      <p class="muted" style="margin:9px 0 0">タイプ・おすすめブランドは、じゆうにアイカツ！モードの曲一覧（<a href="https://dcd-aikatsu.net/play/audition/" target="_blank" rel="noopener">DCDアイカツ！アンコールまとめ</a>）を 2026-11-19 に確認。楽曲リストの出典：<a href="https://dcd.aikatsu.com/encore/pdf/music-list.pdf" target="_blank" rel="noopener">公式サイト 楽曲リスト（PDF）</a></p>
     </div>
 
     <div class="panel">
@@ -2424,7 +2470,7 @@ const MASTER_CARDS = [{"id":"E1-01_PR","series":"第1弾","name":"オーロラ�
 const MASTER_META  = {"title":"アイカツ！アンコール カードマスタ（第1弾＋プロモ）","version":"2026-11-18","sources":["公式サイト カードリスト https://dcd.aikatsu.com/encore/cardlist/（第1弾=85枚／プロモーションカード=33枚）","カード研究所（非公式） https://card-search.com/aikatsu-encore/cards（カード名・レアリティ・部位・タイプ・ブランド・AP・コーデ）","配布・プロモ一覧 https://card-search.com/aikatsu-encore/promos（入手方法は公式カードリストの文言）"],"note":"cards 配列に第2弾などのオブジェクトを足すと、アプリのタブ・集計・絞り込みが自動で増えます。","counts":{"total":130,"第1弾":85,"第1弾パラレル":12,"プロモ":33},"series":["第1弾","プロモ"],"rarities":["N","R","PR","ER","PR★","ER★"],"types":["キュート","クール","セクシー","ポップ"],"categories":["トップス","ボトムス","シューズ","アクセサリー","トップス＆ボトムス","フルコーデ"],"brands":["Angely Sugar","Dreamy Crown","FUTURING GIRL","Maple Ribbon","SPICY AGEHA","ノーブランド"],"how_to_get":["第1弾収録","第1弾収録（パラレル）","アイカツ！はじめようプレゼントキャンペーン","アイカツ！スタイル購入特典配布","パフュームハンド アイカツ！","アイカツフォン アンコール","アイカツフォンキャリー","アイカツ！おうえんスターライト キュートタイプver.","アイカツ！おうえんスターライト クールタイプver.","アイカツ！おうえんスターライト セクシータイプver.","アイカツ！おうえんスターライト ポップタイプver.","アイカツ！おうえんスターライト（キュート／クール／セクシー／ポップタイプver.）","アイカツ！オフィシャルストア購入特典","しまむら「アイカツスターズ！」「アイカツ！」グッズ","データカードダス アイカツ！アンコール アイカツ！キャンペーン","ちゃお2026年11月号ふろく","Tamagotchi Paradise アイカツフォン アンコール"]};
 
 const LS_KEY = 'aikatsu-encore-checker.v1';
-const TYPE_CLASS = {'キュート':'t-cute','クール':'t-cool','セクシー':'t-sexy','ポップ':'t-pop'};
+const TYPE_CLASS = {'キュート':'t-cute','クール':'t-cool','セクシー':'t-sexy','ポップ':'t-pop','全タイプ':'t-all'};
 const TYPE_COLOR = {'キュート':'#ff6fa5','クール':'#4a8fe7','セクシー':'#a06be0','ポップ':'#e9a800'};
 const CAT_ORDER = ['トップス','トップス＆ボトムス','ボトムス','シューズ','アクセサリー','フルコーデ'];
 const SLOT_LABEL = {'トップス':'トップス','ボトムス':'ボトムス','シューズ':'シューズ','アクセサリー':'アクセ','トップス＆ボトムス':'上下','フルコーデ':'フル'};
@@ -4371,27 +4417,88 @@ const IDOLS = [
 const MODE_LABEL = {tv:'TVアニメ', all:'オールスター', free:'じゆうに'};
 const ALL_IDOLS = ['いちご','あおい','らん','あかり','らき','ノエル','ハナ','みえる','たいむ','パリン','メエ'];
 const SONGS = [
-  {title:'AIKATSU！×AIKATSU！', idols:['いちご','あおい','らん'], modes:['tv','free'], unlock:[]},
-  {title:'Prism Spiral', idols:['あおい'], modes:['tv','free'],
+  {title:'AIKATSU！×AIKATSU！', type:'キュート', brand:'', idols:['いちご','あおい','らん'], modes:['tv','free'], unlock:[]},
+  {title:'Prism Spiral', type:'クール', brand:'FUTURING GIRL', idols:['あおい'], modes:['tv','free'],
    unlock:[{who:'メエ', cond:'きかんげんてい（ふつう）'}]},
-  {title:'アイドル活動！', idols:['いちご'], modes:['tv','free'],
+  {title:'アイドル活動！', type:'キュート', brand:'', idols:['いちご'], modes:['tv','free'],
    unlock:[{who:'メエ・パリン・たいむ', cond:'きかんげんてい（かんたん）'}]},
-  {title:'Move on now!', idols:['らん'], modes:['tv','free'],
+  {title:'Move on now!', type:'セクシー', brand:'SPICY AGEHA', idols:['らん'], modes:['tv','free'],
    unlock:[{who:'たいむ', cond:'きかんげんてい（ふつう）'}]},
-  {title:'SHINING LINE*', sub:'～いちご＆あかり＆ゆめ＆あいね＆みお＆らきver.～', idols:ALL_IDOLS, modes:['all','free'], unlock:[]},
-  {title:'MY STARWAY', idols:['いちご','あおい','らん'], modes:['all','free'],
+  {title:'SHINING LINE*', type:'キュート', brand:'', sub:'～いちご＆あかり＆ゆめ＆あいね＆みお＆らきver.～', idols:ALL_IDOLS, modes:['all','free'], unlock:[]},
+  {title:'MY STARWAY', type:'ポップ', brand:'', idols:['いちご','あおい','らん'], modes:['all','free'],
    unlock:[{who:'パリン', cond:'きかんげんてい（ふつう）'}]},
-  {title:'君のEntrance', idols:['らき'], modes:['all','free'],
+  {title:'君のEntrance', type:'キュート', brand:'Maple Ribbon', idols:['らき'], modes:['all','free'],
    unlock:[{who:'らき', cond:'オールスターでアンコール成功'}]},
-  {title:'トワイライトエトランゼ', idols:['ノエル'], modes:['all','free'],
+  {title:'トワイライトエトランゼ', type:'キュート', brand:'', idols:['ノエル'], modes:['all','free'],
    unlock:[{who:'ノエル', cond:'オールスターでアンコール成功'}]},
-  {title:'HAPPY∞アイカツ！', idols:['ハナ'], modes:['all','free'],
+  {title:'HAPPY∞アイカツ！', type:'キュート', brand:'', idols:['ハナ'], modes:['all','free'],
    unlock:[{who:'ハナ', cond:'オールスターでアンコール成功＋スコア40000以上'}]},
-  {title:'満開！エリオント', idols:['みえる','たいむ','パリン','メエ'], modes:['all','free'],
+  {title:'満開！エリオント', type:'全タイプ', brand:'', idols:['みえる','たいむ','パリン','メエ'], modes:['all','free'],
    unlock:[{who:'みえる', cond:'オールスターでアンコール成功'},{who:'メエ・パリン・たいむ', cond:'きかんげんてい（むずかしい）'}]},
-  {title:'Du-Du-Wa DO IT!!', idols:['あかり'], modes:['all','free'],
+  {title:'Du-Du-Wa DO IT!!', type:'キュート', brand:'Dreamy Crown', idols:['あかり'], modes:['all','free'],
    unlock:[{who:'あかり', cond:'オールスターでアンコール成功'}]}
 ];
+
+/* ---------- データ：楽曲のタイプ・ブランド表示 ---------- */
+const SONG_TYPES = ['キュート','クール','セクシー','ポップ','全タイプ'];
+const BRAND_CLASS = {'Maple Ribbon':'brand-maple','Dreamy Crown':'brand-crown','FUTURING GIRL':'brand-future','SPICY AGEHA':'brand-spicy'};
+let songTypeFilter = 'all';
+let songOpen = null;
+function brandBadge(b){
+  if(!b) return `<span class="brand-badge brand-none" title="ブランド指定なし">ブランド指定なし</span>`;
+  return `<span class="brand-badge ${BRAND_CLASS[b] || 'brand-none'}"><i class="bdot"></i>${esc(b)}</span>`;
+}
+
+/* その曲のおすすめタイプ・ブランド（タップで開く詳細） */
+function songDetailHtml(s, i){
+  const allType = s.type === '全タイプ';
+  let msg;
+  if(allType){
+    msg = 'この曲は <b>全タイプ</b> 対応（どのタイプのコーデでもOK！）'
+        + (s.brand ? `・<b>${esc(s.brand)}</b> がおすすめ！` : '。ブランド指定なし');
+  } else if(s.brand){
+    msg = `この曲には <b>${esc(s.type)}</b> タイプ・<b>${esc(s.brand)}</b> がおすすめ！`;
+  } else {
+    msg = `この曲には <b>${esc(s.type)}</b> タイプがおすすめ！（ブランド指定なし）`;
+  }
+
+  const ownOf = (fn)=>ALL.filter(c=>fn(c));
+  let own;
+  if(allType){
+    const o = ownOf(c=>owned(c)).length;
+    own = `手持ちのカード <b>${o}</b>枚（全 ${ALL.length}種・どのタイプでもOK）`;
+    if(s.brand){
+      const bp = ownOf(c=>c.brand===s.brand);
+      own = `手持ちのカード <b>${o}</b>枚（全 ${ALL.length}種）／${esc(s.brand)} <b>${bp.filter(owned).length}</b>枚（全 ${bp.length}種）`;
+    }
+  } else {
+    const tp = ownOf(c=>c.type===s.type);
+    own = `手持ちの${esc(s.type)}カード <b>${tp.filter(owned).length}</b>枚（全 ${tp.length}種）`;
+    if(s.brand){
+      const bp = ownOf(c=>c.brand===s.brand);
+      own += `／${esc(s.brand)} <b>${bp.filter(owned).length}</b>枚（全 ${bp.length}種）`;
+    } else {
+      own += '・ブランド指定なし';
+    }
+  }
+
+  const btnLabel = allType ? '🃏 手持ちのカードをぜんぶ見る'
+    : `🃏 ${esc(s.type)}の手持ちカードを見る`;
+  const pool = ALL.filter(c=>(allType || c.type === s.type) && (!s.brand || c.brand === s.brand));
+  const haveN = pool.filter(owned).length;
+  const btn = haveN > 0 ? btnLabel
+    : (allType ? '🃏 カードを見る（手持ちはまだ0枚）' : `🃏 ${esc(s.type)}のカードを見る（手持ち0枚）`);
+
+  return `<div class="song-detail" id="songDet${i}" role="region" aria-label="${esc(s.title)}のおすすめ">
+    <div class="sd-rows">
+      <div class="sd-row"><span class="sd-k">ステージタイプ</span><span class="tag ${TYPE_CLASS[s.type] || ''}">${esc(s.type || '—')}</span></div>
+      <div class="sd-row"><span class="sd-k">おすすめブランド</span>${brandBadge(s.brand)}</div>
+    </div>
+    <p class="sd-msg">${msg}</p>
+    <p class="sd-own">${own}</p>
+    <div class="sd-acts"><button class="btn ghost sm" type="button" data-song-cards="${i}">${btn}</button></div>
+  </div>`;
+}
 
 /* ---------- データ：アイカツ！スタンプ（1弾で開催中の3種） ---------- */
 const STAMPS = [
@@ -4513,6 +4620,53 @@ function idolStats(){
 }
 
 /* ---------- 🎤 アイドル・楽曲・スタンプ ---------- */
+function renderSongList(){
+  const cnt = {all:SONGS.length};
+  SONG_TYPES.forEach(t=>{ cnt[t] = 0; });
+  SONGS.forEach(s=>{ if(cnt[s.type] != null) cnt[s.type]++; });
+
+  const chips = [['all','すべて']].concat(SONG_TYPES.map(t=>[t,t]));
+  $('#songTypeChips').innerHTML = chips.map(([v,label])=>{
+    const n = cnt[v] || 0;
+    return `<button class="chip" data-song-type="${esc(v)}" aria-pressed="${songTypeFilter===v?'true':'false'}">${esc(label)}<span class="fcount">${n}</span></button>`;
+  }).join('');
+
+  const list = SONGS.map((s,i)=>({s,i})).filter(o=> songTypeFilter==='all' || o.s.type===songTypeFilter);
+  const sum = $('#songSum');
+  if(sum) sum.textContent = (songTypeFilter==='all' ? '' : `${list.length} / ${SONGS.length}曲`);
+
+  if(!list.length){
+    $('#songList').innerHTML = '<p class="empty" style="margin:8px 0">このタイプの曲はまだありません</p>';
+    return;
+  }
+
+  $('#songList').innerHTML = list.map(({s,i})=>{
+    const p = PROG.songs[s.title] || {};
+    const open = songOpen === i;
+    return `<div class="song-row ${open?'open':''}">
+      <div class="song-main" data-song-open="${i}">
+        <button class="song-head" type="button" data-song-open="${i}" aria-expanded="${open?'true':'false'}" aria-controls="songDet${i}">
+          <span class="song-title">${esc(s.title)}</span>
+          <span class="song-caret" aria-hidden="true">▼</span>
+        </button>
+        ${s.sub ? `<div class="song-sub">${esc(s.sub)}</div>` : ''}
+        <div class="song-tags">
+          <span class="tag ${TYPE_CLASS[s.type] || ''}" title="ステージタイプ">${esc(s.type || '—')}</span>
+          ${brandBadge(s.brand)}
+        </div>
+        <div class="idol-songs">${s.modes.map(m=>`<span class="mode-badge">${MODE_LABEL[m]}</span>`).join('')}</div>
+        <div class="idol-songs">${s.idols.map(n=>`<span class="song-chip">${esc(n)}</span>`).join('')}</div>
+        ${s.unlock.length ? `<div>${s.unlock.map(u=>`<span class="unlock-badge">🔓 ${esc(u.who)}：${esc(u.cond)}</span>`).join('')}</div>` : ''}
+        ${open ? songDetailHtml(s,i) : `<div class="song-detail" id="songDet${i}" hidden></div>`}
+      </div>
+      <div class="togs">
+        <button class="tog" data-song-play="${i}" aria-pressed="${p.played?'true':'false'}">プレイ済</button>
+        <button class="tog" data-song-encore="${i}" aria-pressed="${p.encore?'true':'false'}">アンコール成功</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function renderIdolView(){
   const st = idolStats();
   const pct = st.total ? st.open / st.total * 100 : 0;
@@ -4540,22 +4694,8 @@ function renderIdolView(){
     </div>`;
   }).join('');
 
-  $('#songList').innerHTML = SONGS.map((s,i)=>{
-    const p = PROG.songs[s.title] || {};
-    return `<div class="song-row">
-      <div>
-        <div class="song-title">${esc(s.title)}</div>
-        ${s.sub ? `<div class="song-sub">${esc(s.sub)}</div>` : ''}
-        <div class="idol-songs">${s.modes.map(m=>`<span class="mode-badge">${MODE_LABEL[m]}</span>`).join('')}</div>
-        <div class="idol-songs">${s.idols.map(n=>`<span class="song-chip">${esc(n)}</span>`).join('')}</div>
-        ${s.unlock.length ? `<div>${s.unlock.map(u=>`<span class="unlock-badge">🔓 ${esc(u.who)}：${esc(u.cond)}</span>`).join('')}</div>` : ''}
-      </div>
-      <div class="togs">
-        <button class="tog" data-song-play="${i}" aria-pressed="${p.played?'true':'false'}">プレイ済</button>
-        <button class="tog" data-song-encore="${i}" aria-pressed="${p.encore?'true':'false'}">アンコール成功</button>
-      </div>
-    </div>`;
-  }).join('');
+  $('#songList').innerHTML = '';
+  renderSongList();
 
   let done = 0;
   $('#stampWrap').innerHTML = STAMPS.map((s,si)=>{
@@ -5228,7 +5368,40 @@ $('#idolGrid').addEventListener('change', (e)=>{
   }
 });
 
+$('#songTypeChips').addEventListener('click', (e)=>{
+  const b = e.target.closest('[data-song-type]'); if(!b || b.dataset.songType === songTypeFilter) return;
+  songTypeFilter = b.dataset.songType;
+  renderSongList();
+});
+
 $('#songList').addEventListener('click', (e)=>{
+  const cardsBtn = e.target.closest('[data-song-cards]');
+  if(cardsBtn){
+    const s = SONGS[Number(cardsBtn.dataset.songCards)]; if(!s) return;
+    filters.type = (s.type && s.type !== '全タイプ') ? s.type : 'all';
+    filters.brand = s.brand || 'all';
+    const pool = ALL.filter(c=>((s.type && s.type !== '全タイプ') ? c.type === s.type : true) && (!s.brand || c.brand === s.brand));
+    const haveN = pool.filter(owned).length;
+    filters.status = haveN > 0 ? 'own' : 'all';
+    const ft = $('#fType'), fb = $('#fBrand');
+    if(ft) ft.value = filters.type;
+    if(fb) fb.value = filters.brand;
+    $$('#statusChips .chip').forEach(c=>c.setAttribute('aria-pressed', String(c.dataset.status === filters.status)));
+    switchView('cards'); renderCards();
+    toast('🃏 ' + (haveN > 0 ? '手持ちのカード' : 'カード') + 'で絞り込みました（' + (s.type || '') + (s.brand ? '・' + s.brand : '') + '）');
+    return;
+  }
+
+  const head = e.target.closest('[data-song-open]');
+  if(head && !e.target.closest('.song-detail')){
+    const i = Number(head.dataset.songOpen);
+    songOpen = (songOpen === i ? null : i);
+    renderSongList();
+    const nb = document.querySelector(`#songList [data-song-open="${i}"]`);
+    if(nb && nb.focus) nb.focus({preventScroll:true});
+    return;
+  }
+
   const b = e.target.closest('[data-song-play],[data-song-encore]'); if(!b) return;
   const i = Number(b.hasAttribute('data-song-play') ? b.dataset.songPlay : b.dataset.songEncore);
   const s = SONGS[i]; if(!s) return;
