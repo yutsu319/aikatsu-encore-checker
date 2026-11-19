@@ -2147,6 +2147,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .gi-badge.ended{ba
       <ul class="srcs">
         <li><a href="https://dcd.aikatsu.com/encore/news/" target="_blank" rel="noopener">dcd.aikatsu.com/encore/news/（ニュース一覧）</a></li>
         <li><a href="https://dcd.aikatsu.com/encore/news/001.php" target="_blank" rel="noopener">１弾特集♪（ボーナスキャンペーン・期間限定イベント）</a></li>
+        <li><a href="https://dcd.aikatsu.com/encore/news/015.php" target="_blank" rel="noopener">１弾カード増産のお知らせ（2026.11.19）</a></li>
         <li><a href="https://dcd.aikatsu.com/encore/news/007.php" target="_blank" rel="noopener">関連商品（アイカツフォン・おうえんスターライト等）</a></li>
         <li><a href="https://1kuji.com/products/aikatsu8" target="_blank" rel="noopener">一番くじちょこっと（BANDAI SPIRITS 公式）</a></li>
       </ul>
@@ -3981,10 +3982,14 @@ const STAMPS = [
 ];
 
 /* ---------- データ：ニュース＆スケジュール ----------
-   kind: 'period'（期間もの） / 'release'（発売日） / 'info'（日付未定の続報）
+   kind: 'period'（期間もの） / 'release'（発売日） / 'notice'（その日のお知らせ＝帯なしの日付メモ） / 'info'（日付未定の続報）
    start / end（end が無い期間ものは endNote に「１弾稼働終了まで」など）
    新しい情報が出たら、この配列に1件足すだけで表示・並び・「あと何日」が自動で更新されます。 */
 const SCHEDULE = [
+  {id:'zousan', kind:'notice', cat:'ゲーム', title:'１弾カード増産のお知らせ',
+   sub:'カード不足のおわびと、11月下旬以降は供給が順次安定する見込み', start:'2026-11-19',
+   detail:'カード不足でプレイできない状況が続いていることについてのお知らせ。１弾稼働以降、最優先で増産を進めていて、11月下旬以降は各店舗へのカード供給が順次安定する見込み。入荷状況の店舗への直接の問い合わせは控えるよう案内あり。',
+   url:'https://dcd.aikatsu.com/encore/news/015.php'},
   {id:'bonus', kind:'period', cat:'ゲーム', title:'１弾ボーナスキャンペーン',
    sub:'けいけんち2倍＋ファン数2倍', start:'2026-11-20', endNote:'１弾稼働終了まで',
    detail:'アイカツパスを使ってリズムゲームをプレイすると、もらえるアイドルランクのけいけんちとファンの数が2倍に。※100円でプレイした後に獲得するけいけんち・ファンのみ対象。',
@@ -4140,6 +4145,7 @@ function renderIdolView(){
 let newsFilter = 'all';
 function schedStatus(e, today){
   if(e.kind === 'info') return {key:'info', days:null};
+  if(e.kind === 'notice') return {key:'notice', days:null};
   const s = parseISO(e.start);
   if(today < s) return {key:'soon', days: diffDays(today, s)};
   if(e.kind === 'release') return {key:'onSale', days:0};
@@ -4148,6 +4154,7 @@ function schedStatus(e, today){
 }
 function schedWhen(e){
   if(e.kind === 'info') return e.when || '日付未定';
+  if(e.kind === 'notice') return fmtJP(e.start);
   if(e.kind === 'release'){
     if(e.start === '2027-02-28') return '2027年2月末 発売予定';
     return fmtJP(e.start) + ' 発売';
@@ -4159,12 +4166,13 @@ function statusLabel(st){
   if(st.key === 'onSale') return {cls:'', text:'発売中'};
   if(st.key === 'live') return {cls:'', text:'開催中'};
   if(st.key === 'ended') return {cls:'ended', text:'終了'};
+  if(st.key === 'notice') return {cls:'info', text:'お知らせ'};
   return {cls:'info', text:'続報待ち'};
 }
 function newsItems(){
   const today = todayDate();
   return SCHEDULE.map(e=>({e, st: schedStatus(e, today)})).sort((a,b)=>{
-    const order = {soon:0, live:1, onSale:1, info:2, ended:3};
+    const order = {notice:0, soon:0, live:1, onSale:1, info:2, ended:3};
     const oa = order[a.st.key], ob = order[b.st.key];
     if(oa !== ob) return oa - ob;
     const da = parseISO(a.e.start) || new Date(9e12), db = parseISO(b.e.start) || new Date(9e12);
@@ -4189,7 +4197,7 @@ function renderNewsView(){
   });
   $('#newsList').innerHTML = shown.length ? shown.map(({e,st})=>{
     const lab = statusLabel(st);
-    return `<div class="news-card ${st.key === 'soon' ? 'soon' : (st.key === 'live' || st.key === 'onSale') ? 'live' : st.key === 'info' ? '' : 'ended'}" data-news-id="${esc(e.id)}">
+    return `<div class="news-card ${st.key === 'soon' ? 'soon' : (st.key === 'live' || st.key === 'onSale') ? 'live' : (st.key === 'info' || st.key === 'notice') ? '' : 'ended'}" data-news-id="${esc(e.id)}">
       <div class="news-h"><span class="cat-badge">${esc(e.cat)}</span><span class="dday ${lab.cls}">${lab.text}</span></div>
       <div class="news-title">${esc(e.title)}</div>
       ${e.sub ? `<div class="news-sub">${esc(e.sub)}</div>` : ''}
@@ -4225,12 +4233,14 @@ function calEventsOn(iso){
   });
 }
 function calEventState(e, iso){
+  if(e.kind === 'notice') return 'お知らせ';
   if(e.start === iso) return e.kind === 'release' ? '発売日' : '開始日';
   if(e.end && e.end === iso) return '最終日';
   return e.kind === 'release' ? '発売日' : '開催中';
 }
 function calWhenShort(e){
   if(e.kind === 'info') return e.when || '日付未定';
+  if(e.kind === 'notice') return fmtJP(e.start);
   if(e.kind === 'release') return fmtJP(e.start) + ' 発売';
   return fmtJP(e.start) + '〜' + (e.end ? fmtJP(e.end) : (e.endNote || '終了日未定'));
 }
