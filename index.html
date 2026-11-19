@@ -4416,7 +4416,7 @@ const STAMPS = [
 ];
 
 /* ---------- データ：ニュース＆スケジュール ----------
-   kind: 'period'（期間もの） / 'release'（発売日） / 'notice'（その日のお知らせ＝帯なしの日付メモ） / 'info'（日付未定の続報）
+   kind: 'period'（期間もの） / 'release'（発売日） / 'notice'（その日のお知らせ＝ニュース一覧にだけ出す。カレンダーの帯・丸点・「その日の予定」には出さない） / 'info'（日付未定の続報）
    start / end（end が無い期間ものは endNote に「１弾稼働終了まで」など）
    新しい情報が出たら、この配列に1件足すだけで表示・並び・「あと何日」が自動で更新されます。 */
 const SCHEDULE = [
@@ -4656,10 +4656,11 @@ function calEnsureYM(){
   if(calSel === null || calSel === undefined) calSel = calSameYM(calYM, calTodayYM()) ? todayISO() : '';
   if(calSel && calSel.length !== 10) calSel = '';
 }
-/* その日にやっている（開催中・発売日）予定 */
+/* その日にやっている（開催中・発売日）予定。
+   kind:'notice'（増産のお知らせなど）はカレンダーには一切出さず、ニュース一覧（リスト）にだけ並べる */
 function calEventsOn(iso){
   return SCHEDULE.filter(e=>{
-    if(e.kind === 'info' || !e.start) return false;
+    if(e.kind === 'info' || e.kind === 'notice' || !e.start) return false;
     if(e.start === iso) return true;
     if(iso < e.start) return false;
     if(e.end) return iso <= e.end;
@@ -4667,14 +4668,12 @@ function calEventsOn(iso){
   });
 }
 function calEventState(e, iso){
-  if(e.kind === 'notice') return 'お知らせ';
   if(e.start === iso) return e.kind === 'release' ? '発売日' : '開始日';
   if(e.end && e.end === iso) return '最終日';
   return e.kind === 'release' ? '発売日' : '開催中';
 }
 function calWhenShort(e){
   if(e.kind === 'info') return e.when || '日付未定';
-  if(e.kind === 'notice') return fmtJP(e.start);
   if(e.kind === 'release') return fmtJP(e.start) + ' 発売';
   return fmtJP(e.start) + '〜' + (e.end ? fmtJP(e.end) : (e.endNote || '終了日未定'));
 }
@@ -4818,7 +4817,7 @@ function renderNewsCal(){
     html += '</div>';
   });
   html += '<div class="cal-legend">' + CAL_CATS.map(c=>'<span><i data-calcat="' + esc(c) + '"></i>' + esc(c) + '</span>').join('') + '</div>';
-  html += '<p class="muted" style="margin:8px 0 0; line-height:1.6">帯＝期間のある予定（右端の ▶ は「また月をまたいで続く」）。ひも状の細い帯は、前の週から続いているもの。丸い点＝その日の発売・配布。日付か帯をタップすると、下にその日の予定が出ます。</p>';
+  html += '<p class="muted" style="margin:8px 0 0; line-height:1.6">帯＝期間のある予定（右端の ▶ は「また月をまたいで続く」）。ひも状の細い帯は、前の週から続いているもの。丸い点＝その日の発売・配布。日付か帯をタップすると、下にその日の予定が出ます。「お知らせ」（期間のないお知らせ）はカレンダーには出さず、リスト表示にだけ並びます。</p>';
   html += '</div>';
   host.innerHTML = html;
 }
