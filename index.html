@@ -1791,47 +1791,96 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .gi-badge.ended{ba
 .shop-select{width:100%; min-width:0; border:1.5px solid var(--line); border-radius:11px; padding:8px 10px;
   min-height:42px; background:#fff; color:var(--ink); font-weight:800; font-size:13px; outline:none}
 .shop-select:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
+.shop-select:disabled{opacity:.6}
 .shop-acts{display:grid; grid-template-columns:minmax(0,1fr); gap:6px; margin-top:8px}
 .shop-acts .btn{width:100%; min-height:40px; padding:0 8px; font-size:11.5px; text-decoration:none}
 .shop-note{margin:9px 0 0; font-size:10.5px; font-weight:700; color:var(--ink-2); line-height:1.6}
 .shop-note b{color:var(--acc)}
+.shop-search{margin-top:12px; padding-top:11px; border-top:1px dashed var(--line)}
+.shop-search .sec-title{margin:0 0 6px}
+.shop-search .sec-title .memo-cnt{margin-left:auto; font-size:10px; font-weight:900; color:var(--ink-3)}
+.shop-hits{display:grid; gap:6px; margin-top:7px}
+.shop-hit{display:grid; gap:6px; border:1.5px solid var(--line); border-radius:12px; background:var(--pink-xl); padding:8px 9px}
+.shop-hit .hit-tx{min-width:0}
+.shop-hit b{display:block; font-size:12px; font-weight:900; line-height:1.35; overflow-wrap:anywhere}
+.shop-hit small{display:block; margin-top:2px; font-size:9.5px; font-weight:800; color:var(--ink-2); line-height:1.45; overflow-wrap:anywhere}
+.shop-hit .hit-acts{display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px; align-items:stretch}
+.shop-hit .hit-off{border:1.5px solid var(--line); border-radius:9px; background:#fff; color:var(--acc);
+  font-size:10.5px; font-weight:900; padding:0 10px; min-height:34px; display:flex; align-items:center;
+  justify-content:center; text-decoration:none; white-space:nowrap}
+.shop-hit .hit-add{min-height:34px; font-size:11px; padding:0 8px}
+.shop-hit .hit-add[disabled]{opacity:.6}
+#shopHits .hit-add{background:#fff; color:var(--acc); border:1.5px solid var(--line); box-shadow:none;
+  min-height:34px; font-size:10.5px; padding:0 8px; white-space:nowrap}
+#shopHits .hit-add:active{transform:scale(.97)}
+#shopHits .hit-add[disabled]{color:var(--ink-2); border-style:dashed; opacity:1}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) #shopHits .hit-add{background:var(--s2); border-color:var(--line2); color:var(--acc)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) #shopHits .hit-add[disabled]{color:var(--ink-3)}
+.shop-msg{margin:7px 0 0; font-size:10.5px; font-weight:800; color:var(--ink-2); line-height:1.55}
+.shop-msg b{color:var(--acc)}
+.shop-src{margin:8px 0 0; font-size:9.5px; font-weight:700; color:var(--ink-2); line-height:1.45}
 .shop-memo{margin-top:12px; padding-top:11px; border-top:1px dashed var(--line)}
 .shop-memo .sec-title{margin:0 0 5px}
 .shop-memo .sec-title .memo-cnt{margin-left:auto; font-size:10px; font-weight:900; color:var(--ink-3)}
 .shop-list{display:grid; gap:6px}
-.shop-item{display:grid; grid-template-columns:minmax(0,1fr) auto 28px; gap:6px; align-items:center;
-  border:1.5px solid var(--line); border-radius:12px; background:var(--pink-xl); padding:7px 8px}
+.shop-item{display:grid; gap:5px;
+  border:1.5px solid var(--line); border-radius:12px; background:var(--pink-xl); padding:8px 8px}
 .shop-item .si-tx{min-width:0}
-.shop-item b{display:block; font-size:12px; font-weight:900; line-height:1.3;
-  overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-.shop-item small{display:block; margin-top:1px; font-size:9.5px; font-weight:800; color:var(--ink-3);
-  overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.shop-item .si-head{display:grid; grid-template-columns:minmax(0,1fr) 28px; gap:6px; align-items:start}
+.shop-item b{display:block; font-size:12px; font-weight:900; line-height:1.3; overflow-wrap:anywhere}
+.shop-item small{display:block; margin-top:1px; font-size:9.5px; font-weight:800; color:var(--ink-2);
+  line-height:1.45; overflow-wrap:anywhere}
+.shop-item .si-x{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px}
+.shop-item .si-xin{width:100%; min-width:0; border:1.5px solid var(--line); border-radius:9px; padding:6px 8px;
+  min-height:32px; background:#fff; color:var(--ink); font-weight:800; font-size:11.5px; outline:none}
+.shop-item .si-xin:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
+.shop-item .si-xin::placeholder{color:var(--ink-3); font-weight:700}
+.shop-item .si-save{border:1.5px solid var(--line); border-radius:9px; background:#fff; color:var(--acc);
+  font-size:10.5px; font-weight:900; padding:0 10px; min-height:32px; white-space:nowrap}
+.shop-item .si-save:active{transform:scale(.97)}
+.shop-item .si-foot{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px}
 .shop-item .si-go{border:1.5px solid var(--line); border-radius:9px; background:#fff; color:var(--acc);
-  font-size:10.5px; font-weight:900; padding:6px 8px; text-decoration:none; white-space:nowrap; text-align:center}
+  font-size:10.5px; font-weight:900; padding:6px 8px; min-height:32px; display:flex; align-items:center;
+  justify-content:center; text-decoration:none; white-space:nowrap; text-align:center}
 .shop-item .si-go:active{transform:scale(.97)}
+.shop-item .si-off{border:1.5px solid var(--line); border-radius:9px; background:transparent; color:var(--ink-2);
+  font-size:10.5px; font-weight:900; padding:6px 10px; min-height:32px; display:flex; align-items:center;
+  justify-content:center; text-decoration:none; white-space:nowrap}
 .shop-item .si-del{border:none; border-radius:8px; width:28px; min-height:28px; padding:0;
   background:#fff2f6; color:var(--acc); font-size:14px; font-weight:900; line-height:1}
 .shop-empty{margin:0; padding:10px 8px; border:1.5px dashed var(--line); border-radius:12px;
   text-align:center; font-size:11px; font-weight:800; color:var(--ink-2); line-height:1.5}
 .shop-form{display:grid; gap:6px; margin-top:9px}
+.shop-form[hidden]{display:none}
 .shop-form input{width:100%; min-width:0; border:1.5px solid var(--line); border-radius:11px; padding:8px 10px;
   min-height:40px; background:#fff; color:var(--ink); font-weight:800; font-size:13px; outline:none}
 .shop-form input:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
-.shop-form input::placeholder{color:#cdb4bf; font-weight:700}
+.shop-form input::placeholder{color:var(--ink-3); font-weight:700}
 .shop-form .btn{width:100%; min-height:40px}
-.shop-tip{margin:0; font-size:10px; font-weight:800; color:var(--ink-3); line-height:1.5}
+.shop-tip{margin:0; font-size:10px; font-weight:800; color:var(--ink-2); line-height:1.5}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-select,
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-form input,
-body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-go{background:var(--s2); border-color:var(--line2); color:var(--ink)}
-body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-form input::placeholder{color:var(--ink-3)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-go,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-hit .hit-off,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-xin,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-save{background:var(--s2); border-color:var(--line2); color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-form input::placeholder,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-xin::placeholder{color:var(--ink-3)}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-select:focus,
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-form input:focus{border-color:var(--acc-2); box-shadow:0 0 0 3px var(--focus)}
-body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item{background:var(--s2); border-color:var(--line2)}
-body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-go{color:var(--acc)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-hit{background:var(--s2); border-color:var(--line2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-go,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-hit .hit-off,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-save{color:var(--acc)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-off{color:var(--ink-2)}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-item .si-del{background:rgba(255,255,255,.10); color:var(--acc)}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-empty{border-color:var(--line2); color:var(--ink-3)}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-note,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-msg,
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-lead{color:var(--ink-2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-src{color:var(--ink-3)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-hit .hit-add[disabled]{opacity:.55}
 </style>
 </head>
 <body>
@@ -1883,11 +1932,15 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-lead{color:v
 
     <div class="panel" id="shopPanel">
       <h2><span class="ico">🏪</span>遊べるお店・公式X<span class="right">公式サイト</span></h2>
-      <p class="shop-lead">都道府県をえらぶと、公式サイトの取扱店舗リストをその都道府県で絞った状態で開けます。</p>
+      <p class="shop-lead">都道府県（と市区町村）をえらぶと、公式サイトの取扱店舗リストをその範囲で絞った状態で開けます。下の検索では、この画面のまま公式の取扱店舗をさがせます。</p>
       <div class="shop-flds">
         <div>
           <label for="shopPref">都道府県（えらばなくてもOK）</label>
           <select class="shop-select" id="shopPref"><option value="">すべて（全国）</option></select>
+        </div>
+        <div>
+          <label for="shopCity">市区町村（えらばなくてもOK）</label>
+          <select class="shop-select" id="shopCity" disabled><option value="">都道府県をえらぶと選べます</option></select>
         </div>
       </div>
       <div class="shop-acts">
@@ -1896,22 +1949,39 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-lead{color:v
       </div>
       <p class="shop-note">公式の<b>稼働台数・排出弾は更新時点の目安</b>です。カード切れや故障で止まっていることもあります。お店への直接のお問い合わせは、<b>公式が控えるよう案内</b>しています。</p>
 
+      <div class="shop-search">
+        <div class="sec-title">🔍 公式の取扱店舗をさがす<span class="memo-cnt" id="shopHitCnt"></span></div>
+        <div class="shop-form">
+          <div>
+            <label for="shopQuery">キーワード</label>
+            <input type="search" id="shopQuery" placeholder="店名・市区町村・住所で検索" maxlength="40" autocomplete="off" enterkeyhint="search">
+          </div>
+        </div>
+        <p class="shop-msg" id="shopMsg">都道府県をえらぶか、2文字以上で検索すると候補が出ます。</p>
+        <div class="shop-hits" id="shopHits"></div>
+        <div class="shop-form" id="shopMoreWrap" hidden>
+          <button class="btn ghost sm" id="shopMore" type="button">もっと見る</button>
+        </div>
+        <p class="shop-src" id="shopSrc"></p>
+      </div>
+
       <div class="shop-memo">
         <div class="sec-title">📝 よく行くお店のXメモ<span class="memo-cnt" id="shopCount"></span></div>
         <div class="shop-list" id="shopList"></div>
         <div class="shop-form">
           <div class="shop-flds">
             <div>
-              <label for="shopName">お店の名前</label>
-              <input type="text" id="shopName" placeholder="お店の名前（例：〇〇店）" maxlength="40" autocomplete="off">
+              <label for="shopName">お店の名前（手入力で追加）</label>
+              <input type="text" id="shopName" placeholder="お店の名前を入力" maxlength="40" autocomplete="off">
             </div>
             <div>
-              <label for="shopX">Xの@アカウント または 検索語</label>
+              <label for="shopX">Xの@アカウント または 検索語（あとから設定もOK）</label>
               <input type="text" id="shopX" placeholder="@アカウント または 検索語" maxlength="60" autocomplete="off">
             </div>
           </div>
           <button class="btn sm" id="shopAdd" type="button">＋ メモに追加</button>
-          <p class="shop-tip">「@〜」ならそのアカウントへ、「ことば」ならXの検索へワンタップで飛びます。メモはこの端末の中だけに保存され、どこにも送られません。</p>
+          <p class="shop-tip">メモのXは、あとから各メモの欄で書きかえて「保存」できます。「@〜」ならそのアカウントへ、ことばならXの検索へ、未設定なら店名の検索へワンタップで飛びます。メモも選んだ都道府県・市区町村も、この端末の中だけに保存され、どこにも送られません。</p>
+          <p class="shop-tip">手入力の欄は、上の公式検索になかったお店を自分で足すとき用です。</p>
         </div>
       </div>
     </div>
@@ -2074,7 +2144,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-lead{color:v
         <button class="btn sm" id="importBtn">このデータを読み込む</button>
         <button class="btn ghost sm" id="importClear">クリア</button>
       </div>
-      <p class="muted" style="margin:8px 0 0">読み込むと今の所持データは置きかわります（カードの追加データは残ります）。お店のXメモは消えず、JSONに入っているメモが追加されます（同じ名前と内容のものは重複しません。都道府県は、まだ選んでいないときだけ読み込んだものになります）。</p>
+      <p class="muted" style="margin:8px 0 0">読み込むと今の所持データは置きかわります（カードの追加データは残ります）。お店のXメモは消えず、JSONに入っているメモが追加されます（同じ名前と住所のものは重複しません。都道府県・市区町村は、まだ選んでいないときだけ読み込んだものになります）。</p>
     </div>
 
     <div class="panel">
@@ -2126,7 +2196,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-lead{color:v
           10. 「👗 コーデ」タブのいちばん上に「✨ 手持ちで組めるおすすめコーデ」。いま持っているカードだけで全身そろうコーデをAPの高い順に表示します。「🎯 高AP 3,000〜」でスコア狙い、「あと1枚」で足りない1枚を確認できます。<br>
           11. 「🎤 アイドル」タブの下の「🎮 プレイ回数＆金額メモ」は、1プレイ＝100円でワンタップ記録。日付ピッカーで過去の日も選べるので、記録し忘れた日もあとから足せます（今日以外を選んでいるあいだは「◯◯ を編集中」と出て、「今日に戻す」でいつでも今日に戻せます）。今日・今月・累計の回数と金額、「さいきんの記録」7日分（「もっと見る（全◯日）」で全件、日ごとに削除）が見られて、JSONでバックアップもできます（スタンプの進み具合と一緒に振り返れます）。
           12. 右上の 🎨（または「💾 データ」タブの「着せ替え」）から、見た目を6種類に切り替えられます（🌸シンプル／🎀エンジェリーシュガー風／💎フューチャリングガール風／🖤ロリゴシック風／🦋スパイシーアゲハ風／🌙ラブムーンライズ風）。選んだテーマはこの端末に保存されます。<br>
-          13. ホームの「🏪 遊べるお店・公式X」で都道府県をえらぶと、公式サイトの取扱店舗リストをその都道府県で絞って開けます（えらばなければ全国）。選んだ都道府県だけこの端末に記憶されます。「📝 よく行くお店のXメモ」には、お店の名前と「Xの@アカウント」または「検索語」を追加でき（@ならアカウントへ、ことばならXの検索へ）、×で削除。メモはこの端末の中だけに保存され、どこにも送られません。
+          13. ホームの「🏪 遊べるお店・公式X」で都道府県・市区町村をえらぶと、公式サイトの取扱店舗リストをその範囲で絞って開けます（えらばなければ全国）。下の「🔍 公式の取扱店舗をさがす」では、全国47都道府県の公式取扱店舗をこの画面のままキーワード（店名・市区町村・住所）でえらべ、「＋ メモに追加」で「📝 よく行くお店のXメモ」に保存できます（何もえらばず2文字未満のときは案内だけを出し、候補は10件ずつ「もっと見る」で増やせます）。メモは店名・住所・公式リンクを持ち、Xの欄はあとから書きかえて「保存」できます（「Xをひらく」は@ならアカウントへ、ことばか未設定なら店名の検索へ）。×で削除。メモもえらんだ都道府県・市区町村もこの端末の中だけに保存され、どこにも送られません。
         </div>
       </details>
     </div>
@@ -3144,6 +3214,9 @@ function toast(msg){
 const SHOP_X_KEY = 'aikatsu-encore-checker.shops.v1';
 const SHOPLIST_TOP = 'https://dcd.aikatsu.com/encore/shoplist/';
 const SHOPLIST_URL = 'https://dcd.aikatsu.com/encore/shoplist/list.php';
+const SHOP_DATA_SRC = 'shops-data.js';
+const SHOP_MAX = 20;
+const SHOP_STEP = 10;
 const PREFECTURES = [
   ['01','北海道'],['02','青森県'],['03','岩手県'],['04','宮城県'],['05','秋田県'],['06','山形県'],['07','福島県'],
   ['08','茨城県'],['09','栃木県'],['10','群馬県'],['11','埼玉県'],['12','千葉県'],['13','東京都'],['14','神奈川県'],
@@ -3155,89 +3228,264 @@ const PREFECTURES = [
   ['40','福岡県'],['41','佐賀県'],['42','長崎県'],['43','熊本県'],['44','大分県'],['45','宮崎県'],['46','鹿児島県'],['47','沖縄県']
 ];
 let SHOPS = loadShops();
+let SHOPDATA = null;      // 公式店舗データ（必要になったときに shops-data.js を読み込む）
+let shopLoading = null;
+let shopHits = [];        // いまの検索条件での候補
+let shopShown = SHOP_STEP;
+let shopTimer = null;
+
+function isPrefCode(v){ return PREFECTURES.some(p=>p[0] === String(v)); }
 function normShopList(list){
   return (Array.isArray(list) ? list : [])
-    .filter(s=>s && typeof s.name==='string' && typeof s.q==='string')
-    .map(s=>({ name:s.name.trim().slice(0,40), q:s.q.trim().slice(0,60) }))
-    .filter(s=>s.name && s.q).slice(0,50);
+    .filter(s=>s && typeof s.name === 'string')
+    .map(s=>({
+      name: String(s.name).trim().slice(0,40),
+      q: String(s.q == null ? '' : s.q).trim().slice(0,60),
+      pref: isPrefCode(s.pref) ? String(s.pref) : '',
+      city: typeof s.city === 'string' ? s.city.trim().slice(0,24) : '',
+      addr: typeof s.addr === 'string' ? s.addr.trim().slice(0,120) : ''
+    }))
+    .filter(s=>s.name).slice(0,50);
 }
 function loadShops(){
   try{
     const o = JSON.parse(localStorage.getItem(SHOP_X_KEY) || 'null') || {};
-    const pref = PREFECTURES.some(p=>p[0] === String(o.pref)) ? String(o.pref) : '';
-    return { pref:pref, list:normShopList(o.list) };
-  }catch(e){ return { pref:'', list:[] }; }
+    const pref = isPrefCode(o.pref) ? String(o.pref) : '';
+    const city = pref && typeof o.city === 'string' ? o.city.trim().slice(0,24) : '';
+    return { pref:pref, city:city, list:normShopList(o.list) };
+  }catch(e){ return { pref:'', city:'', list:[] }; }
 }
 function saveShops(){
   try{ localStorage.setItem(SHOP_X_KEY, JSON.stringify(SHOPS)); }
   catch(e){ toast('この端末にメモを保存できませんでした'); }
 }
 function prefName(code){ const p = PREFECTURES.find(x=>x[0] === String(code)); return p ? p[1] : ''; }
-function shopListUrl(code){ return code ? SHOPLIST_URL + '?pref=' + encodeURIComponent(code) + '&p=1' : SHOPLIST_TOP; }
+function shopListUrl(code, city){
+  if(!code) return SHOPLIST_TOP;
+  let u = SHOPLIST_URL + '?pref=' + encodeURIComponent(code);
+  if(city) u += '&city=' + encodeURIComponent(city);
+  return u + '&p=1';
+}
 function xSearchUrl(word){ return 'https://x.com/search?q=' + encodeURIComponent(word) + '&src=typed_query&f=live'; }
-function shopXUrl(q){
+function xHandle(q){
   const t = String(q||'').trim();
-  if(t.charAt(0) === '@'){
-    const h = t.slice(1);
-    if(/^[A-Za-z0-9_]{1,15}$/.test(h)) return 'https://x.com/' + h;
-    return xSearchUrl(h || t);
+  if(t.charAt(0) !== '@') return '';
+  const h = t.slice(1);
+  return /^[A-Za-z0-9_]{1,15}$/.test(h) ? h : '';
+}
+function shopXUrl(q, name){
+  const h = xHandle(q);
+  if(h) return 'https://x.com/' + h;
+  const t = String(q||'').trim();
+  return xSearchUrl(t || String(name||'').trim());
+}
+function shopKey(s){ return [s.name, s.addr || '', s.q || ''].join('\u0000'); }
+
+/* --- 公式店舗データ（shops-data.js）を必要なときだけ読み込む --- */
+function ensureShopData(){
+  if(SHOPDATA) return Promise.resolve(SHOPDATA);
+  if(window.SHOPS_DATA){ SHOPDATA = window.SHOPS_DATA; return Promise.resolve(SHOPDATA); }
+  if(shopLoading) return shopLoading;
+  shopLoading = new Promise((res, rej)=>{
+    const s = document.createElement('script');
+    s.src = SHOP_DATA_SRC; s.async = true;
+    s.onload = ()=>{ if(window.SHOPS_DATA){ SHOPDATA = window.SHOPS_DATA; res(SHOPDATA); } else rej(new Error('no-data')); };
+    s.onerror = ()=> rej(new Error('load-failed'));
+    document.head.appendChild(s);
+  }).catch(()=>{ shopLoading = null; return null; });
+  return shopLoading;
+}
+function shopCities(pref){
+  if(!SHOPDATA || !pref) return [];
+  const seen = {}; const out = [];
+  SHOPDATA.shops.forEach(s=>{
+    if(s[1] === pref && s[2] && !seen[s[2]]){ seen[s[2]] = 1; out.push(s[2]); }
+  });
+  return out;
+}
+function shopNorm(s){ return String(s==null?'':s).normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim(); }
+
+function buildPrefOptions(){
+  const sel = $('#shopPref');
+  if(!sel || sel.dataset.built) return;
+  sel.innerHTML = '<option value="">すべて（全国）</option>' +
+    PREFECTURES.map(p=>'<option value="'+p[0]+'">'+esc(p[1])+'</option>').join('');
+  sel.dataset.built = '1';
+}
+function buildCityOptions(){
+  const sel = $('#shopCity'); if(!sel) return;
+  const cities = shopCities(SHOPS.pref);
+  if(!SHOPS.pref){
+    sel.innerHTML = '<option value="">都道府県をえらぶと選べます</option>';
+    sel.value = ''; sel.disabled = true;
+    return;
   }
-  return xSearchUrl(t);
+  if(!SHOPDATA){
+    sel.innerHTML = '<option value="">読み込み中…</option>';
+    sel.value = ''; sel.disabled = true;
+    return;
+  }
+  sel.disabled = false;
+  sel.innerHTML = '<option value="">すべて（' + esc(prefName(SHOPS.pref)) + '）</option>' +
+    cities.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');
+  sel.value = cities.indexOf(SHOPS.city) >= 0 ? SHOPS.city : '';
 }
 function renderShopPanel(){
+  buildPrefOptions();
   const sel = $('#shopPref');
-  if(sel){
-    if(!sel.dataset.built){
-      sel.innerHTML = '<option value="">すべて（全国）</option>' +
-        PREFECTURES.map(p=>'<option value="'+p[0]+'">'+esc(p[1])+'</option>').join('');
-      sel.dataset.built = '1';
-    }
-    sel.value = SHOPS.pref;
-  }
+  if(sel) sel.value = SHOPS.pref;
+  buildCityOptions();
   const go = $('#shopGo');
   if(go){
-    go.href = shopListUrl(SHOPS.pref);
-    go.textContent = SHOPS.pref ? '🏬 ' + prefName(SHOPS.pref) + 'のお店を公式で見る' : '🏬 公式のお店リストを開く';
+    go.href = shopListUrl(SHOPS.pref, SHOPS.city);
+    if(SHOPS.city) go.textContent = '🏬 公式で「' + (prefName(SHOPS.pref) + ' ' + SHOPS.city) + '」を見る';
+    else if(SHOPS.pref) go.textContent = '🏬 ' + prefName(SHOPS.pref) + 'のお店を公式で見る';
+    else go.textContent = '🏬 公式のお店リストを開く';
   }
+  renderShopMemo();
+  renderShopHits();
+}
+
+/* --- メモ --- */
+function renderShopMemo(){
   const cnt = $('#shopCount');
   if(cnt) cnt.textContent = SHOPS.list.length ? SHOPS.list.length + '件' : '';
   const list = $('#shopList'); if(!list) return;
   if(!SHOPS.list.length){
-    list.innerHTML = '<p class="shop-empty">まだメモがありません。下の欄から、よく行くお店を追加できます。</p>';
+    list.innerHTML = '<p class="shop-empty">まだメモがありません。上の公式検索から「＋ メモに追加」するか、下の欄から手入力で追加できます。</p>';
     return;
   }
-  list.innerHTML = SHOPS.list.map((s,i)=>'<div class="shop-item">'
-    + '<div class="si-tx"><b>' + esc(s.name) + '</b><small>' + esc(s.q) + '</small></div>'
-    + '<a class="si-go" href="' + esc(shopXUrl(s.q)) + '" target="_blank" rel="noopener">Xをひらく</a>'
-    + '<button class="si-del" type="button" data-shop-del="' + i + '" aria-label="' + esc(s.name) + 'のメモを削除">×</button>'
-    + '</div>').join('');
+  list.innerHTML = SHOPS.list.map((s,i)=>{
+    const xurl = shopXUrl(s.q, s.name);
+    return '<div class="shop-item">'
+      + '<div class="si-head"><div class="si-tx"><b>' + esc(s.name) + '</b>'
+      + (s.addr ? '<small>' + esc(s.addr) + '</small>' : '') + '</div>'
+      + '<button class="si-del" type="button" data-shop-del="' + i + '" aria-label="' + esc(s.name) + 'のメモを削除">×</button></div>'
+      + '<div class="si-x"><input class="si-xin" type="text" data-shop-x="' + i + '" value="' + esc(s.q) + '"'
+      + ' placeholder="@アカウント または 検索語" maxlength="60" autocomplete="off"'
+      + ' aria-label="' + esc(s.name) + 'のXの@アカウント または 検索語">'
+      + '<button class="si-save" type="button" data-shop-save="' + i + '">保存</button></div>'
+      + '<div class="si-foot"><a class="si-go" href="' + esc(xurl) + '" target="_blank" rel="noopener">Xをひらく</a>'
+      + (s.pref ? '<a class="si-off" href="' + esc(shopListUrl(s.pref, s.city)) + '" target="_blank" rel="noopener">公式</a>' : '')
+      + '</div>'
+      + (s.q ? '' : '<small class="si-hint">X未設定（「Xをひらく」は店名で検索します）</small>')
+      + '</div>';
+  }).join('');
+}
+function addShopMemo(entry, quiet){
+  const s = { name:String(entry.name||'').trim().slice(0,40), q:String(entry.q||'').trim().slice(0,60),
+    pref:isPrefCode(entry.pref) ? String(entry.pref) : '',
+    city:typeof entry.city === 'string' ? entry.city.trim().slice(0,24) : '',
+    addr:typeof entry.addr === 'string' ? entry.addr.trim().slice(0,120) : '' };
+  if(!s.name){ if(!quiet) toast('お店の名前を入れてね'); return false; }
+  if(SHOPS.list.length >= SHOP_MAX){ if(!quiet) toast('メモは' + SHOP_MAX + '件までだよ'); return false; }
+  const k = shopKey({name:s.name, addr:s.addr, q:''});
+  if(SHOPS.list.some(x=>shopKey({name:x.name, addr:x.addr, q:''}) === k)){ if(!quiet) toast('もうメモにあるよ'); return false; }
+  SHOPS.list.push(s); saveShops(); renderShopPanel();
+  if(!quiet) toast('お店をメモしました');
+  return true;
 }
 function addShop(){
   const nameEl = $('#shopName'), qEl = $('#shopX');
   if(!nameEl || !qEl) return;
-  const name = nameEl.value.trim(), q = qEl.value.trim();
+  const name = nameEl.value.trim();
   if(!name){ toast('お店の名前を入れてね'); nameEl.focus(); return; }
-  if(!q){ toast('Xの@アカウントか検索語を入れてね'); qEl.focus(); return; }
-  if(SHOPS.list.length >= 50){ toast('メモは50件までだよ'); return; }
-  if(SHOPS.list.some(s=>s.name === name && s.q === q)){ toast('もうメモにあるよ'); return; }
-  SHOPS.list.push({ name:name.slice(0,40), q:q.slice(0,60) });
-  saveShops(); renderShopPanel();
-  nameEl.value = ''; qEl.value = '';
-  toast('お店をメモしました');
+  if(addShopMemo({ name:name, q:qEl.value })){ nameEl.value = ''; qEl.value = ''; }
+}
+function saveShopX(i){
+  const s = SHOPS.list[i]; if(!s) return;
+  const el = document.querySelector('[data-shop-x="' + i + '"]'); if(!el) return;
+  const v = el.value.trim().slice(0,60);
+  if(v.charAt(0) === '@' && !xHandle(v)){ toast('「@」のあとは英数字と_で15文字までにしてね'); el.focus(); return; }
+  s.q = v; saveShops(); renderShopPanel();
+  toast(v ? 'Xのリンクを保存しました' : 'Xは未設定にしました（店名で検索します）');
 }
 function importShops(o){
   if(!o || typeof o !== 'object') return false;
   const raw = Array.isArray(o.list) ? o.list : (Array.isArray(o.shops) ? o.shops : null);
   if(!raw) return false;
-  const seen = new Set(SHOPS.list.map(s=>s.name + '\u0000' + s.q));
+  const seen = {};
+  SHOPS.list.forEach(s=>{ seen[shopKey({name:s.name, addr:s.addr, q:s.q})] = 1; seen[shopKey({name:s.name, addr:s.addr, q:''})] = 1; });
   normShopList(raw).forEach(s=>{
-    const k = s.name + '\u0000' + s.q;
-    if(seen.has(k) || SHOPS.list.length >= 50) return;
-    seen.add(k); SHOPS.list.push(s);
+    const k = shopKey(s), k2 = shopKey({name:s.name, addr:s.addr, q:''});
+    if(seen[k] || seen[k2] || SHOPS.list.length >= SHOP_MAX) return;
+    seen[k] = 1; seen[k2] = 1; SHOPS.list.push(s);
   });
-  if(!SHOPS.pref && PREFECTURES.some(p=>p[0] === String(o.pref))) SHOPS.pref = String(o.pref);
+  if(!SHOPS.pref && isPrefCode(o.pref)) SHOPS.pref = String(o.pref);
+  if(!SHOPS.city && typeof o.city === 'string' && o.city.trim()) SHOPS.city = o.city.trim().slice(0,24);
   saveShops(); renderShopPanel();
   return true;
+}
+
+/* --- 公式店舗検索 --- */
+function shopQueryTerms(){
+  const el = $('#shopQuery'); if(!el) return { q:'', terms:[] };
+  const q = shopNorm(el.value);
+  return { q:q, terms:q.split(' ').filter(Boolean) };
+}
+function filterShopHits(){
+  const { q, terms } = shopQueryTerms();
+  const pref = SHOPS.pref, city = SHOPS.city;
+  if(!pref && !city && q.length < 2) return null;
+  if(!SHOPDATA) return null;
+  return SHOPDATA.shops.filter(s=>{
+    if(pref && s[1] !== pref) return false;
+    if(city && s[2] !== city) return false;
+    if(!terms.length) return true;
+    const hay = shopNorm(s[0] + ' ' + s[2] + ' ' + s[3]);
+    return terms.every(t=>hay.indexOf(t) >= 0);
+  });
+}
+function renderShopHits(){
+  const hitsEl = $('#shopHits'), msgEl = $('#shopMsg'), moreWrap = $('#shopMoreWrap'), srcEl = $('#shopSrc'), cntEl = $('#shopHitCnt');
+  if(!hitsEl) return;
+  if(srcEl) srcEl.textContent = (SHOPDATA && SHOPDATA.fetched)
+    ? '公式データ：' + SHOPDATA.fetched + ' 取得・全国' + SHOPDATA.shops.length + '店舗（出典：公式サイト「取扱店舗」）'
+    : '公式データは、検索するときに読み込みます。';
+  const { q } = shopQueryTerms();
+  const gate = (!SHOPS.pref && !SHOPS.city && q.length < 2);
+  if(gate){
+    shopHits = [];
+    if(cntEl) cntEl.textContent = '';
+    if(msgEl) msgEl.innerHTML = '都道府県をえらぶか、2文字以上で検索すると候補が出ます。';
+    hitsEl.innerHTML = '';
+    if(moreWrap) moreWrap.hidden = true;
+    return;
+  }
+  if(!SHOPDATA){
+    if(msgEl) msgEl.textContent = '公式データを読み込み中…';
+    hitsEl.innerHTML = '';
+    if(moreWrap) moreWrap.hidden = true;
+    ensureShopData().then(d=>{ if(d){ buildCityOptions(); renderShopHits(); } else {
+      if(msgEl) msgEl.textContent = '公式データを読み込めませんでした。通信できる場所でひらき直してみてね（公式サイトのボタンからも見られます）。';
+    } });
+    return;
+  }
+  shopHits = filterShopHits() || [];
+  if(cntEl) cntEl.textContent = shopHits.length ? shopHits.length + '件' : '';
+  if(!shopHits.length){
+    if(msgEl) msgEl.innerHTML = '見つかりませんでした。ことばを短くするか、都道府県をえらんでみてね。';
+    hitsEl.innerHTML = '';
+    if(moreWrap) moreWrap.hidden = true;
+    return;
+  }
+  const shown = Math.min(shopShown, shopHits.length);
+  if(msgEl) msgEl.innerHTML = shown < shopHits.length
+    ? '全<b>' + shopHits.length + '</b>件のうち' + shown + '件を表示中'
+    : '候補の「＋ メモに追加」でメモに保存できます。';
+  hitsEl.innerHTML = shopHits.slice(0, shown).map((s, i)=>{
+    const added = SHOPS.list.some(x=>shopKey({name:x.name, addr:x.addr, q:''}) === shopKey({name:s[0], addr:s[3], q:''}));
+    return '<div class="shop-hit"><div class="hit-tx"><b>' + esc(s[0]) + '</b>'
+      + '<small>' + esc(s[3] || ((SHOPDATA.prefs && SHOPDATA.prefs[s[1]] ? SHOPDATA.prefs[s[1]] : '') + (s[2] || ''))) + '</small></div>'
+      + '<div class="hit-acts"><a class="hit-off" href="' + esc(shopListUrl(s[1], s[2])) + '" target="_blank" rel="noopener">公式</a>'
+      + '<button class="btn sm hit-add" type="button" data-hit-add="' + i + '"' + (added ? ' disabled' : '') + '>'
+      + (added ? '追加済み' : '＋ メモに追加') + '</button></div></div>';
+  }).join('');
+  if(moreWrap) moreWrap.hidden = shopHits.length <= shown;
+}
+function addShopFromHit(i){
+  const s = shopHits[i]; if(!s) return;
+  if(addShopMemo({ name:s[0], pref:s[1], city:s[2], addr:s[3] })) shopShown = Math.max(shopShown, SHOP_STEP);
 }
 
 /* ---------- export / import ---------- */
@@ -3252,7 +3500,7 @@ function exportObject(){
     extraCards: state.extraCards,
     progress: PROG,
     play: PLAY,
-    shops: { pref: SHOPS.pref, list: SHOPS.list }
+    shops: { pref: SHOPS.pref, city: SHOPS.city, list: SHOPS.list }
   };
 }
 function downloadJson(){
@@ -5113,17 +5361,49 @@ renderShopPanel();
 
 $('#shopPref').addEventListener('change', ()=>{
   SHOPS.pref = $('#shopPref').value || '';
+  if(!SHOPS.pref) SHOPS.city = '';
+  shopShown = SHOP_STEP;
+  saveShops();
+  renderShopPanel();
+  if(SHOPS.pref){
+    ensureShopData().then(()=>{
+      if(SHOPS.city && shopCities(SHOPS.pref).indexOf(SHOPS.city) < 0) SHOPS.city = '';
+      buildCityOptions(); renderShopHits(); saveShops();
+    });
+  }
+});
+$('#shopCity').addEventListener('change', ()=>{
+  SHOPS.city = $('#shopCity').value || '';
+  shopShown = SHOP_STEP;
   saveShops(); renderShopPanel();
+});
+$('#shopQuery').addEventListener('input', ()=>{
+  clearTimeout(shopTimer);
+  shopShown = SHOP_STEP;
+  shopTimer = setTimeout(renderShopHits, 110);
+});
+$('#shopQuery').addEventListener('focus', ()=>{ if(!SHOPDATA) ensureShopData().then(()=>{ buildCityOptions(); renderShopHits(); }); });
+$('#shopQuery').addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); clearTimeout(shopTimer); shopShown = SHOP_STEP; renderShopHits(); } });
+$('#shopMore').addEventListener('click', ()=>{ shopShown += SHOP_STEP; renderShopHits(); });
+$('#shopHits').addEventListener('click', (e)=>{
+  const b = e.target.closest('[data-hit-add]'); if(!b) return;
+  addShopFromHit(Number(b.dataset.hitAdd));
 });
 $('#shopAdd').addEventListener('click', addShop);
 $('#shopName').addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); $('#shopX').focus(); } });
 $('#shopX').addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); addShop(); } });
 $('#shopList').addEventListener('click', (e)=>{
+  const sv = e.target.closest('[data-shop-save]');
+  if(sv){ saveShopX(Number(sv.dataset.shopSave)); return; }
   const b = e.target.closest('[data-shop-del]'); if(!b) return;
   const s = SHOPS.list[Number(b.dataset.shopDel)]; if(!s) return;
   if(!confirm('「' + s.name + '」のメモを削除する？（元に戻せません）')) return;
   SHOPS.list.splice(SHOPS.list.indexOf(s), 1);
   saveShops(); renderShopPanel(); toast('メモを削除しました');
+});
+$('#shopList').addEventListener('keydown', (e)=>{
+  const inp = e.target.closest('[data-shop-x]'); if(!inp || e.key !== 'Enter') return;
+  e.preventDefault(); saveShopX(Number(inp.dataset.shopX));
 });
 
 $$('[data-imgshot]').forEach(b => b.addEventListener('click', () => openImgSheet()));
