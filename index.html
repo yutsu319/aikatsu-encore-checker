@@ -2074,7 +2074,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-lead{color:v
         <button class="btn sm" id="importBtn">このデータを読み込む</button>
         <button class="btn ghost sm" id="importClear">クリア</button>
       </div>
-      <p class="muted" style="margin:8px 0 0">読み込むと今の所持データは置きかわります（カードの追加データは残ります）。お店のXメモも、JSONに入っていればその内容に置きかわります。</p>
+      <p class="muted" style="margin:8px 0 0">読み込むと今の所持データは置きかわります（カードの追加データは残ります）。お店のXメモは消えず、JSONに入っているメモが追加されます（同じ名前と内容のものは重複しません。都道府県は、まだ選んでいないときだけ読み込んだものになります）。</p>
     </div>
 
     <div class="panel">
@@ -3229,8 +3229,13 @@ function importShops(o){
   if(!o || typeof o !== 'object') return false;
   const raw = Array.isArray(o.list) ? o.list : (Array.isArray(o.shops) ? o.shops : null);
   if(!raw) return false;
-  SHOPS.list = normShopList(raw);
-  if(PREFECTURES.some(p=>p[0] === String(o.pref))) SHOPS.pref = String(o.pref);
+  const seen = new Set(SHOPS.list.map(s=>s.name + '\u0000' + s.q));
+  normShopList(raw).forEach(s=>{
+    const k = s.name + '\u0000' + s.q;
+    if(seen.has(k) || SHOPS.list.length >= 50) return;
+    seen.add(k); SHOPS.list.push(s);
+  });
+  if(!SHOPS.pref && PREFECTURES.some(p=>p[0] === String(o.pref))) SHOPS.pref = String(o.pref);
   saveShops(); renderShopPanel();
   return true;
 }
