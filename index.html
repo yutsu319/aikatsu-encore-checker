@@ -1764,6 +1764,29 @@ body.theme-moon .sec-title::before{background:linear-gradient(#a48ce0,#f4e2b4); 
 body.theme-moon .ccard.owned{border-color:#f4e2b4}
 body.theme-moon .mini-card, body.theme-moon .play-stat{background:rgba(34,20,66,.96); border-color:rgba(227,196,122,.28)}
 body.theme-moon .img-modes .chip[aria-pressed="true"]{background-image:linear-gradient(135deg,#6b46c9,#a48ce0 48%,#f4e2b4); color:#1a1036}
+
+/* ================= 🏪 遊べるお店・稼働チェック（v4） ================= */
+.shop-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px}
+@media(min-width:560px){ .shop-grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.shop-tile{
+  display:flex; align-items:center; gap:8px; min-width:0; min-height:54px; padding:8px 9px;
+  border:1.5px solid var(--line); border-radius:13px; background:var(--card);
+  color:var(--ink); text-decoration:none; box-shadow:0 2px 8px rgba(255,140,180,.10);
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+a.shop-tile:hover{box-shadow:0 4px 14px rgba(255,140,180,.20)}
+.shop-tile:active{transform:scale(.98)}
+.shop-tile .ic{flex:0 0 auto; font-size:18px; line-height:1}
+.shop-tile .tx{min-width:0; display:block}
+.shop-tile b{display:block; font-size:11.5px; font-weight:900; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.shop-tile small{display:block; margin-top:1px; font-size:9.5px; font-weight:800; color:var(--ink-2); line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.shop-tile .ext{flex:0 0 auto; margin-left:auto; font-size:10px; font-weight:900; color:var(--ink-3)}
+.shop-tile.key{background:var(--pink-xl); border-color:var(--pink-l)}
+.shop-tile.key b{color:var(--acc)}
+.shop-note{margin:9px 0 0; font-size:10.5px; font-weight:700; color:var(--ink-2); line-height:1.55}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-tile{background:var(--s2); border-color:var(--line2); box-shadow:none}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .shop-tile.key{background:var(--s3); border-color:var(--acc-2)}
+
 </style>
 </head>
 <body>
@@ -1811,6 +1834,12 @@ body.theme-moon .img-modes .chip[aria-pressed="true"]{background-image:linear-gr
         <span>カードのイラスト入りで、コレクションを縦長1枚のPNGに。保存前に「出すカード」と「枚数表示」を選べるよ。</span>
       </div>
       <button class="btn sm" data-imgshot>画像をつくる</button>
+    </div>
+
+    <div class="panel">
+      <h2><span class="ico">🏪</span>遊べるお店・稼働チェック<span class="right">タップで開く</span></h2>
+      <div class="shop-grid" id="shopGridHome"></div>
+      <p class="shop-note">公式の稼働台数・排出弾は更新時点の目安。カード切れや故障で止まっていることもあるので、出かける前にXの最新ポストも見てみてね。お店への直接の問い合わせは公式が控えるよう案内しています。</p>
     </div>
 
     <div class="panel">
@@ -1900,6 +1929,7 @@ body.theme-moon .img-modes .chip[aria-pressed="true"]{background-image:linear-gr
     <div class="btn-row" style="justify-content:flex-end; margin:-2px 0 9px">
       <button class="btn ghost sm" data-imgshot>📷 所持一覧を画像で保存</button>
     </div>
+    <div class="shop-grid" id="shopGridCards" style="margin:-3px 0 10px"></div>
     <div class="card-grid" id="cardGrid"></div>
     <div class="empty" id="cardEmpty" hidden><span class="big">🔎</span>条件に合うカードがないよ。<br>絞り込みをゆるめてみてね。</div>
   </section>
@@ -2118,6 +2148,10 @@ body.theme-moon .img-modes .chip[aria-pressed="true"]{background-image:linear-gr
         <button class="chip" data-nfilter="ended" aria-pressed="false">終了</button>
       </div>
       <p class="muted" style="margin:8px 0 0" id="newsIntro">公式ニュースの発売日・配布期間・終了日をカレンダーとリストでまとめています（日本時間）。</p>
+    </div>
+    <div class="panel" style="padding:11px 12px">
+      <h2 style="margin-bottom:8px"><span class="ico">🏪</span>きょう行くお店<span class="right">タップで開く</span></h2>
+      <div class="shop-grid" id="shopGridNews"></div>
     </div>
     <div id="newsCal"></div>
     <div id="calDay"></div>
@@ -2792,6 +2826,36 @@ function yahooUrl(c){ return 'https://paypayfleamarket.yahoo.co.jp/search/' + en
 function surugaUrl(c){ return 'https://www.suruga-ya.jp/search?category=&search_word=' + encodeURIComponent(searchKeyword(c)) + '&searchbox=1'; }
 function googleUrl(c){ return 'https://www.google.com/search?q=' + encodeURIComponent(searchKeyword(c) + ' 最安'); }
 function googleSiteUrl(site, c){ return 'https://www.google.com/search?q=' + encodeURIComponent('site:' + site + ' ' + searchKeyword(c)); }
+
+/* ---------- 🏪 遊べるお店・稼働チェック ---------- */
+function xSearchUrl(q){ return 'https://x.com/search?q=' + encodeURIComponent(q) + '&src=typed_query&f=live'; }
+const SHOP_LINKS = [
+  { key:true, ic:'📍', title:'町田市のお店', sub:'公式リスト（取扱店舗）',
+    href:'https://dcd.aikatsu.com/encore/shoplist/list.php?free=' + encodeURIComponent('町田') + '&p=1' },
+  { key:true, ic:'🗾', title:'東京都のお店', sub:'公式リスト（都内）',
+    href:'https://dcd.aikatsu.com/encore/shoplist/list.php?pref=13&p=1' },
+  { ic:'🏬', title:'公式 お店リスト', sub:'全国・近くのお店',
+    href:'https://dcd.aikatsu.com/encore/shoplist/' },
+  { ic:'🗺', title:'お店マップ', sub:'稼働・プロモ配布の報告',
+    href:'https://card-search.com/aikatsu-encore/shops' },
+  { ic:'🔍', title:'Xで稼働を検索', sub:'Xで検索（ログイン要）',
+    href: xSearchUrl('アイカツアンコール 稼働') },
+  { ic:'📮', title:'町田のポスト', sub:'町田でX検索',
+    href: xSearchUrl('アイカツアンコール 町田') }
+];
+function shopTileHTML(it){
+  return `<a class="shop-tile${it.key?' key':''}" href="${esc(it.href)}" target="_blank" rel="noopener">
+    <span class="ic">${it.ic}</span>
+    <span class="tx"><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span>
+  </a>`;
+}
+function renderShopLinks(){
+  const all = SHOP_LINKS.map(shopTileHTML).join('');
+  const keys = SHOP_LINKS.filter(x=>x.key).map(shopTileHTML).join('');
+  const home = $('#shopGridHome'); if(home) home.innerHTML = all;
+  const news = $('#shopGridNews'); if(news) news.innerHTML = keys;
+  const cards = $('#shopGridCards'); if(cards) cards.innerHTML = keys;
+}
 
 /* ---------- toggle / count ---------- */
 function setCount(id, n){
@@ -4721,6 +4785,7 @@ buildFilters();
 renderHeader();
 renderHome();
 renderCards();
+renderShopLinks();
 renderSaveInfo();
 
 $$('[data-imgshot]').forEach(b => b.addEventListener('click', () => openImgSheet()));
