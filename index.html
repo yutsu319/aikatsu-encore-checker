@@ -771,6 +771,305 @@ body.theme-moon .chip[aria-pressed="true"]{background-image:linear-gradient(135d
 body.theme-moon .sec-title::before{background:linear-gradient(#8a6ab8,#f0dca4)}
 body.theme-moon .mini-card, body.theme-moon .play-stat{background-image:linear-gradient(180deg,#fffdf9,#faf5ff)}
 
+
+/* ================= テーマ装飾 v2：ブランドモチーフをもう一段リッチに ================= */
+body[class*="theme-"] .panel{position:relative}
+
+/* ---------- 🎀 エンジェリーシュガー風 ---------- */
+body.theme-angely{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><g fill='none' stroke='%23f7a6ca' stroke-opacity='.14' stroke-width='1'><path d='M0 60L60 0M0 120L60 60M60 120L120 60'/></g><g fill='%23f58fbe'><path fill-opacity='.20' d='M30 26c-2.2-2.4-5.6-1-5.6 1.9 0 2.5 3.2 5 5.6 6.6 2.4-1.6 5.6-4.1 5.6-6.6 0-2.9-3.4-4.3-5.6-1.9z'/><path fill-opacity='.14' d='M92 86c-2.2-2.4-5.6-1-5.6 1.9 0 2.5 3.2 5 5.6 6.6 2.4-1.6 5.6-4.1 5.6-6.6 0-2.9-3.4-4.3-5.6-1.9z'/><circle fill-opacity='.20' cx='90' cy='22' r='2'/><circle fill-opacity='.20' cx='26' cy='94' r='2'/><circle fill-opacity='.13' cx='60' cy='54' r='1.6'/></g></svg>"),
+    radial-gradient(circle at 10% 0%, #ffe2f0 0%, rgba(255,226,240,0) 42%),
+    radial-gradient(circle at 92% 6%, #fff3da 0%, rgba(255,243,218,0) 40%),
+    linear-gradient(180deg,#fffbfd 0%,#fff6fb 55%,#fffaf2 100%);
+  background-size:120px 120px, auto, auto, auto;
+  background-repeat:repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment:fixed;
+}
+body.theme-angely .app-header{
+  background-image:
+    linear-gradient(108deg,rgba(255,255,255,.62) 0%,rgba(255,255,255,0) 18%,rgba(255,255,255,.32) 34%,rgba(255,255,255,0) 52%),
+    linear-gradient(135deg,#ffc7de 0%,#ffdcec 46%,#ffeab6 100%);
+  box-shadow:0 7px 24px rgba(255,150,195,.32);
+}
+body.theme-angely .app-header::after{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='12'><rect width='26' height='2' fill='%23fff9fc'/><g fill='%23fff9fc'><circle cx='4.33' cy='2' r='4.33'/><circle cx='13' cy='2' r='4.33'/><circle cx='21.67' cy='2' r='4.33'/></g><g fill='%23f79cc5'><circle cx='4.33' cy='3.6' r='.85'/><circle cx='13' cy='3.6' r='.85'/><circle cx='21.67' cy='3.6' r='.85'/></g><g fill='%23f9b1cf'><circle cx='8.66' cy='.9' r='.55'/><circle cx='17.33' cy='.9' r='.55'/></g></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><path d='M11 9c-2.4-2.6-6.2-1.1-6.2 2.1 0 2.8 3.5 5.5 6.2 7.3 2.7-1.8 6.2-4.5 6.2-7.3C17.2 7.9 13.4 6.4 11 9z' fill='%23ffffff' fill-opacity='.8'/><circle cx='33' cy='31' r='1.9' fill='%23ffffff' fill-opacity='.65'/><circle cx='37' cy='12' r='1.2' fill='%23ffffff' fill-opacity='.5'/><path d='M30 6c2 2 4 3 6 3' stroke='%23ffffff' stroke-opacity='.45' stroke-width='1' fill='none'/></svg>");
+  background-size:26px 12px, 44px 44px;
+  background-position:bottom left, 0 0;
+  background-repeat:repeat-x, repeat;
+  opacity:.9;
+}
+body.theme-angely .panel{
+  border-color:#ffd7e8;
+  background-image:linear-gradient(180deg,#fffdfe,#fff8fc);
+  box-shadow:0 8px 22px rgba(255,160,200,.20), inset 0 0 0 3px #fff, inset 0 0 0 4.5px #ffe6f1;
+}
+body.theme-angely .hero{background-image:linear-gradient(135deg,#ffffff 0%,#fff9fc 55%,#fff4e2 100%)}
+body.theme-angely .img-cta{background-image:linear-gradient(135deg,#ffffff 0%,#fff9fc 50%,#fff5e6 100%)}
+body.theme-angely .panel::before{
+  content:""; position:absolute; top:-9px; left:50%; width:44px; height:20px; margin-left:-22px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='88' height='40' viewBox='0 0 88 40'><defs><linearGradient id='w' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23ffeaf3'/><stop offset='.45' stop-color='%23ffa8cd'/><stop offset='1' stop-color='%23ee6ba5'/></linearGradient><linearGradient id='t' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='%23fff4f9'/><stop offset='1' stop-color='%23ffb3d3'/></linearGradient></defs><path d='M44 19C37 8 26 4 20 8c-6 4-4 12 2 14 6 2 15-1 22-3z' fill='url(%23w)'/><path d='M44 19c7-11 18-15 24-11 6 4 4 12-2 14-6 2-15-1-22-3z' fill='url(%23w)'/><path d='M40 22l-9 13 9-3 4 6 4-16z' fill='url(%23t)'/><path d='M48 22l9 13-9-3-4 6-4-16z' fill='url(%23t)'/><ellipse cx='44' cy='19' rx='6.4' ry='5.4' fill='%23fff2f8' stroke='%23f08fbd' stroke-width='1.4'/><path d='M25 11c3 1 6 3 8 5' stroke='%23ffffff' stroke-opacity='.65' stroke-width='1.7' fill='none'/><path d='M63 11c-3 1-6 3-8 5' stroke='%23ffffff' stroke-opacity='.45' stroke-width='1.7' fill='none'/></svg>") center/contain no-repeat;
+  filter:drop-shadow(0 2px 2px rgba(214,96,146,.25));
+  pointer-events:none;
+}
+body.theme-angely .hero::before{width:58px; height:26px; margin-left:-29px; top:-12px}
+body.theme-angely .panel::after{
+  content:""; position:absolute; left:8px; right:8px; bottom:0; height:11px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='11'><g fill='%23fbd3e6'><circle cx='4.33' cy='0' r='4.33'/><circle cx='13' cy='0' r='4.33'/><circle cx='21.67' cy='0' r='4.33'/></g><g fill='%23ffffff' fill-opacity='.85'><circle cx='4.33' cy='1.4' r='.9'/><circle cx='13' cy='1.4' r='.9'/><circle cx='21.67' cy='1.4' r='.9'/></g><g fill='%23f7a8ca'><circle cx='8.66' cy='2.4' r='.55'/><circle cx='17.33' cy='2.4' r='.55'/></g></svg>") left bottom/26px 11px repeat-x;
+  pointer-events:none;
+}
+body.theme-angely .panel h2 .ico{filter:drop-shadow(0 1px 1px rgba(255,150,195,.85))}
+body.theme-angely .sec-title::before{width:5px; background:linear-gradient(#ff9ec9,#ffe0a6)}
+body.theme-angely .mini-card, body.theme-angely .play-stat{box-shadow:inset 0 0 0 1.5px #fff6fb}
+
+/* ---------- 💎 フューチャリングガール風 ---------- */
+body.theme-future{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><g fill='none' stroke='%2367f0ff' stroke-opacity='.20' stroke-width='1'><path d='M44 0H0v44'/></g><path d='M22 18v8M18 22h8' fill='none' stroke='%2367f0ff' stroke-opacity='.34' stroke-width='1'/></svg>"),
+    radial-gradient(circle at 12% -4%, rgba(45,226,255,.22), rgba(45,226,255,0) 40%),
+    radial-gradient(circle at 88% 4%, rgba(150,110,255,.26), rgba(150,110,255,0) 42%),
+    radial-gradient(circle at 50% 104%, rgba(40,255,205,.20), rgba(40,255,205,0) 55%),
+    linear-gradient(180deg,#050d19 0%,#081a2b 50%,#061321 100%);
+  background-size:44px 44px, auto, auto, auto, auto;
+  background-repeat:repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment:fixed;
+}
+body.theme-future .app-header{
+  background-image:
+    linear-gradient(180deg,rgba(3,26,42,0) 45%,rgba(3,26,42,.28) 100%),
+    linear-gradient(135deg,#0a5f80 0%,#0e8fae 52%,#12a58d 100%);
+  border-bottom:2px solid #37e6ff;
+  box-shadow:0 8px 26px rgba(20,190,240,.35);
+}
+body.theme-future .app-header::after{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44'><g fill='none' stroke='%2379f6ff' stroke-opacity='.30' stroke-width='1'><path d='M44 0H0v44'/></g><path d='M22 18v8M18 22h8' fill='none' stroke='%2379f6ff' stroke-opacity='.45' stroke-width='1'/></svg>"),
+    linear-gradient(90deg,rgba(95,240,255,0),rgba(95,240,255,.95),rgba(190,120,255,.9),rgba(95,240,255,0));
+  background-size:44px 44px, 100% 2px;
+  background-position:0 0, 0 100%;
+  background-repeat:repeat, no-repeat;
+  opacity:.6;
+}
+body.theme-future .panel{
+  border-color:#a9e8ff;
+  background-image:linear-gradient(180deg,#ffffff,#eefaff);
+  box-shadow:0 8px 22px rgba(24,160,215,.18), inset 0 0 0 1.5px #f2fdff;
+}
+body.theme-future .hero{background-image:linear-gradient(112deg,rgba(34,211,238,.16) 0%,rgba(168,85,247,.13) 18%,rgba(255,255,255,0) 42%), linear-gradient(120deg,#ffffff 0%,#f2fdff 45%,#e8fbff 100%)}
+body.theme-future .img-cta{background-image:linear-gradient(120deg,#ffffff 0%,#f4fdff 55%,#eefbf7 100%)}
+body.theme-future .panel::before{
+  content:""; position:absolute; inset:5px; border-radius:13px; pointer-events:none;
+  background:
+    linear-gradient(90deg,#0bb8dd,#3ad9f2) left 0 top 0/18px 2.5px no-repeat,
+    linear-gradient(180deg,#8b5cf6,#b98cf9) left 0 top 0/2.5px 18px no-repeat,
+    linear-gradient(270deg,#0bb8dd,#3ad9f2) right 0 top 0/18px 2.5px no-repeat,
+    linear-gradient(180deg,#8b5cf6,#b98cf9) right 0 top 0/2.5px 18px no-repeat,
+    linear-gradient(90deg,#0bb8dd,#3ad9f2) left 0 bottom 0/18px 2.5px no-repeat,
+    linear-gradient(0deg,#8b5cf6,#b98cf9) left 0 bottom 0/2.5px 18px no-repeat,
+    linear-gradient(270deg,#0bb8dd,#3ad9f2) right 0 bottom 0/18px 2.5px no-repeat,
+    linear-gradient(0deg,#8b5cf6,#b98cf9) right 0 bottom 0/2.5px 18px no-repeat;
+}
+body.theme-future .panel::after{
+  content:""; position:absolute; left:22px; right:22px; bottom:-1.5px; height:2px; pointer-events:none;
+  background:linear-gradient(90deg,rgba(94,242,255,0),#5ef2ff,#c084fc,rgba(94,242,255,0));
+  opacity:.85;
+}
+body.theme-future .sec-title::before{background:linear-gradient(#5fc2ef,#7fe3c8); box-shadow:0 0 6px rgba(95,194,239,.5)}
+body.theme-future .mini-card, body.theme-future .play-stat{box-shadow:inset 0 0 0 1.2px #eafcff}
+body.theme-future .tabs{background:rgba(7,20,33,.88); border-bottom-color:rgba(70,220,255,.30)}
+body.theme-future .tabs button{background:rgba(255,255,255,.92)}
+body.theme-future .toolbar{background:rgba(7,21,34,.90); border-bottom-color:rgba(70,220,255,.25)}
+body.theme-future .search-wrap input{background:rgba(255,255,255,.96)}
+body.theme-future .result-line{color:#bfe6f7}
+body.theme-future .result-line b{color:#7defff}
+body.theme-future #cardEmpty{color:#cfe9f6}
+
+/* ---------- 🖤 ロリゴシック風 ---------- */
+body.theme-gothic{
+  --pink:#8a2346; --pink-2:#b2436a; --pink-l:#f2dde5; --pink-xl:#fbf5f7;
+  --gold:#8f95a3; --gold-2:#d5dae2; --gold-l:#f2f3f7;
+  --acc:#7d1f3d; --acc-2:#93294b;
+  --tabs-bg:rgba(16,8,13,.90);
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><g fill='none' stroke='%23f0d9e6' stroke-opacity='.13' stroke-width='1.2'><path d='M80 22c-14 10-22 22-22 34s10 20 22 26c12-6 22-14 22-26s-8-24-22-34z'/><path d='M58 82c-10 6-14 16-10 24 6 6 14 4 18-2'/><path d='M102 82c10 6 14 16 10 24-6 6-14 4-18-2'/><path d='M80 128c-7 4-11 9-9 14M80 128c7 4 11 9 9 14'/></g><g fill='%23f0d9e6' fill-opacity='.10'><circle cx='0' cy='0' r='2'/><circle cx='80' cy='0' r='1.4'/><circle cx='0' cy='80' r='1.4'/></g></svg>"),
+    radial-gradient(circle at 50% -8%, rgba(150,30,70,.38), rgba(150,30,70,0) 46%),
+    radial-gradient(circle at 12% 34%, rgba(70,20,45,.55), rgba(70,20,45,0) 52%),
+    linear-gradient(180deg,#150b11 0%,#22101b 45%,#2b1220 100%);
+  background-size:160px 160px, auto, auto, auto;
+  background-repeat:repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment:fixed;
+}
+body.theme-gothic .app-header{
+  background-image:
+    linear-gradient(180deg,rgba(10,4,8,.15) 30%,rgba(10,4,8,.55) 100%),
+    linear-gradient(135deg,#0d050a 0%,#2a0b18 55%,#4d1126 100%);
+  border-bottom:2px solid #c9cbd4;
+  box-shadow:0 8px 26px rgba(0,0,0,.5);
+}
+body.theme-gothic .app-header::after{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='34' height='16'><g fill='none' stroke='%23dfe1e8' stroke-opacity='.5' stroke-width='1'><path d='M0 16c0-8 5-12 8.5-12S17 8 17 16'/><path d='M17 16c0-8 5-12 8.5-12S34 8 34 16'/></g><g fill='%23dfe1e8' fill-opacity='.55'><circle cx='8.5' cy='7' r='1.1'/><circle cx='25.5' cy='7' r='1.1'/><circle cx='17' cy='12' r='.9'/><circle cx='0' cy='12' r='.7'/><circle cx='34' cy='12' r='.7'/></g></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><g fill='none' stroke='%23ffffff' stroke-opacity='.08' stroke-width='1.1'><path d='M80 22c-14 10-22 22-22 34s10 20 22 26c12-6 22-14 22-26s-8-24-22-34z'/></g></svg>");
+  background-size:34px 16px, 160px 160px;
+  background-position:bottom left, 0 0;
+  background-repeat:repeat-x, repeat;
+  opacity:.9;
+}
+body.theme-gothic .panel{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><g fill='none' stroke='%237d1f3d' stroke-opacity='.085' stroke-width='1'><path d='M75 18c-12 9-19 20-19 30s9 18 19 23c10-5 19-13 19-23s-7-21-19-30z'/><path d='M56 72c-9 5-12 14-9 21 5 5 12 3 15-2'/><path d='M94 72c9 5 12 14 9 21-5 5-12 3-15-2'/></g></svg>"),
+    linear-gradient(180deg,#fffdfb,#fbf3f6);
+  background-size:120px 120px, auto;
+  border:2.5px solid #24101c;
+  border-radius:14px;
+  box-shadow:
+    0 10px 26px rgba(0,0,0,.38),
+    inset 0 0 0 1.5px #c9cbd4,
+    inset 0 0 0 4px #fffbf7,
+    inset 0 0 0 5.5px #efd7e1;
+}
+body.theme-gothic .hero{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><g fill='none' stroke='%237d1f3d' stroke-opacity='.09' stroke-width='1'><path d='M75 18c-12 9-19 20-19 30s9 18 19 23c10-5 19-13 19-23s-7-21-19-30z'/></g></svg>"), linear-gradient(120deg,#fffdfb 0%,#fdf6f8 55%,#fbf1f4 100%); background-size:150px 150px, auto}
+body.theme-gothic .img-cta{background-image:linear-gradient(120deg,#fffdfb 0%,#fdf6f8 60%,#faf0f3 100%); background-size:auto; background-repeat:no-repeat}
+body.theme-gothic .panel::before{
+  content:""; position:absolute; top:-11px; left:50%; width:42px; height:21px; margin-left:-21px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='42' viewBox='0 0 84 42'><path d='M6 21h20M58 21h20' fill='none' stroke='%234d1126' stroke-opacity='.55' stroke-width='1.2'/><path d='M6 21l4-2M6 21l4 2M78 21l-4-2M78 21l-4 2' fill='none' stroke='%239aa0ab' stroke-width='1'/><path d='M42 8l9 9-9 9-9-9z' fill='%234d1126' stroke='%23d9dae1' stroke-width='1.3'/><path d='M42 14l3.4 3.4-3.4 3.4-3.4-3.4z' fill='%23a8294b'/><circle cx='42' cy='17.4' r='1.5' fill='%23e8e9ee'/><circle cx='33' cy='17' r='1.1' fill='%23c9cbd4'/><circle cx='51' cy='17' r='1.1' fill='%23c9cbd4'/></svg>") center/contain no-repeat;
+  pointer-events:none;
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
+}
+body.theme-gothic .panel::after{
+  content:""; position:absolute; left:12px; right:12px; bottom:3px; height:8px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='8'><g fill='%23241019'><path d='M0 0h8v1.6c0 2.4-1.7 4-4 5.4C1.7 5.6 0 4 0 1.6z'/><path d='M8 0h8v1.6c0 2.4-1.7 4-4 5.4-2.3-1.4-4-3-4-5.4z'/><path d='M16 0h8v1.6c0 2.4-1.7 4-4 5.4-2.3-1.4-4-3-4-5.4z'/></g><g fill='%23c9cbd4' fill-opacity='.8'><circle cx='4' cy='1' r='.65'/><circle cx='12' cy='1' r='.65'/><circle cx='20' cy='1' r='.65'/></g></svg>") left top/24px 8px repeat-x;
+  opacity:.9; pointer-events:none;
+}
+body.theme-gothic .panel h2{color:#3a1224}
+body.theme-gothic .panel h2 .ico{filter:grayscale(.2)}
+body.theme-gothic .sec-title{color:#7d1f3d}
+body.theme-gothic .sec-title::before{background:linear-gradient(#4d1126,#c9cbd4)}
+body.theme-gothic .sec-title::after{content:"❧"; color:#8f95a3; font-size:10px; opacity:.85; margin-left:-1px}
+body.theme-gothic .tabs{background:rgba(16,8,13,.90); border-bottom-color:#4a2030}
+body.theme-gothic .tabs button{background:rgba(255,255,255,.94)}
+body.theme-gothic .tabs button[aria-selected="true"]{background-image:linear-gradient(135deg,#2a0c18,#6d1a34 60%,#b9bcc6); color:#fff; box-shadow:0 4px 14px rgba(0,0,0,.45)}
+body.theme-gothic .toolbar{background:rgba(22,10,16,.92); border-bottom-color:#4a2030}
+body.theme-gothic .result-line{color:#e8d6de}
+body.theme-gothic .result-line b{color:#f0a8bd}
+body.theme-gothic #cardEmpty{color:#e6d4dc}
+body.theme-gothic .btn:not(.ghost):not(.danger):not(.gold){color:#fff; background-image:linear-gradient(135deg,#3a0f1f,#7d1f3d 55%,#a83355); box-shadow:0 5px 14px rgba(0,0,0,.4)}
+body.theme-gothic .chip[aria-pressed="true"]{background-image:linear-gradient(135deg,#4d1126,#93294b); border-color:#a83355; color:#fff; box-shadow:0 3px 10px rgba(0,0,0,.35)}
+body.theme-gothic .bar i{background:linear-gradient(90deg,#7d1f3d,#c9cbd4)}
+body.theme-gothic .switch input:checked{background:linear-gradient(90deg,#7d1f3d,#b9bcc6)}
+body.theme-gothic .mini-card, body.theme-gothic .play-stat{background-image:linear-gradient(180deg,#fffdfb,#faf2f5)}
+body.theme-gothic .btn.ghost{background:rgba(255,255,255,.96); color:#7d1f3d}
+body.theme-gothic .btn.danger{background:rgba(255,255,255,.96); color:#a12438; border-color:#e8c9d1}
+body.theme-gothic .btn.gold{background-image:linear-gradient(135deg,#8f95a3,#d5dae2); color:#231018}
+
+/* ---------- 🦋 スパイシーアゲハ風 ---------- */
+body.theme-spicy{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='76' height='64' viewBox='0 0 76 64'><g transform='rotate(-16 38 32)' fill='%23d92a63' fill-opacity='.13'><path d='M38 32C29 17 12 13 12 23c0 7 8 11 17 12-8 1-13 7-6 12 6 3 12-5 15-15z'/><path d='M38 32c9-15 26-19 26-9 0 7-8 11-17 12 8 1 13 7 6 12-6 3-12-5-15-15z'/><path d='M38 18v20' stroke='%23d92a63' stroke-opacity='.25' stroke-width='1.4'/><path d='M38 18l-4-7M38 18l4-7' stroke='%23d92a63' stroke-opacity='.25' stroke-width='1.2'/></g></svg>") right 22px top 96px no-repeat,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='76' height='64' viewBox='0 0 76 64'><g transform='rotate(22 38 32)' fill='%23c99216' fill-opacity='.15'><path d='M38 32C29 17 12 13 12 23c0 7 8 11 17 12-8 1-13 7-6 12 6 3 12-5 15-15z'/><path d='M38 32c9-15 26-19 26-9 0 7-8 11-17 12 8 1 13 7 6 12-6 3-12-5-15-15z'/><path d='M38 18v20' stroke='%23c99216' stroke-opacity='.25' stroke-width='1.4'/><path d='M38 18l-4-7M38 18l4-7' stroke='%23c99216' stroke-opacity='.25' stroke-width='1.2'/></g></svg>") left 12px top 420px no-repeat,
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='76' height='64' viewBox='0 0 76 64'><g transform='rotate(8 38 32)' fill='%23d92a63' fill-opacity='.10'><path d='M38 32C29 17 12 13 12 23c0 7 8 11 17 12-8 1-13 7-6 12 6 3 12-5 15-15z'/><path d='M38 32c9-15 26-19 26-9 0 7-8 11-17 12 8 1 13 7 6 12-6 3-12-5-15-15z'/></g></svg>") right 30px bottom 120px no-repeat,
+    radial-gradient(circle at 8% 0%, #ffe1eb 0%, rgba(255,225,235,0) 40%),
+    radial-gradient(circle at 94% 10%, #fff1d4 0%, rgba(255,241,212,0) 42%),
+    radial-gradient(circle at 46% 100%, #ffe9ef 0%, rgba(255,233,239,0) 55%),
+    linear-gradient(180deg,#fffafa 0%,#fff6f9 55%,#fffaf0 100%);
+  background-size:76px 64px, 76px 64px, 76px 64px, auto, auto, auto, auto;
+  background-repeat:no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment:fixed;
+}
+body.theme-spicy .app-header{
+  background-image:
+    linear-gradient(104deg,rgba(255,255,255,.32) 0%,rgba(255,255,255,0) 22%,rgba(255,255,255,.16) 40%,rgba(255,255,255,0) 56%),
+    linear-gradient(135deg,#a80f3f 0%,#d92a63 52%,#f2a536 100%);
+  border-bottom:3px solid #f5c451;
+  box-shadow:0 8px 24px rgba(200,30,80,.35);
+}
+body.theme-spicy .app-header::after{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='11'><g fill='%23ffd98c' fill-opacity='.9'><circle cx='4.33' cy='0' r='4.33'/><circle cx='13' cy='0' r='4.33'/><circle cx='21.67' cy='0' r='4.33'/></g><g fill='%23ae1040' fill-opacity='.55'><circle cx='4.33' cy='1.3' r='.8'/><circle cx='13' cy='1.3' r='.8'/><circle cx='21.67' cy='1.3' r='.8'/></g></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='52' height='52'><g transform='rotate(14 26 26)' fill='%23ffffff' fill-opacity='.3'><path d='M26 26C21 17 11 15 11 21c0 4 5 6 10 7-5 1-8 4-4 7 4 2 8-3 9-9z'/><path d='M26 26c5-9 15-11 15-5 0 4-5 6-10 7 5 1 8 4 4 7-4 2-8-3-9-9z'/></g><circle cx='44' cy='12' r='1.4' fill='%23ffffff' fill-opacity='.4'/></svg>");
+  background-size:26px 11px, 52px 52px;
+  background-position:bottom left, 0 0;
+  background-repeat:repeat-x, repeat;
+  opacity:.9;
+}
+body.theme-spicy .panel{
+  border-color:#ffcddb;
+  background-image:linear-gradient(180deg,#fffdfd,#fff7fa);
+  box-shadow:0 8px 22px rgba(220,80,120,.20), inset 0 0 0 3px #fff, inset 0 0 0 4.5px #fff0d9;
+}
+body.theme-spicy .hero{background-image:linear-gradient(120deg,#ffffff 0%,#fff9fb 50%,#fff5e6 100%)}
+body.theme-spicy .img-cta{background-image:linear-gradient(120deg,#ffffff 0%,#fff8fa 52%,#fff4e2 100%)}
+body.theme-spicy .panel::before{
+  content:""; position:absolute; top:-10px; left:50%; width:40px; height:22px; margin-left:-20px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='44' viewBox='0 0 80 44'><defs><linearGradient id='b' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23f5c451'/><stop offset='.55' stop-color='%23d92a63'/><stop offset='1' stop-color='%23a80f3f'/></linearGradient></defs><g fill='url(%23b)'><path d='M40 22C32 8 16 5 16 13c0 6 8 9 16 11-8 1-12 6-6 10 5 3 11-4 14-12z'/><path d='M40 22c8-14 24-17 24-9 0 6-8 9-16 11 8 1 12 6 6 10-5 3-11-4-14-12z'/></g><path d='M40 12v20' stroke='%23ffe0a6' stroke-width='1.6'/><path d='M40 12l-4-7M40 12l4-7' stroke='%23ffe0a6' stroke-width='1.2'/><g fill='%23fff2c8' fill-opacity='.85'><circle cx='26' cy='15' r='1.1'/><circle cx='54' cy='15' r='1.1'/></g></svg>") center/contain no-repeat;
+  pointer-events:none;
+  filter:drop-shadow(0 2px 2px rgba(160,20,60,.3));
+}
+body.theme-spicy .panel::after{
+  content:""; position:absolute; left:8px; right:8px; bottom:0; height:10px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='10'><g fill='%23f0d39a'><circle cx='4.33' cy='0' r='4.33'/><circle cx='13' cy='0' r='4.33'/><circle cx='21.67' cy='0' r='4.33'/></g><g fill='%23ffffff' fill-opacity='.9'><circle cx='4.33' cy='1.2' r='.8'/><circle cx='13' cy='1.2' r='.8'/><circle cx='21.67' cy='1.2' r='.8'/></g><g fill='%23d79a2a'><circle cx='8.66' cy='2.2' r='.5'/><circle cx='17.33' cy='2.2' r='.5'/></g></svg>") left bottom/26px 10px repeat-x;
+  pointer-events:none;
+}
+body.theme-spicy .sec-title::before{background:linear-gradient(#d92a63,#f5c451)}
+body.theme-spicy .sec-title::after{content:"✦"; color:#d79a2a; font-size:9px; opacity:.8}
+
+/* ---------- 🌙 ラブムーンライズ風 ---------- */
+body.theme-moon{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><g fill='%23ffffff'><circle fill-opacity='.55' cx='12' cy='18' r='1.1'/><circle fill-opacity='.35' cx='54' cy='8' r='.8'/><circle fill-opacity='.5' cx='92' cy='30' r='1'/><circle fill-opacity='.3' cx='34' cy='52' r='.7'/><circle fill-opacity='.45' cx='70' cy='66' r='1.2'/><circle fill-opacity='.3' cx='104' cy='92' r='.8'/><circle fill-opacity='.55' cx='18' cy='96' r='1'/><circle fill-opacity='.3' cx='58' cy='108' r='.7'/></g><g fill='%23f0dca4'><path fill-opacity='.5' d='M86 44l1.4 3.6 3.6 1.4-3.6 1.4-1.4 3.6-1.4-3.6-3.6-1.4 3.6-1.4z'/><path fill-opacity='.3' d='M24 70l1 2.6 2.6 1-2.6 1-1 2.6-1-2.6-2.6-1 2.6-1z'/></g></svg>"),
+    radial-gradient(circle at 84% 4%, rgba(240,220,164,.34), rgba(240,220,164,0) 26%),
+    radial-gradient(ellipse at 16% 26%, rgba(130,100,230,.36), rgba(130,100,230,0) 45%),
+    radial-gradient(ellipse at 74% 52%, rgba(60,200,190,.16), rgba(60,200,190,0) 46%),
+    radial-gradient(ellipse at 30% 78%, rgba(200,120,230,.20), rgba(200,120,230,0) 45%),
+    linear-gradient(180deg,#0b1030 0%,#1a1550 38%,#2b1a4d 68%,#3a2245 100%);
+  background-size:120px 120px, auto, auto, auto, auto, auto;
+  background-repeat:repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment:fixed;
+}
+body.theme-moon .app-header{
+  background-image:
+    linear-gradient(180deg,rgba(8,6,28,0) 36%,rgba(8,6,28,.4) 100%),
+    linear-gradient(135deg,#1a1240 0%,#37225f 50%,#54398f 100%);
+  border-bottom:2px solid #c9a24a;
+  box-shadow:0 8px 24px rgba(10,0,40,.5);
+}
+body.theme-moon .app-header::after{
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='10'><path d='M0 0h30v1.2a5 5 0 0 1-10 0 5 5 0 0 1-10 0 5 5 0 0 1-10 0z' fill='%23f0dca4' fill-opacity='.38'/><g fill='%23fff8e6' fill-opacity='.7'><circle cx='5' cy='1.8' r='.6'/><circle cx='15' cy='1.8' r='.6'/><circle cx='25' cy='1.8' r='.6'/></g></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='72' height='72'><path d='M46 18a14 14 0 1 0 0 28 11 11 0 1 1 0-28z' fill='%23f0dca4' fill-opacity='.55'/><circle cx='14' cy='14' r='1.4' fill='%23ffffff' fill-opacity='.5'/><circle cx='60' cy='56' r='1' fill='%23ffffff' fill-opacity='.45'/><circle cx='24' cy='54' r='1.8' fill='%23f0dca4' fill-opacity='.4'/></svg>");
+  background-size:30px 10px, 72px 72px;
+  background-position:bottom left, 0 0;
+  background-repeat:repeat-x, repeat;
+  opacity:.9;
+}
+body.theme-moon .panel{
+  border-color:#e7dcbe;
+  background-image:linear-gradient(180deg,#fffdf8,#fdf8ef);
+  box-shadow:0 8px 24px rgba(40,20,90,.20), inset 0 0 0 1.5px #f7eccd, inset 0 0 0 4px #fffdf6;
+}
+body.theme-moon .hero{background-image:linear-gradient(120deg,#fffdf8 0%,#fffaf0 55%,#fdf7ff 100%)}
+body.theme-moon .img-cta{background-image:linear-gradient(120deg,#fffdf8 0%,#fffaf1 55%,#fbf6ff 100%)}
+body.theme-moon .panel::before{
+  content:""; position:absolute; top:-10px; left:50%; width:66px; height:23px; margin-left:-33px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='132' height='46' viewBox='0 0 132 46'><path d='M36 40a30 30 0 0 1 60 0' fill='none' stroke='%23c9a24a' stroke-opacity='.75' stroke-width='1.4'/><path d='M44 40a22 22 0 0 1 44 0' fill='none' stroke='%23c9a24a' stroke-opacity='.38' stroke-width='1'/><path d='M0 40h30M102 40h30' fill='none' stroke='%23c9a24a' stroke-opacity='.5' stroke-width='1'/><path d='M66 1.5l3.8 3.8L66 9.1l-3.8-3.8z' fill='%23c9a24a' fill-opacity='.9'/><circle cx='52' cy='22' r='1.3' fill='%23e0b85c' fill-opacity='.85'/><circle cx='80' cy='22' r='1.3' fill='%23e0b85c' fill-opacity='.85'/></svg>") center/contain no-repeat;
+  pointer-events:none;
+  filter:drop-shadow(0 1px 2px rgba(60,30,10,.35));
+}
+body.theme-moon .panel::after{
+  content:""; position:absolute; left:10px; right:10px; bottom:0; height:10px;
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='10'><g fill='%23ecd7a4'><circle cx='4.33' cy='0' r='4.33'/><circle cx='13' cy='0' r='4.33'/><circle cx='21.67' cy='0' r='4.33'/></g><g fill='%23ffffff' fill-opacity='.9'><circle cx='4.33' cy='1.3' r='.8'/><circle cx='13' cy='1.3' r='.8'/><circle cx='21.67' cy='1.3' r='.8'/></g><g fill='%23c9a24a'><circle cx='8.66' cy='2.3' r='.5'/><circle cx='17.33' cy='2.3' r='.5'/></g></svg>") left bottom/26px 10px repeat-x;
+  pointer-events:none;
+}
+body.theme-moon .sec-title::before{background:linear-gradient(#8a6ab8,#f0dca4)}
+body.theme-moon .tabs{background:rgba(12,11,40,.90); border-bottom-color:rgba(201,162,74,.4)}
+body.theme-moon .tabs button{background:rgba(255,255,255,.94)}
+body.theme-moon .tabs button[aria-selected="true"]{box-shadow:0 4px 14px rgba(10,0,40,.45)}
+body.theme-moon .toolbar{background:rgba(14,12,44,.92); border-bottom-color:rgba(201,162,74,.32)}
+body.theme-moon .result-line{color:#e7e2f5}
+body.theme-moon .result-line b{color:#f5d99a}
+body.theme-moon #cardEmpty{color:#e7e2f5}
 </style>
 </head>
 <body>
@@ -3226,14 +3525,14 @@ function focusNewsCard(id){
 const THEME_KEY = 'aikatsu-encore-checker.theme.v1';
 const THEMES = [
   {key:'simple', emoji:'🌸', name:'シンプル', sub:'いまのピンクの見た目', grad:'linear-gradient(135deg,#ff6ea8,#ff9ecb 55%,#ffd98a)'},
-  {key:'angely', emoji:'🎀', name:'エンジェリーシュガー風', sub:'パステルピンク×リボン・羽', grad:'linear-gradient(135deg,#ffc4dd,#ffdcec 50%,#ffeab6)'},
-  {key:'future', emoji:'💎', name:'フューチャリングガール風', sub:'スカイブルー×ミント×星', grad:'linear-gradient(135deg,#3f9be0,#7fd0ff 55%,#a8f0dd)'},
-  {key:'gothic', emoji:'🖤', name:'ロリゴシック風', sub:'ダークラベンダー×レース・バラ', grad:'linear-gradient(135deg,#33203f,#5a3577 55%,#8a5aa8)'},
-  {key:'spicy', emoji:'🦋', name:'スパイシーアゲハ風', sub:'ホットローズ×ゴールド', grad:'linear-gradient(135deg,#a80f3f,#d92a63 55%,#f2a536)'},
-  {key:'moon', emoji:'🌙', name:'ラブムーンライズ風', sub:'ロイヤルパープル×シャンパンゴールド', grad:'linear-gradient(135deg,#37225f,#54398f 55%,#c9a24a)'}
+  {key:'angely', emoji:'🎀', name:'エンジェリーシュガー風', sub:'ピンク×ミルク白・リボン＆レース', grad:'linear-gradient(135deg,#ffc7de,#ff9ec9 45%,#fff3d8)'},
+  {key:'future', emoji:'💎', name:'フューチャリングガール風', sub:'ネオンシアン×ホログラム格子', grad:'linear-gradient(135deg,#071a2b,#1a6d92 55%,#39e6ff)'},
+  {key:'gothic', emoji:'🖤', name:'ロリゴシック風', sub:'黒×ワインレッド×シルバーレース', grad:'linear-gradient(135deg,#12070d,#5c1630 55%,#c9cbd4)'},
+  {key:'spicy', emoji:'🦋', name:'スパイシーアゲハ風', sub:'ローズ×ゴールド・アゲハ蝶', grad:'linear-gradient(135deg,#a80f3f,#d92a63 50%,#f5c451)'},
+  {key:'moon', emoji:'🌙', name:'ラブムーンライズ風', sub:'夜空×三日月×シャンパンゴールド', grad:'linear-gradient(135deg,#0b1030,#3a2a6b 55%,#e8cf92)'}
 ];
 const HEADER_ICON = {simple:'🎀', angely:'🎀', future:'⭐', gothic:'🥀', spicy:'🦋', moon:'🌙'};
-const THEME_COLOR = {simple:'#ff5c9d', angely:'#ffd0e4', future:'#4aa3e6', gothic:'#3b2350', spicy:'#d92a63', moon:'#4a2f7a'};
+const THEME_COLOR = {simple:'#ff5c9d', angely:'#ffd0e4', future:'#0f6b8c', gothic:'#1a0a12', spicy:'#d92a63', moon:'#1a1550'};
 function themeByKey(k){ return THEMES.find(t=>t.key === k) || THEMES[0]; }
 function loadTheme(){
   try{ const k = localStorage.getItem(THEME_KEY); return THEMES.some(t=>t.key === k) ? k : 'simple'; }catch(e){ return 'simple'; }
