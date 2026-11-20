@@ -54,6 +54,8 @@ a{color:#2079c7}
 .app-header h1 .ttl em{display:block; font-style:normal; font-size:11.5px; font-weight:800; letter-spacing:.12em; opacity:.95; line-height:1.2}
 .app-header h1 .ttl strong{display:block; font-size:20px; font-weight:900; letter-spacing:.01em; line-height:1.25}
 .hdr-sub{position:relative; margin:4px 0 8px; font-size:11.5px; opacity:.95}
+.hdr-up{position:relative; margin:-4px 0 8px; font-size:11px; font-weight:800; opacity:.95}
+.hdr-up:empty{display:none}
 .hdr-row{position:relative; display:flex; align-items:center; gap:10px}
 .hdr-bar{flex:1; height:9px; border-radius:99px; background:rgba(255,255,255,.42); overflow:hidden; box-shadow:inset 0 1px 3px rgba(150,40,90,.18)}
 .hdr-bar i{display:block; height:100%; width:0%; border-radius:99px; background:linear-gradient(90deg,#fff5c9,#ffffff); box-shadow:0 0 8px rgba(255,255,255,.8); transition:width .45s cubic-bezier(.2,.8,.3,1)}
@@ -146,6 +148,8 @@ main{padding:12px 12px 8px; max-width:980px; margin:0 auto}
 .switch input::after{content:""; position:absolute; top:2.5px; left:2.5px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(180,60,110,.3); transition:.2s}
 .switch input:checked{background:linear-gradient(90deg,var(--pink),var(--gold-2))}
 .switch input:checked::after{left:19.5px}
+.hero-body #upHint{display:block; margin-top:6px; font-size:11px; line-height:1.45}
+.hero-body #upCount{font-size:11px; color:var(--ink-3); font-weight:800}
 
 .stat-list{display:grid; gap:9px}
 .stat-row{display:grid; grid-template-columns:1fr auto; gap:4px 8px; align-items:center; cursor:pointer; background:none; border:none; text-align:left; padding:2px 0; width:100%}
@@ -2013,6 +2017,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
 <header class="app-header">
   <h1><span class="ribbon">🎀</span><span class="ttl"><em>アイカツ！アンコール</em><strong>所持率チェッカー</strong></span></h1>
   <p class="hdr-sub" id="hdrSub"></p>
+  <p class="hdr-up" id="hdrUpcoming"></p>
   <div class="hdr-row">
     <div class="hdr-bar"><i id="hdrBar"></i></div>
     <div class="hdr-count" id="hdrCount">0 / 0 枚</div>
@@ -2045,6 +2050,8 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
         <div class="big">所持 <b id="homeOwned">0</b> / <span id="homeTotal">0</span> 枚</div>
         <div class="hero-sub" id="homeSub"></div>
         <label class="switch"><input type="checkbox" id="parToggle" checked> パラレルも数える</label>
+        <label class="switch"><input type="checkbox" id="upcomingToggle" checked> 発売前をのぞく<span class="muted" id="upCount"></span></label>
+        <span class="muted" id="upHint" style="display:none"></span>
       </div>
     </div>
 
@@ -2608,7 +2615,7 @@ const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
 const esc = s => String(s==null?'':s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
 /* ---------- state ---------- */
-function blankState(){ return {counts:{}, extraCards:[], hideParallel:false, updated:null}; }
+function blankState(){ return {counts:{}, extraCards:[], hideParallel:false, hideUpcoming:true, updated:null}; }
 let state = loadState();
 function loadState(){
   try{
@@ -2619,6 +2626,7 @@ function loadState(){
       counts: (s.counts && typeof s.counts==='object') ? s.counts : {},
       extraCards: Array.isArray(s.extraCards) ? s.extraCards : [],
       hideParallel: !!s.hideParallel,
+      hideUpcoming: (s.hideUpcoming === undefined) ? true : !!s.hideUpcoming,
       updated: s.updated || null
     };
   }catch(e){ return blankState(); }
@@ -2662,6 +2670,17 @@ function statOf(list){
   list.forEach(c=>{ const n=cnt(c.id); if(n>0){o++; pieces+=n;} });
   return {total:list.length, owned:o, pieces, pct: list.length ? (o/list.length*100) : 0};
 }
+/* まだ手に入れられない（発売前・配布前）で未所持のカード。一覧には出すが、所持率の分母からは外せる。 */
+function isUpcoming(c){
+  if(owned(c)) return false;
+  const g = getInfoFor(c); if(!g) return false;
+  const ph = giPhase(g);
+  return !!ph && ph.cls === 'before';
+}
+function upcomingList(){ return ALL.filter(isUpcoming); }
+/* 所持率の母集団：発売前の設定（とパラレルの設定）を反映した一覧 */
+function statAll(){ return state.hideUpcoming ? ALL.filter(c=>!isUpcoming(c)) : ALL; }
+function statBase(){ const b = statAll(); return state.hideParallel ? b.filter(c=>!c.is_parallel) : b; }
 function pctText(p){ return (p>=99.95 && p<100) ? p.toFixed(1) : Math.round(p)+''; }
 function bar(p, cls=''){ return `<div class="bar ${cls}"><i style="width:${Math.max(0,Math.min(100,p)).toFixed(2)}%"></i></div>`; }
 
@@ -2682,13 +2701,14 @@ function uniq(arr){ return Array.from(new Set(arr.filter(v=>v!=null && v!=='')))
 
 /* ---------- header ---------- */
 function renderHeader(){
-  const list = state.hideParallel ? ALL.filter(c=>!c.is_parallel) : ALL;
+  const list = statBase();
   const st = statOf(list);
   const p = list.length ? (st.owned/list.length*100) : 0;
   $('#hdrBar').style.width = p.toFixed(2)+'%';
   $('#hdrCount').textContent = `${st.owned} / ${list.length} 枚`;
   const c = MASTER_META.counts || {};
   $('#hdrSub').textContent = `全${ALL.length}枚 ・ 第1弾${c['第1弾']||0} / パラレル${c['第1弾パラレル']||0} / プロモ${c['プロモ']||0}${state.extraCards.length?` ・ 追加${state.extraCards.length}`:''}`;
+  $('#hdrUpcoming').textContent = (state.hideUpcoming && upcomingList().length) ? `※発売前の${upcomingList().length}種は所持率から除外中` : '';
 }
 function idx(c){
   const i = ALL.indexOf(c);
@@ -2697,8 +2717,9 @@ function idx(c){
 
 /* ---------- home ---------- */
 function renderHome(){
-  const list = state.hideParallel ? ALL.filter(c=>!c.is_parallel) : ALL;
+  const list = statBase(), base = statAll();
   const st = statOf(list);
+  const up = upcomingList();
   const p = st.pct;
   $('#ring').style.setProperty('--pct', Math.min(100,p));
   $('#ringPct').innerHTML = `${pctText(p)}<span>%</span>`;
@@ -2708,11 +2729,20 @@ function renderHome(){
     + `<span class="tag badge-series">未所持 ${st.total-st.owned} 種</span>`
     + (state.extraCards.length?`<span class="tag t-pop">追加 ${state.extraCards.length}種</span>`:'');
   $('#parToggle').checked = !state.hideParallel;
+  $('#upcomingToggle').checked = !!state.hideUpcoming;
+  $('#upCount').textContent = (state.hideUpcoming && up.length) ? `（${up.length}種）` : '';
+  const hintEl = $('#upHint');
+  if(hintEl){
+    if(state.hideUpcoming && up.length){
+      hintEl.style.display = 'block';
+      hintEl.textContent = `まだ買えない${up.length}種は分母から外しています。発売日になると自動で戻ります。`;
+    } else { hintEl.style.display = 'none'; hintEl.textContent = ''; }
+  }
 
   // 区分
   const gs = seriesDefs();
   $('#homeGroups').innerHTML = gs.map(g=>{
-    const l = ALL.filter(g.match);
+    const l = base.filter(g.match);
     const s = statOf(l);
     return `<button class="stat-row" data-series="${esc(g.value)}">
       <span class="nm">${esc(g.label)}</span>
@@ -2767,6 +2797,7 @@ function renderHome(){
     <div class="stat-list">
       <div class="stat-row"><span class="nm">未所持のカード</span><span class="vv">${none.length} 種</span></div>
       <div class="stat-row"><span class="nm">そのうちプロモ</span><span class="vv">${nonePromo.length} 種</span></div>
+      ${(state.hideUpcoming && up.length)?`<div class="stat-row"><span class="nm">そのうち発売前（分母から除外中）</span><span class="vv">${up.length} 種</span></div>`:''}
       <div class="stat-row"><span class="nm">重複して持っているカード</span><span class="vv">${dupCount} 種</span></div>
     </div>`;
 
@@ -3870,6 +3901,7 @@ $('#clearFilters').addEventListener('click', ()=>{
   renderCards();
 });
 $('#parToggle').addEventListener('change', e=>{ state.hideParallel = !e.target.checked; save(); renderHeader(); renderHome(); });
+$('#upcomingToggle').addEventListener('change', e=>{ state.hideUpcoming = e.target.checked; save(); renderHeader(); renderHome(); });
 $('#goUnowned').addEventListener('click', ()=>{ filters.status='none'; $$('#statusChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.status==='none'))); switchView('cards'); renderCards(); });
 $('#modalClose').addEventListener('click', closeModal);
 $('#modal').addEventListener('click', (e)=>{ if(e.target.id==='modal') closeModal(); });
@@ -4056,7 +4088,7 @@ function sheetGroups(list){
 /* ---------- サマリー（所持率・区分・レアリティ・タイプ） ---------- */
 const SUM = {pad:26, head:36, big:60, bar:14, barGap:14, label:30, row:32, typeGap:18, type:60, bottom:26};
 function summaryRows(){
-  const base = state.hideParallel ? ALL.filter(c => !c.is_parallel) : ALL;
+  const base = statBase();
   const st = statOf(base);
   const gsRows = seriesDefs().map(g => ({label:g.label, s:statOf(base.filter(g.match))})).filter(r => r.s.total > 0);
   const rarOrder = ['N','R','PR','ER','PR★','ER★'];
