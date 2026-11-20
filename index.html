@@ -446,8 +446,10 @@ details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height
 .toast.show{opacity:1; transform:translateX(-50%)}
 footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14px 16px 22px; line-height:1.7}
 /* ---------- v2：アイドル・楽曲・スタンプ / ニュース / マイショット ---------- */
-.tabs{grid-template-columns:repeat(4,minmax(0,1fr)); padding:7px 9px; gap:5px}
-.tabs button{font-size:11px; padding:0 2px; min-height:38px; gap:2px; letter-spacing:-.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.tabs{grid-template-columns:repeat(4,minmax(0,1fr)); padding:6px 8px; gap:4px}
+.tabs button{font-size:10.5px; padding:0 1px; min-height:36px; gap:1px; letter-spacing:-.03em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+@media(min-width:640px){ .tabs{grid-template-columns:repeat(8,minmax(0,1fr)); gap:6px}
+  .tabs button{font-size:12px; gap:3px; letter-spacing:0} }
 .toolbar{top:var(--tabs-h,58px)}
 .mini-card{display:block}
 .mini-card small{display:block; font-size:10px; font-weight:800; color:var(--ink-3); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
@@ -519,6 +521,54 @@ footer.foot{text-align:center; font-size:10.5px; color:var(--ink-3); padding:14p
 .stamp-cell[aria-pressed="true"]{background:linear-gradient(160deg,#fff6d3,#ffe4a2); border-color:#efc14e; box-shadow:0 3px 10px rgba(227,170,43,.26)}
 .stamp-cell[aria-pressed="true"]::after{content:"★"; position:absolute; right:3px; top:1px; font-size:9px; color:#d9a017}
 .stamp-reset{margin-top:7px; display:flex; justify-content:flex-end}
+
+/* ---------- v8：イベントタブ（期間限定イベント・スタンプ・プレイメモ） ---------- */
+.ev-quick{display:grid; gap:6px}
+.ev-q{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 8px; align-items:center; text-align:left;
+  border:1.5px solid var(--line); background:linear-gradient(180deg,#fff,var(--pink-xl)); border-radius:12px; padding:8px 10px; min-height:46px}
+.ev-q:active{transform:scale(.99)}
+.ev-q .nm{font-size:12px; font-weight:900; line-height:1.35; min-width:0; word-break:break-word}
+.ev-q .rt{display:flex; flex-direction:column; align-items:flex-end; gap:3px}
+.ev-q .pg{font-size:10px; font-weight:900; color:var(--acc); white-space:nowrap}
+.ev-q .pd{grid-column:1/-1; font-size:9.5px; font-weight:800; color:var(--ink-3); line-height:1.4}
+.ev-period{margin:0 0 6px; font-size:10.5px; font-weight:800; color:var(--ink-2); line-height:1.5}
+.ev-note-q{margin:6px 0 0; font-size:10px; font-weight:800; color:var(--ink-3); line-height:1.55}
+.ev-sum{margin-left:auto; font-size:10.5px; font-weight:900; color:var(--acc); white-space:nowrap}
+.ev-pt{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px; align-items:end; margin:0 0 9px}
+.ev-pt label{font-size:10.5px; font-weight:900; color:var(--ink-2); display:grid; gap:3px; min-width:0}
+.ev-pt input{width:100%; min-height:42px; border:1.5px solid var(--line); border-radius:11px; padding:6px 10px;
+  font-size:17px; font-weight:900; background:#fff; color:var(--ink); text-align:right}
+.ev-pt-btns{display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end}
+.ev-pt-btns .chip{font-size:10.5px; padding:6px 9px; min-height:34px}
+.ev-next{margin:7px 0 9px; font-size:11px; font-weight:800; color:var(--ink-2); line-height:1.6}
+.ev-next b{color:var(--acc); font-size:12.5px}
+.ev-rows{display:grid; gap:5px}
+.ev-row,.ev-clear{display:grid; grid-template-columns:46px minmax(0,1fr) 26px; gap:7px; align-items:center; text-align:left;
+  border:1.5px solid var(--line); background:#fff; border-radius:11px; padding:7px 8px; min-height:46px; width:100%}
+.ev-row.locked{opacity:.6}
+.ev-row.on,.ev-clear.on{border-color:#efc14e; background:linear-gradient(160deg,#fff8dd,#fff3c9); box-shadow:0 3px 10px rgba(227,170,43,.16)}
+.ev-row .pt{font-size:12.5px; font-weight:900; color:var(--acc); text-align:center; line-height:1.1}
+.ev-row .pt i{font-style:normal; font-size:8.5px; font-weight:900; color:var(--ink-3); display:block; letter-spacing:.02em}
+.ev-row .nm,.ev-clear .nm{display:block; font-size:11.5px; font-weight:900; line-height:1.35; word-break:break-word}
+.ev-row .kd,.ev-clear .kd{display:block; font-size:9px; font-weight:800; color:var(--ink-3); line-height:1.4; margin-top:1px}
+.ev-row .ck,.ev-clear .ck{display:grid; place-items:center; width:24px; height:24px; border-radius:8px;
+  border:2px solid #ffd0e3; background:#fff; font-size:12px; font-weight:900; color:#fff; line-height:1}
+.ev-row.on .ck,.ev-clear.on .ck{border-color:#e8bf5c; background:#fffdf2}
+.ev-row[aria-pressed="true"] .ck,.ev-clear[aria-pressed="true"] .ck{background:linear-gradient(135deg,#ff5c9d,#ffb057); border-color:#ff8bb8}
+.ev-clear .stars{font-size:9px; font-weight:900; color:#b07b12; text-align:center; letter-spacing:-1.2px; line-height:1.2; white-space:nowrap}
+.ev-stages{display:grid; gap:8px}
+.ev-stage{border:1.5px solid var(--line); border-radius:12px; padding:8px; background:var(--pink-xl); display:grid; gap:5px}
+.ev-stage-h{display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; margin-bottom:1px}
+.ev-stage-h b{font-size:11.5px; font-weight:900; line-height:1.35; min-width:0}
+.ev-stage .ev-clear{background:#fff; min-height:44px}
+.ev-chips{display:flex; flex-wrap:wrap; gap:4px; margin:0 0 2px}
+@media(min-width:640px){
+  .ev-pt{grid-template-columns:340px auto; justify-content:start}
+  .ev-quick{grid-template-columns:1fr 1fr; display:grid}
+  .ev-stages{grid-template-columns:1fr 1fr 1fr}
+}
+.news-go{margin-top:2px}
+.news-go .btn{font-size:11px; min-height:34px}
 
 .news-card{border:1.5px solid var(--line); border-radius:14px; padding:10px 11px; background:#fff; display:grid; gap:4px; margin-bottom:8px}
 .news-card.soon{border-color:var(--gold-2); background:linear-gradient(180deg,var(--gold-l),#fff)}
@@ -1216,6 +1266,38 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .detail-kv dt, bod
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .links a.mercari{background:#fff0f4; border-color:#ffc9d9; color:#c0255f}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .links a.yahoo{background:#fff6ea; border-color:#ffdda8; color:#8a5200}
 body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .links a.suruga{background:#eef4ff; border-color:#c6d9ff; color:#204d92}
+
+/* 🎀 イベントタブ（ダーク系テーマ用：イベントの行は地の色に合わせ、達成行だけクリーム地＋濃い文字） */
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-q{background:linear-gradient(180deg,var(--s1),var(--s2)); border-color:var(--line2); color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-q .nm{color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-q .pd{color:var(--ink-3)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-clear{background:var(--s1); border-color:var(--line2); color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row .nm,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-clear .nm{color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row .kd,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-clear .kd{color:var(--ink-3)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row .pt{color:var(--acc-2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row.on,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-clear.on{background:linear-gradient(160deg,#fff8dd,#ffeec0); border-color:#efc14e}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row.on .nm,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-clear.on .nm{color:#3a2a06}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row.on .kd,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-clear.on .kd{color:#7a6218}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row.on .pt,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-clear.on .stars{color:#a9620c}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row.on .ck{border-color:#c99a26; background:#fffdf2}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-row[aria-pressed="true"] .ck,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-clear[aria-pressed="true"] .ck{background:linear-gradient(135deg,#e06a92,#e8a95c); border-color:#f0b8a0}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-stage{background:var(--s2); border-color:var(--line2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-stage .ev-clear{background:var(--s1)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-stage .ev-clear.on{background:linear-gradient(160deg,#fff8dd,#ffeec0)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-stage-h b{color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-pt input{background:var(--s2); border-color:var(--line2); color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-pt label,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-next{color:var(--ink-2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .ev-note-q{color:var(--ink-3)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .news-go .btn{background:var(--s2); color:var(--acc-2); border-color:var(--line2)}
 
 /* ---------- 🎀 エンジェリーシュガー風（オーロラキス） ---------- */
 body.theme-angely{
@@ -1943,6 +2025,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
   <button role="tab" aria-selected="false" data-view="cards">🃏 カード</button>
   <button role="tab" aria-selected="false" data-view="coords">👗 コーデ</button>
   <button role="tab" aria-selected="false" data-view="idol">🎤 アイドル</button>
+  <button role="tab" aria-selected="false" data-view="event">🎀 イベント</button>
   <button role="tab" aria-selected="false" data-view="news">📰 ニュース</button>
   <button role="tab" aria-selected="false" data-view="myshot">📸 マイショット</button>
   <button role="tab" aria-selected="false" data-view="data">💾 データ</button>
@@ -2035,7 +2118,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
         <button class="mini-card" data-view="idol"><b id="miniIdol">0/11</b><span>アイドル解放</span><small id="miniIdolSub">解放チェック</small></button>
         <button class="mini-card" data-view="news"><b id="miniNews">—</b><span>つぎの予定</span><small id="miniNewsSub">発売日・終了日</small></button>
         <button class="mini-card" data-view="myshot"><b id="miniShots">0</b><span>マイショット</span><small id="miniShotsSub">写真をためる</small></button>
-        <button class="mini-card" data-view="idol" data-scroll="playPanel"><b id="miniPlay">0回</b><span>今日のプレイ</span><small id="miniPlaySub">きょうはまだ</small></button>
+        <button class="mini-card" data-view="event" data-scroll="playPanel"><b id="miniPlay">0回</b><span>今日のプレイ</span><small id="miniPlaySub">きょうはまだ</small></button>
       </div>
     </div>
 
@@ -2274,16 +2357,62 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
       <p class="muted" style="margin:9px 0 0">タイプ・おすすめブランドは、じゆうにアイカツ！モードの曲一覧（<a href="https://dcd-aikatsu.net/play/audition/" target="_blank" rel="noopener">DCDアイカツ！アンコールまとめ</a>）を 2026-11-19 に確認。楽曲リストの出典：<a href="https://dcd.aikatsu.com/encore/pdf/music-list.pdf" target="_blank" rel="noopener">公式サイト 楽曲リスト（PDF）</a></p>
     </div>
 
+  </section>
+
+  <!-- ================= EVENT ================= -->
+  <section class="view" id="view-event" hidden>
     <div class="panel">
-      <h2><span class="ico">⭐</span>アイカツ！スタンプ<span class="right" id="stampSum">0 / 30 マス</span></h2>
-      <p class="muted" style="margin:0 0 4px">1プレイごとに1マス。集めたマスを押すと金色になるよ（もう一度押すと戻せます）。</p>
+      <h2><span class="ico">🎀</span>イベント<span class="right" id="evNow"></span></h2>
+      <p class="muted" style="margin:0 0 9px">期間限定イベントとアイカツ！スタンプ（ログボ）を、開催期間の早い順にまとめています。タップすると、そのイベントのチェックへ飛べます。</p>
+      <div class="ev-quick" id="evQuick"></div>
+      <p class="muted" style="margin:9px 0 0; line-height:1.6">チェックはこの端末の中（localStorage）だけに保存され、💾「データ」タブのJSON書き出し・読み込みにもいっしょに入ります。</p>
+    </div>
+
+    <div class="panel" id="evHajimaru">
+      <h2><span class="ico">🎵</span>はじまるよ♪アイカツ！アンコール<span class="right" id="hjStatus"></span></h2>
+      <p class="ev-period">📅 <span id="hjPeriod"></span></p>
+      <p class="muted" style="margin:0 0 4px">イベントステージ3つを遊んでためた合計ポイントで、ここでしかもらえないマイキャラパーツ・アンコールアピール（限定ポーズ）・アイドルプレートがもらえます。ごうけい1000ポイント以降は、100ポイントごとに「アイドルランクけいけんち＋100」。</p>
+      <p class="ev-note-q">プレゼントの受け取りにはアイカツパスが必要です（プレゼントは1度のみ）。</p>
+
+      <div class="sec-title">💮 ポイント報酬<span class="ev-sum" id="hjPtGot">達成 0 / 10</span></div>
+      <div class="ev-pt">
+        <label for="hjPoints">いまの累計ポイント<input type="number" id="hjPoints" min="0" max="99999" step="10" inputmode="numeric" placeholder="0"></label>
+        <div class="ev-pt-btns">
+          <button class="chip" type="button" data-hj-add="10">＋10</button>
+          <button class="chip" type="button" data-hj-add="100">＋100</button>
+          <button class="chip" type="button" data-hj-add="-100">−100</button>
+        </div>
+      </div>
+      <div class="bar gold"><i id="hjBar" style="width:0%"></i></div>
+      <p class="ev-next" id="hjNext"></p>
+      <div class="ev-rows" id="hjLadder"></div>
+      <p class="ev-note-q" id="hjGotNote"></p>
+
+      <div class="sec-title">🏆 アンコールステージ初回クリア<span class="ev-sum" id="hjClearSum">0 / 9</span></div>
+      <div class="bar"><i id="hjClearBar" style="width:0%"></i></div>
+      <div class="ev-stages" id="hjStages" style="margin-top:8px"></div>
+      <p class="muted" style="margin:9px 0 0; line-height:1.6">むずかしいステージほど、いいパーツ・プレートがもらえます。出典：<a href="https://dcd.aikatsu.com/encore/news/013.php" target="_blank" rel="noopener">公式サイト「はじまるよ♪アイカツ！アンコール」</a>／<a href="https://dcd.aikatsu.com/encore/pdf/mycharaparts.pdf" target="_blank" rel="noopener">マイキャラパーツいちらん（PDF）</a></p>
+    </div>
+
+    <div class="panel" id="evNewIdol">
+      <h2><span class="ico">🌟</span>新登場アイドルとアイカツ！<span class="right" id="niStatus"></span></h2>
+      <p class="ev-period">📅 2026/11/12（木）〜 １弾稼働終了まで</p>
+      <p class="muted" style="margin:0 0 7px">イベントステージをさいごまでクリアすると、メエ・パリン・たいむと「じゆうにアイカツ！モード」でアイカツ！できるようになります。</p>
+      <div class="ev-chips"><span class="song-chip">真未夢 メエ</span><span class="song-chip">和央 パリン</span><span class="song-chip">凛堂 たいむ</span></div>
+      <label class="check"><input type="checkbox" id="niDone"> さいごまでクリアした（3人とあそべる）</label>
+      <div style="margin-top:8px"><button class="btn ghost sm" type="button" data-view="idol" data-scroll="idolGrid">🎤 3人の解放チェックを見る ›</button></div>
+    </div>
+
+    <div class="panel" id="evStamps">
+      <h2><span class="ico">⭐</span>アイカツ！スタンプ（ログボ）<span class="right" id="stampSum">0 / 30 マス</span></h2>
+      <p class="muted" style="margin:0 0 4px">1プレイごとに1マス。集めたマスを押すと金色になるよ（もう一度押すと戻せます）。3種類を開催期間の早い順に並べています。</p>
       <div id="stampWrap"></div>
       <p class="muted" style="margin:9px 0 0">出典：<a href="https://dcd.aikatsu.com/encore/news/004.php" target="_blank" rel="noopener">公式サイト アイカツ！スタンプ</a></p>
     </div>
 
     <div class="panel" id="playPanel">
       <h2><span class="ico">🎮</span>プレイ回数＆金額メモ<span class="right">この端末に保存</span></h2>
-      <p class="muted" style="margin:0 0 9px">100円で1回。遊んだぶんをワンタップでメモできます（スタンプと同じく1プレイ＝1マス）。日付を変えれば、過去の日もあとから記録・修正できます。</p>
+      <p class="muted" style="margin:0 0 9px">100円で1回。遊んだぶんをワンタップでメモできます（スタンプ・ポイントと一緒にここで記録）。日付を変えれば、過去の日もあとから記録・修正できます。</p>
       <div class="play-stats">
         <div class="play-stat"><span>今日</span><b id="playToday">0<i>回</i></b><small id="playTodayYen">¥0</small></div>
         <div class="play-stat"><span>今月</span><b id="playMonth">0<i>回</i></b><small id="playMonthYen">¥0</small></div>
@@ -3608,7 +3737,8 @@ function applyImport(text){
     state.counts = obj.counts;
     if(Array.isArray(obj.extraCards)) state.extraCards = obj.extraCards;
     if(obj.progress && typeof obj.progress==='object'){
-      PROG = {idols:obj.progress.idols||{}, songs:obj.progress.songs||{}, stamps:obj.progress.stamps||{}, updated:obj.progress.updated||null};
+      PROG = {idols:obj.progress.idols||{}, songs:obj.progress.songs||{}, stamps:obj.progress.stamps||{},
+              event:normEventProg(obj.progress.event), updated:obj.progress.updated||null};
       saveProg();
     }
     if(obj.play && typeof obj.play==='object' && obj.play.days) importPlayDays(obj.play.days, true);
@@ -3637,6 +3767,7 @@ function refreshAll(){
   if(!$('#view-cards').hidden) renderCards();
   if(!$('#view-coords').hidden) renderCoords();
   if(!$('#view-idol').hidden) renderIdolView();
+  if(!$('#view-event').hidden) renderEventView();
   if(!$('#view-news').hidden) renderNewsView();
   if(!$('#view-myshot').hidden) renderShots();
   renderPlayMemo();
@@ -3647,11 +3778,12 @@ function refreshAll(){
 /* ---------- events ---------- */
 function switchView(name){
   $$('.tabs button').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.view===name)));
-  ['home','cards','coords','idol','news','myshot','data'].forEach(v=>{ const el=$('#view-'+v); if(el) el.hidden = (v!==name); });
+  ['home','cards','coords','idol','event','news','myshot','data'].forEach(v=>{ const el=$('#view-'+v); if(el) el.hidden = (v!==name); });
   if(name==='home'){ renderHome(); updateHomeMini(); }
   if(name==='cards'){ renderCards(); }
   if(name==='coords') renderCoords();
-  if(name==='idol'){ renderIdolView(); renderPlayMemo(); }
+  if(name==='idol'){ renderIdolView(); }
+  if(name==='event'){ renderEventView(); }
   if(name==='news') renderNewsView();
   if(name==='myshot') renderShots();
   if(name==='data') renderSaveInfo();
@@ -3664,7 +3796,7 @@ function applySeriesFilter(v){
 }
 
 document.addEventListener('click', (ev)=>{
-  const t = ev.target.closest('[data-act],[data-view],[data-go],[data-series],[data-rarity],[data-type],[data-cat],[data-status],[data-cfilter],[data-rfilter]');
+  const t = ev.target.closest('[data-act],[data-view],[data-go],[data-go-event],[data-ev-jump],[data-series],[data-rarity],[data-type],[data-cat],[data-status],[data-cfilter],[data-rfilter]');
   if(!t) return;
   if(t.dataset.act){
     const id = t.dataset.id;
@@ -3686,6 +3818,12 @@ document.addEventListener('click', (ev)=>{
   if(t.dataset.go){
     if(t.dataset.coord){ filters.gen = t.dataset.coord; $('#fGen').value = t.dataset.coord; }
     switchView(t.dataset.go); closeModal(); return;
+  }
+  if(t.dataset.evJump){
+    switchView('event');
+    const el = document.getElementById(t.dataset.evJump);
+    if(el) setTimeout(()=> el.scrollIntoView({behavior:'smooth', block:'start'}), 80);
+    return;
   }
   if(t.dataset.series){ applySeriesFilter(t.dataset.series); return; }
   if(t.dataset.rarity){ filters.rarity = t.dataset.rarity; $('#fRarity').value = t.dataset.rarity; switchView('cards'); renderCards(); return; }
@@ -4572,13 +4710,16 @@ const SCHEDULE = [
   {id:'limited', kind:'period', cat:'ゲーム', title:'期間限定イベント「新登場アイドルとアイカツ！」',
    sub:'メエ・パリン・たいむが登場', start:'2026-11-12', endNote:'１弾稼働終了まで',
    detail:'イベントステージをさいごまでクリアすると、メエ・パリン・たいむと じゆうにアイカツ！モードでアイカツ！できるようになるよ。',
+   evAnchor:'evNewIdol',
    url:'https://dcd.aikatsu.com/encore/news/001.php'},
   {id:'hajimaru', kind:'period', cat:'ゲーム', title:'はじまるよ♪アイカツ！アンコール',
    sub:'期間限定イベントモード・ポイントでマイキャラパーツ／限定ポーズ', start:'2026-11-26', endNote:'１弾稼働終了まで',
-   detail:'きかんげんていのイベントモード。イベントステージ3つ（「AIKATSU！×AIKATSU！」「SHINING LINE*（6人ver）」「Du-Du-Wa DO IT!!」）を遊んでためた合計ポイントで、ここでしかもらえないマイキャラパーツ・アンコールアピール（限定ポーズ）・アイドルプレートがもらえるよ。20pt＝かみがた「あみこみウェーブ」、50pt＝アイドルプレート「ランウェイはみんなの滑走路」、300pt＝アンコールアピール「うさぎポーズ」、1000pt＝かみがた「マカロンヘア」など（1000pt以降は100ptごとにアイドルランクけいけんち＋100）。各ステージの初回クリアでもパーツ・プレートのプレゼントあり。受け取りにはアイカツパスが必要。',
+   detail:'きかんげんていのイベントモード。イベントステージ3つ（「AIKATSU！×AIKATSU！」「Du-Du-Wa DO IT!!」「SHINING LINE*（6人ver）」）を遊んでためた合計ポイントで、ここでしかもらえないマイキャラパーツ・アンコールアピール（限定ポーズ）・アイドルプレートがもらえるよ。20pt＝かみがた「あみこみウェーブ」、50pt＝アイドルプレート「ランウェイはみんなの滑走路」、300pt＝アンコールアピール「うさぎポーズ」、1000pt＝かみがた「マカロンヘア」など（1000pt以降は100ptごとにアイドルランクけいけんち＋100）。各ステージの初回クリアでもパーツ・プレートのプレゼントあり。受け取りにはアイカツパスが必要。',
+   evAnchor:'evHajimaru',
    url:'https://dcd.aikatsu.com/encore/news/013.php'},
   {id:'stamp-minarai', kind:'period', cat:'ゲーム', title:'みならいアイドルおうえん！アイカツ！スタンプ', start:'2026-11-12', endNote:'１弾稼働終了まで',
    detail:'稼働記念のスタンプ。10マス集めると限定マイキャラパーツや「こっそり笑顔」ポーズがもらえるよ。',
+   evAnchor:'evStamps',
    url:'https://dcd.aikatsu.com/encore/news/004.php'},
   {id:'present4', kind:'period', cat:'キャンペーン', title:'アイカツ！はじめよう プレゼントキャンペーン 第4弾',
    sub:'EP-030 R スターライト学園ブーツ', start:'2026-11-13', endNote:'なくなり次第終了',
@@ -4586,26 +4727,80 @@ const SCHEDULE = [
    url:'https://dcd.aikatsu.com/encore/news/003.php'},
   {id:'stamp-halloween', kind:'period', cat:'ゲーム', title:'ハロウィンアイカツ！スタンプ', start:'2026-10-24', endNote:'１弾稼働終了まで',
    detail:'ハロウィンシーズンのスタンプ。10マスで限定マイキャラパーツや「ねこ」ポーズがもらえるよ。',
+   evAnchor:'evStamps',
    url:'https://dcd.aikatsu.com/encore/news/004.php'},
   {id:'ranking', kind:'period', cat:'ゲーム', title:'１弾ハイスコアランキング', start:'2026-10-08', endNote:'１弾稼働終了まで',
    detail:'１弾稼働期間中のステージ最高スコアを競うランキング。期間終了時の順位に応じてランクインプレゼント（配布は２弾稼働以降を予定）。',
    url:'https://dcd.aikatsu.com/encore/news/008.php'},
   {id:'dan1', kind:'period', cat:'ゲーム', title:'アイカツ！アンコール １弾 稼働中', start:'2026-10-08', endNote:'２弾稼働開始まで',
    detail:'１弾は2026年10月8日(木)から稼働中。１弾アイカツ！スタンプ・はじめようプレゼントなども同時開催。',
+   evAnchor:'evStamps',
    url:'https://dcd.aikatsu.com/encore/news/001.php'},
   {id:'dan2', kind:'info', cat:'ゲーム', title:'アイカツ！アンコール ２弾 稼働決定', when:'稼働日は後日公開',
    detail:'２弾の稼働が決定。登場するアイドルやカードの詳細は後日公開予定。',
    url:'https://dcd.aikatsu.com/encore/news/011.php'}
 ];
 
-/* ---------- 進捗（アイドル・楽曲・スタンプ）の保存 ---------- */
+/* ---------- データ：期間限定イベント（公式 news/013・mycharaparts.pdf を 2026-11-20 に確認） ----------
+   ステージの並びは公式ニュースの画像と同じ順（AIKATSU！×AIKATSU！ → Du-Du-Wa DO IT!! → SHINING LINE*（6人ver））。
+   各ステージの初回クリア報酬は、公式ニュースの stage_01〜09 とパーツ一覧PDFの記載で照合済み。 */
+const HAJIMARU = {
+  key:'hajimaru', name:'はじまるよ♪アイカツ！アンコール',
+  start:'2026-11-26', period:'2026/11/26（木）〜 １弾稼働終了まで',
+  url:'https://dcd.aikatsu.com/encore/news/013.php',
+  points:[
+    {pt:20,   kind:'マイキャラパーツ', part:'かみがた', name:'あみこみウェーブ'},
+    {pt:50,   kind:'アイドルプレート',               name:'ランウェイはみんなの滑走路'},
+    {pt:100,  kind:'マイキャラパーツ', part:'かみがた', name:'ダウンシニヨン'},
+    {pt:200,  kind:'アイドルプレート',               name:'サインは顔をあげて'},
+    {pt:300,  kind:'アンコールアピール',             name:'うさぎポーズ'},
+    {pt:450,  kind:'マイキャラパーツ', part:'かみがた', name:'フェミニンマッシュ'},
+    {pt:600,  kind:'アイドルプレート',               name:'おいしいものは最初に食べろ'},
+    {pt:750,  kind:'アンコールアピール',             name:'カメラを探す'},
+    {pt:900,  kind:'アイドルプレート',               name:'ライバルは成長のスパイス'},
+    {pt:1000, kind:'マイキャラパーツ', part:'かみがた', name:'マカロンヘア'}
+  ],
+  stages:[
+    {name:'AIKATSU！×AIKATSU！', clears:[
+      {diff:'かんたん', stars:'★', kind:'マイキャラパーツ', part:'めのいろ', name:'マリンブルー'},
+      {diff:'むずかしい', stars:'★★★', kind:'マイキャラパーツ', part:'かみがた', name:'あみこみポニーテール'},
+      {diff:'とてもむずかしい', stars:'★★★★★', kind:'アイドルプレート', name:'芸能人はカードが命'}]},
+    {name:'Du-Du-Wa DO IT!!', clears:[
+      {diff:'かんたん', stars:'★', kind:'マイキャラパーツ', part:'かみのいろ', name:'ライムグリーン'},
+      {diff:'むずかしい', stars:'★★★', kind:'マイキャラパーツ', part:'めのいろ', name:'ピュアピンクマジック'},
+      {diff:'とてもむずかしい', stars:'★★★★★', kind:'アイドルプレート', name:'アイドルは特訓も命'}]},
+    {name:'SHINING LINE*（6人ver）', clears:[
+      {diff:'かんたん', stars:'★', kind:'マイキャラパーツ', part:'めのいろ', name:'アメジスト'},
+      {diff:'むずかしい', stars:'★★★', kind:'マイキャラパーツ', part:'かみのいろ', name:'ネイビーアッシュ'},
+      {diff:'とてもむずかしい', stars:'★★★★★', kind:'アイドルプレート', name:'カメラの向こう側へ微笑め'}]}
+  ]
+};
+const NEWIDOL = { key:'newidol', name:'新登場アイドルとアイカツ！', start:'2026-11-12',
+  period:'2026/11/12（木）〜 １弾稼働終了まで',
+  idols:['真未夢 メエ','和央 パリン','凛堂 たいむ'] };
+function evKindLabel(r){ return r.part ? `${r.kind}（${r.part}）` : r.kind; }
+
+/* ---------- 進捗（アイドル・楽曲・スタンプ・イベント）の保存 ---------- */
 const PROG_KEY = 'aikatsu-encore-checker.progress.v1';
-function blankProg(){ return {idols:{}, songs:{}, stamps:{}, updated:null}; }
+function blankEventProg(){ return { hajimaru:{ points:0, got:{}, clears:{} }, newidol:{ done:false } }; }
+function normEventProg(o){
+  const d = blankEventProg();
+  if(!o || typeof o !== 'object') return d;
+  const h = (o.hajimaru && typeof o.hajimaru === 'object') ? o.hajimaru : {};
+  const pts = Math.floor(Number(h.points) || 0);
+  d.hajimaru.points = Math.max(0, Math.min(99999, pts));
+  d.hajimaru.got = (h.got && typeof h.got === 'object') ? Object.assign({}, h.got) : {};
+  d.hajimaru.clears = (h.clears && typeof h.clears === 'object') ? Object.assign({}, h.clears) : {};
+  d.newidol.done = !!(o.newidol && o.newidol.done);
+  return d;
+}
+function blankProg(){ return {idols:{}, songs:{}, stamps:{}, event:blankEventProg(), updated:null}; }
 function loadProg(){
   try{
     const o = JSON.parse(localStorage.getItem(PROG_KEY) || 'null');
     if(!o || typeof o !== 'object') return blankProg();
-    return {idols:o.idols||{}, songs:o.songs||{}, stamps:o.stamps||{}, updated:o.updated||null};
+    return {idols:o.idols||{}, songs:o.songs||{}, stamps:o.stamps||{},
+            event:normEventProg(o.event), updated:o.updated||null};
   }catch(e){ return blankProg(); }
 }
 let PROG = loadProg();
@@ -4709,6 +4904,95 @@ function renderIdolView(){
   $('#songList').innerHTML = '';
   renderSongList();
 
+}
+
+/* ---------- 🎀 イベント（期間限定イベント・スタンプ） ---------- */
+function evProg(){ if(!PROG.event) PROG.event = blankEventProg(); return PROG.event; }
+function hjPointsVal(){ return Math.max(0, Math.floor(Number(evProg().hajimaru.points) || 0)); }
+function hjDoneCount(){ return HAJIMARU.points.filter(r=> hjPointsVal() >= r.pt).length; }
+function hjGotCount(){ const g = evProg().hajimaru.got; return HAJIMARU.points.filter((_,i)=> !!g[i]).length; }
+function hjClearCount(){ const c = evProg().hajimaru.clears; return HAJIMARU.stages.reduce((n,s,si)=> n + s.clears.filter((_,ci)=> !!c[si+':'+ci]).length, 0); }
+function stampCount(key){ const s = STAMPS.find(x=>x.key===key); const got = PROG.stamps[key] || {}; return s ? s.rewards.filter((_,j)=>got[j]).length : 0; }
+function evDayLabel(start){
+  const today = todayDate(), s = parseISO(start);
+  if(!s) return {cls:'', text:'開催中'};
+  if(today < s) return {cls:'soon', text:`あと${diffDays(today, s)}日`};
+  return {cls:'', text:'開催中'};
+}
+/* 「イベント早見」：開催期間の早い順 */
+function evItems(){
+  return [
+    {key:'stamp1', name:'１弾アイカツ！スタンプ', start:'2026-10-08', period:'2026/10/8（木）〜 １弾稼働終了まで',
+     anchor:'evStamps', prog:()=>stampCount('stamp1')+'/10マス'},
+    {key:'halloween', name:'ハロウィンアイカツ！スタンプ', start:'2026-10-24', period:'2026/10/24（土）〜 １弾稼働終了まで',
+     anchor:'evStamps', prog:()=>stampCount('halloween')+'/10マス'},
+    {key:'newidol', name:NEWIDOL.name, start:NEWIDOL.start, period:NEWIDOL.period,
+     anchor:'evNewIdol', prog:()=> evProg().newidol.done ? 'クリア済' : '未クリア'},
+    {key:'minarai', name:'みならいアイドルおうえん！アイカツ！スタンプ', start:'2026-11-12', period:'2026/11/12（木）〜 １弾稼働終了まで',
+     anchor:'evStamps', prog:()=>stampCount('minarai')+'/10マス'},
+    {key:'hajimaru', name:HAJIMARU.name, start:HAJIMARU.start, period:HAJIMARU.period,
+     anchor:'evHajimaru', prog:()=>`報酬${hjDoneCount()}/10・クリア${hjClearCount()}/9`}
+  ].sort((a,b)=> a.start.localeCompare(b.start) || a.name.localeCompare(b.name));
+}
+function renderEvQuick(){
+  const host = $('#evQuick'); if(!host) return;
+  host.innerHTML = evItems().map(it=>{
+    const lab = evDayLabel(it.start);
+    return `<button type="button" class="ev-q" data-ev-go="${it.anchor}">
+      <span class="nm">${esc(it.name)}</span>
+      <span class="rt"><span class="dday ${lab.cls}">${lab.text}</span><span class="pg">${esc(it.prog())}</span></span>
+      <span class="pd">📅 ${esc(it.period)}</span>
+    </button>`;
+  }).join('');
+}
+function renderHajimaru(){
+  if(!$('#hjLadder')) return;
+  const lab = evDayLabel(HAJIMARU.start);
+  $('#hjStatus').innerHTML = `<span class="dday ${lab.cls}">${lab.text}</span>`;
+  $('#hjPeriod').textContent = HAJIMARU.period;
+  const pts = hjPointsVal();
+  const inp = $('#hjPoints');
+  if(document.activeElement !== inp) inp.value = pts ? String(pts) : '';
+  $('#hjBar').style.width = Math.min(100, pts / 1000 * 100).toFixed(1) + '%';
+  $('#hjPtGot').textContent = `達成 ${hjDoneCount()} / 10`;
+  const next = HAJIMARU.points.find(r=> r.pt > pts);
+  $('#hjNext').innerHTML = next
+    ? `いま <b>${pts}pt</b> ／ つぎは <b>${next.pt}pt</b>：${esc(next.name)}（あと ${next.pt - pts}pt）`
+    : `いま <b>${pts}pt</b> ／ 全10段階クリア！1,000pt以降は100ptごとに「アイドルランクけいけんち＋100」`;
+  $('#hjLadder').innerHTML = HAJIMARU.points.map((r,i)=>{
+    const on = pts >= r.pt, got = !!evProg().hajimaru.got[i];
+    const tail = on ? '' : `・あと${r.pt - pts}pt`;
+    return `<button type="button" class="ev-row${on?' on':' locked'}" data-hj-get="${i}" aria-pressed="${got?'true':'false'}" aria-label="${esc(r.pt+'pt '+evKindLabel(r)+' '+r.name+(got?'（受け取り済み）':''))}">
+      <span class="pt">${r.pt}<i>pt</i></span>
+      <span class="bd"><span class="nm">${esc(r.name)}</span><span class="kd">${esc(evKindLabel(r))}${esc(tail)}</span></span>
+      <span class="ck">${got?'✓':''}</span>
+    </button>`;
+  }).join('');
+  $('#hjGotNote').textContent = `受け取り済み ${hjGotCount()} / 10 ・ 行をタップで受け取りチェック`;
+  const cl = hjClearCount();
+  $('#hjClearSum').textContent = `${cl} / 9`;
+  $('#hjClearBar').style.width = (cl / 9 * 100).toFixed(1) + '%';
+  $('#hjStages').innerHTML = HAJIMARU.stages.map((s,si)=>{
+    const done = s.clears.filter((_,ci)=> !!evProg().hajimaru.clears[si+':'+ci]).length;
+    return `<div class="ev-stage">
+      <div class="ev-stage-h"><b>${esc(s.name)}</b><span class="ev-sum">${done} / 3</span></div>
+      ${s.clears.map((c,ci)=>{
+        const on = !!evProg().hajimaru.clears[si+':'+ci];
+        return `<button type="button" class="ev-clear${on?' on':''}" data-hj-clear="${si}:${ci}" aria-pressed="${on?'true':'false'}" aria-label="${esc(c.diff+' '+c.stars+' '+evKindLabel(c)+' '+c.name)}">
+          <span class="stars">${c.stars}</span>
+          <span class="bd"><span class="nm">${esc(c.name)}</span><span class="kd">${esc(c.diff)}・${esc(evKindLabel(c))}</span></span>
+          <span class="ck">${on?'✓':''}</span>
+        </button>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+}
+function renderNewIdol(){
+  const lab = evDayLabel(NEWIDOL.start);
+  $('#niStatus').innerHTML = `<span class="dday ${lab.cls}">${lab.text}</span>`;
+  $('#niDone').checked = !!evProg().newidol.done;
+}
+function renderStamps(){
   let done = 0;
   $('#stampWrap').innerHTML = STAMPS.map((s,si)=>{
     const got = PROG.stamps[s.key] || {};
@@ -4725,6 +5009,16 @@ function renderIdolView(){
     </div>`;
   }).join('');
   $('#stampSum').textContent = `${done} / 30 マス`;
+}
+function renderEventView(){
+  const t = todayDate();
+  const now = $('#evNow'); if(now) now.textContent = `${t.getMonth()+1}/${t.getDate()}(${WD[t.getDay()]}) 時点`;
+  renderEvQuick(); renderHajimaru(); renderNewIdol(); renderStamps(); renderPlayMemo();
+}
+function setHjPoints(v){
+  const n = Math.max(0, Math.min(99999, Math.floor(Number(v) || 0)));
+  evProg().hajimaru.points = n; saveProg();
+  renderHajimaru(); renderEvQuick();
 }
 
 /* ---------- 📰 ニュース＆スケジュール ---------- */
@@ -4789,6 +5083,7 @@ function renderNewsView(){
       ${e.sub ? `<div class="news-sub">${esc(e.sub)}</div>` : ''}
       <div class="news-when">📅 ${esc(schedWhen(e))}</div>
       <div class="news-detail">${esc(e.detail)}</div>
+      ${e.evAnchor ? `<div class="news-go"><button class="btn ghost sm" type="button" data-ev-jump="${e.evAnchor}">🎀 イベントタブでチェックする ›</button></div>` : ''}
       <div><a class="src" href="${esc(e.url)}" target="_blank" rel="noopener">公式で見る ↗</a></div>
     </div>`;
   }).join('') : `<div class="panel"><div class="empty" style="padding:18px 0"><span class="big">📰</span>この条件の予定はないよ。</div></div>`;
@@ -5430,12 +5725,40 @@ $('#stampWrap').addEventListener('click', (e)=>{
     const s = STAMPS[parts[0]]; if(!s) return;
     const got = Object.assign({}, PROG.stamps[s.key] || {});
     got[parts[1]] = !got[parts[1]];
-    PROG.stamps[s.key] = got; saveProg(); renderIdolView();
+    PROG.stamps[s.key] = got; saveProg(); renderEventView();
   } else if(clr){
     const s = STAMPS[Number(clr.dataset.stampClear)]; if(!s) return;
     if(!confirm(`${s.name}のチェックをぜんぶ消す？`)) return;
-    PROG.stamps[s.key] = {}; saveProg(); renderIdolView();
+    PROG.stamps[s.key] = {}; saveProg(); renderEventView();
   }
+});
+
+/* 🎀 イベント：ポイント報酬・ステージクリアのチェック */
+$('#view-event').addEventListener('click', (e)=>{
+  const go = e.target.closest('[data-ev-go]');
+  if(go){ const el = document.getElementById(go.dataset.evGo); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+  const add = e.target.closest('[data-hj-add]');
+  if(add){ setHjPoints(hjPointsVal() + Number(add.dataset.hjAdd)); return; }
+  const row = e.target.closest('[data-hj-get]');
+  if(row){
+    const i = Number(row.dataset.hjGet), p = evProg().hajimaru;
+    p.got[i] = !p.got[i]; saveProg(); renderHajimaru(); return;
+  }
+  const cle = e.target.closest('[data-hj-clear]');
+  if(cle){
+    const k = cle.dataset.hjClear, p = evProg().hajimaru;
+    p.clears[k] = !p.clears[k]; saveProg(); renderHajimaru(); renderEvQuick(); return;
+  }
+});
+$('#hjPoints').addEventListener('input', ()=> setHjPoints($('#hjPoints').value));
+$('#hjPoints').addEventListener('change', ()=>{
+  /* 入力が終わったときに値が変わっていなければ何もしない（行のタップが描き直しで消えるのを防ぐ） */
+  const cur = Math.max(0, Math.min(99999, Math.floor(Number($('#hjPoints').value) || 0)));
+  if(cur === hjPointsVal()) return;
+  setHjPoints($('#hjPoints').value);
+});
+$('#niDone').addEventListener('change', (e)=>{
+  evProg().newidol.done = e.target.checked; saveProg(); renderEvQuick();
 });
 
 /* プレイ回数＆金額メモ */
