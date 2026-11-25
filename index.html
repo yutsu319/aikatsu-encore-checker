@@ -2325,7 +2325,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
           6. 「📷 所持一覧を画像で保存」を押すと、先に「出すカード」と「所持枚数を表示するか」を選ぶ画面が出ます。画像は横1200pxの縦長1枚で、カードは10列に並びます（高さはカードの枚数に合わせて伸びます）。所持はゴールド枠でくっきり、未所持はうすく表示。長押しで写真アプリへ、「共有」でLINEなどにも送れます。<br>
           7. 「🎤 アイドル」タブで、登場アイドル全11人の解放チェック（メエ・パリン・たいむは指定3曲ごと）、全11曲のプレイ済み・アンコール成功、3種類のアイカツ！スタンプ（各10マス）を記録できます。<br>
           8. 「📰 ニュース」タブは、右上のチップで「📅 カレンダー」と「📋 リスト」を切り替えられます。カレンダーは月ごと（◀ ▶ で前後の月、タイトルの「今月へ」で戻る）で、期間のある予定は開始日から終了日（未定なら「１弾稼働終了まで」など）まで横に伸びる帯と右端の▶矢印で「いつからいつまで」が分かります。単日の発売・配布日は丸い点で出ます。日付か帯をタップすると下にその日の予定が出て、「リストで見る」でリストの該当カードへ移動します。リストでは日付が過ぎたものは自動で「終了」に変わります。<br>
-          9. 「📸 マイショット」タブは、写真を端末の中だけに保存する自分用のプレイ日記。選んだ写真は長辺720px・JPEGに自動で軽くなります。いっぱいになったらJSONにバックアップしてから整理してね。<br>
+          9. 「📸 マイショット」タブは、写真を端末の中だけ（IndexedDB・目安100MB）にたっぷり保存できる自分用のプレイ日記。選んだ写真は長辺720px・JPEGに自動で軽くなります。念のためたまにJSONにバックアップしておくと安心だよ。<br>
           10. 「👗 コーデ」タブのいちばん上に「✨ 手持ちで組めるおすすめコーデ」。いま持っているカードだけで全身そろうコーデをAPの高い順に表示します。「🎯 高AP 3,000〜」でスコア狙い、「あと1枚」で足りない1枚を確認できます。<br>
           11. 「🎤 アイドル」タブの下の「🎮 プレイ回数＆金額メモ」は、1プレイ＝100円でワンタップ記録。日付ピッカーで過去の日も選べるので、記録し忘れた日もあとから足せます（今日以外を選んでいるあいだは「◯◯ を編集中」と出て、「今日に戻す」でいつでも今日に戻せます）。今日・今月・累計の回数と金額、「さいきんの記録」7日分（「もっと見る（全◯日）」で全件、日ごとに削除）が見られて、JSONでバックアップもできます（スタンプの進み具合と一緒に振り返れます）。
           12. 右上の 🎨（または「💾 データ」タブの「着せ替え」）から、見た目を6種類に切り替えられます（🌸シンプル／🎀エンジェリーシュガー風／💎フューチャリングガール風／🖤ロリゴシック風／🦋スパイシーアゲハ風／🌙ラブムーンライズ風）。選んだテーマはこの端末に保存されます。<br>
@@ -2505,7 +2505,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
         <span class="muted" id="shotHint">複数まとめてOK</span>
       </div>
       <div class="usage">
-        <div class="sum-line"><span id="shotUsage">0 KB</span><span>上限の目安 5MB</span></div>
+        <div class="sum-line"><span id="shotUsage">0 KB</span><span>上限の目安 100MB</span></div>
         <div class="bar gold"><i id="shotBar" style="width:0%"></i></div>
       </div>
     </div>
@@ -3897,7 +3897,7 @@ document.addEventListener('click', (ev)=>{
 });
 
 $('#q').addEventListener('input', (e)=>{ filters.q = e.target.value; renderCards(); });
-$('#qClear').addEventListener('click', ()=>{ const q=$('#q'); q.value=''; filters.q=''; renderCards(); q.focus(); });
+$('#qClear').addEventListener('click', async ()=>{ const q=$('#q'); q.value=''; filters.q=''; renderCards(); q.focus(); });
 $('#fSeries').addEventListener('change', e=>{ filters.series = e.target.value; renderCards(); });
 $('#fRarity').addEventListener('change', e=>{ filters.rarity = e.target.value; renderCards(); });
 $('#fType').addEventListener('change', e=>{ filters.type = e.target.value; renderCards(); });
@@ -5444,22 +5444,79 @@ function updateHomeMini(){
 
 /* ---------- 📸 マイショット ---------- */
 const SHOT_KEY = 'aikatsu-encore-checker.myshot.v1';
+const SHOT_IDB_NAME = 'aikatsu-encore-checker-db';
+const SHOT_IDB_STORE = 'myshot';
 const SHOT_MAX_SIDE = 720;
 const SHOT_QUALITY = 0.72;
-const SHOT_LIMIT = 5 * 1024 * 1024;   // localStorage の目安（ブラウザにより約5MB）
-function loadShots(){
+const SHOT_LIMIT = 100 * 1024 * 1024; // IndexedDB の目安（100MB）
+let SHOTS = [];
+function openShotDB(){
+  return new Promise((resolve, reject)=>{
+    if(!window.indexedDB){ reject(new Error('no_idb')); return; }
+    const req = indexedDB.open(SHOT_IDB_NAME, 1);
+    req.onupgradeneeded = ()=>{
+      const db = req.result;
+      if(!db.objectStoreNames.contains(SHOT_IDB_STORE)) db.createObjectStore(SHOT_IDB_STORE);
+    };
+    req.onsuccess = ()=>resolve(req.result);
+    req.onerror = ()=>reject(req.error || new Error('idb_open'));
+  });
+}
+async function idbGetShots(){
+  const db = await openShotDB();
+  return new Promise((resolve, reject)=>{
+    const tx = db.transaction(SHOT_IDB_STORE, 'readonly');
+    const req = tx.objectStore(SHOT_IDB_STORE).get('list');
+    req.onsuccess = ()=>{ db.close(); resolve(req.result); };
+    req.onerror = ()=>{ db.close(); reject(req.error); };
+  });
+}
+async function idbSetShots(arr){
+  const db = await openShotDB();
+  return new Promise((resolve, reject)=>{
+    const tx = db.transaction(SHOT_IDB_STORE, 'readwrite');
+    tx.objectStore(SHOT_IDB_STORE).put(arr, 'list');
+    tx.oncomplete = ()=>{ db.close(); resolve(true); };
+    tx.onerror = ()=>{ db.close(); reject(tx.error); };
+    tx.onabort = ()=>{ db.close(); reject(tx.error || new Error('idb_abort')); };
+  });
+}
+function loadLegacyShots(){
   try{
     const a = JSON.parse(localStorage.getItem(SHOT_KEY) || '[]');
     return Array.isArray(a) ? a.filter(s=>s && s.id && s.data) : [];
   }catch(e){ return []; }
 }
-let SHOTS = loadShots();
+async function initShots(){
+  const legacy = loadLegacyShots();
+  try{
+    const saved = await idbGetShots();
+    let list = Array.isArray(saved) ? saved.filter(s=>s && s.id && s.data) : [];
+    if(legacy.length){
+      const have = new Set(list.map(s=>s.id));
+      let merged = false;
+      legacy.forEach(s=>{ if(!have.has(s.id)){ list.push(s); have.add(s.id); merged = true; } });
+      if(merged || !Array.isArray(saved)) await idbSetShots(list);
+      try{ localStorage.removeItem(SHOT_KEY); }catch(e){}
+    }
+    SHOTS = list;
+  }catch(e){
+    SHOTS = legacy;
+  }
+  renderShots();
+}
 function shotsBytes(arr){
   try{ return JSON.stringify(arr || SHOTS).length * 2; }catch(e){ return 0; }
 }
-function persistShots(next){
-  try{ localStorage.setItem(SHOT_KEY, JSON.stringify(next)); SHOTS = next; return true; }
-  catch(e){ return false; }
+async function persistShots(next){
+  try{
+    await idbSetShots(next);
+    SHOTS = next;
+    return true;
+  }catch(e){
+    try{ localStorage.setItem(SHOT_KEY, JSON.stringify(next)); SHOTS = next; return true; }
+    catch(e2){ return false; }
+  }
 }
 function fmtSize(bytes){
   if(bytes < 1024) return bytes + ' B';
@@ -5524,7 +5581,7 @@ async function handleShotFiles(files){
       const c = await compressShot(f);
       const item = Object.assign({id:'s' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
         addedAt:new Date().toISOString()}, meta, c);
-      if(persistShots(SHOTS.concat([item]))) ok++;
+      if(await persistShots(SHOTS.concat([item]))) ok++;
       else { full = true; break; }
     }catch(e){ fail++; }
   }
@@ -5553,9 +5610,9 @@ function closeShotModal(){
   $('#shotModal').hidden = true;
   document.body.style.overflow = '';
 }
-function deleteShot(id){
+async function deleteShot(id){
   const next = SHOTS.filter(x=>x.id !== id);
-  if(!persistShots(next)){ toast('削除できませんでした'); return; }
+  if(!(await persistShots(next))){ toast('削除できませんでした'); return; }
   closeShotModal(); renderShots(); toast('写真を削除しました');
 }
 function exportShots(){
@@ -5570,7 +5627,7 @@ function exportShots(){
   setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
   toast('マイショットをJSONに書き出しました');
 }
-function importShots(text){
+async function importShots(text){
   let obj;
   try{ obj = JSON.parse(text); }catch(e){ toast('JSONとして読み取れませんでした'); return; }
   const arr = Array.isArray(obj) ? obj : (obj && Array.isArray(obj.shots) ? obj.shots : null);
@@ -5580,7 +5637,7 @@ function importShots(text){
   const next = SHOTS.slice();
   arr.forEach(s=>{ if(s && s.id && s.data && !have.has(s.id)){ next.push(s); have.add(s.id); added++; } });
   if(!added){ toast('新しい写真はありませんでした'); return; }
-  if(!persistShots(next)){ toast('容量がいっぱいで読み込めませんでした'); return; }
+  if(!(await persistShots(next))){ toast('容量がいっぱいで読み込めませんでした'); return; }
   renderShots(); toast(`${added}枚を読み込みました`);
 }
 
@@ -5913,15 +5970,16 @@ $('#shotImport').addEventListener('change', (e)=>{
   fr.readAsText(f);
   e.target.value = '';
 });
-$('#shotReset').addEventListener('click', ()=>{
+$('#shotReset').addEventListener('click', async ()=>{
   if(!SHOTS.length){ toast('写真はまだないよ'); return; }
   if(!confirm(`マイショット${SHOTS.length}枚をぜんぶ消す？（元に戻せません）`)) return;
-  if(persistShots([])){ renderShots(); toast('マイショットを消しました'); }
+  if(await persistShots([])){ renderShots(); toast('マイショットを消しました'); }
 });
 
 renderIdolView();
 renderNewsView();
 renderShots();
+initShots();
 renderPlayMemo();
 updateHomeMini();
 
