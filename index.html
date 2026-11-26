@@ -418,6 +418,67 @@ details.help div{font-size:12px; color:var(--ink-2); margin-top:8px; line-height
 .play-day.sel{background:#fffaf0}
 .play-day.sel .d{color:#a1641a; font-weight:900}
 .play-more{width:100%; margin-top:8px; min-height:36px}
+.play-more[hidden]{display:none!important}
+
+/* ---------- v9：プレイメモの出費区分（筐体／メルカリ・買取／プロモ・グッズ） ---------- */
+#playPanel .play-stat b{font-size:16.5px; letter-spacing:-.01em; white-space:nowrap}
+#playPanel .play-stat small{font-size:10.5px}
+.play-break{margin-top:7px; border:1.5px solid var(--line); border-radius:12px; background:#fff; overflow:hidden}
+.pb-row{display:grid; grid-template-columns:38px repeat(3,minmax(0,1fr)); gap:4px; align-items:center;
+  padding:5px 7px; font-size:10.5px; font-weight:800; font-variant-numeric:tabular-nums}
+.pb-row+.pb-row{border-top:1px dashed var(--line)}
+.pb-head{padding:4px 7px; background:var(--pink-xl); font-size:8.5px; font-weight:900; color:var(--ink-3); letter-spacing:.01em}
+.pb-head span{text-align:right; line-height:1.3; word-break:break-word}
+.pb-head span:first-child{text-align:left}
+.pb-k{font-size:10px; font-weight:900; color:var(--ink-2)}
+.pb-v{text-align:right; color:var(--ink); white-space:nowrap}
+.pb-v.zero{color:var(--ink-3); font-weight:700}
+.pb-row.pb-total{background:#fffafd}
+.play-cats{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; margin-top:10px}
+.play-cats .chip{min-height:38px; padding:5px 3px; font-size:10.5px; font-weight:800; justify-content:center; text-align:center; line-height:1.3}
+.play-pane[hidden]{display:none!important}
+.play-buy-form{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:6px; align-items:end; margin-top:9px}
+.play-buy-form label{display:block; min-width:0; font-size:9.5px; font-weight:900; color:var(--ink-3)}
+.play-buy-form label.wide{grid-column:1/-1}
+.play-buy-form input{width:100%; margin-top:2px; border:1.5px solid var(--line); border-radius:11px; padding:8px; min-height:40px;
+  background:#fff; font-weight:800; font-variant-numeric:tabular-nums; outline:none; color:var(--ink)}
+.play-buy-form input[type="text"]{font-variant-numeric:normal}
+.play-buy-form input:focus{border-color:#ff9ec9; box-shadow:0 0 0 3px #ffe3ef}
+.play-buy-form input::placeholder{color:#cdb4bf; font-weight:700}
+.play-buy-form .btn{min-height:40px; padding:0 14px}
+.play-row{display:grid; grid-template-columns:minmax(0,1fr) 42px 66px 26px; gap:1px 6px; align-items:center;
+  padding:6px 2px; border-bottom:1px dashed var(--line); font-size:11.5px; font-weight:800; font-variant-numeric:tabular-nums}
+.play-row .tag{justify-self:start; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  font-size:9.5px; font-weight:900; line-height:1.45; border-radius:99px; padding:2px 7px; border:1px solid transparent}
+.play-row .tag.arcade{background:#ffeaf3; color:#c03b70; border-color:#ffd0e3}
+.play-row .tag.mercari{background:#eaf3ff; color:#2d6ea8; border-color:#c9e0f8}
+.play-row .tag.goods{background:#fff2d9; color:#a1641a; border-color:#ffdd9e}
+.play-row .meta{grid-column:1/-1; display:flex; gap:5px; align-items:baseline; min-width:0}
+.play-row .v{text-align:right; color:var(--ink)}
+.play-row .x{border:none; background:#fff2f6; color:var(--acc); border-radius:8px; width:26px; height:26px; font-weight:900; line-height:1}
+.play-row .meta .d{font-size:10px; font-weight:900; color:var(--ink-3); white-space:nowrap}
+.play-row .meta .memo{font-size:10.5px; font-weight:700; color:var(--ink-2); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.play-row .meta .memo.none{color:var(--ink-3); font-weight:700}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .play-break,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .play-buy-form input{background:var(--s1); border-color:var(--line2); color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .pb-head{background:var(--s2); color:var(--ink-3)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .pb-row+.pb-row,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .play-row{border-color:var(--line2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .pb-row.pb-total{background:var(--s3)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .pb-k{color:var(--ink-2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .pb-v{color:var(--ink)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .play-row .tag.arcade,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .play-row .tag.mercari,
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .play-row .tag.goods{background:var(--s2); border-color:var(--line2); color:var(--acc-2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .play-row .meta .memo{color:var(--ink-2)}
+body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) .play-row .x{background:var(--s2); color:var(--acc-2)}
+@media(min-width:640px){
+  .play-cats .chip{font-size:12px; min-height:40px}
+  .play-buy-form{grid-template-columns:200px auto minmax(0,1fr)}
+  .play-buy-form label.wide{grid-column:3}
+  .pb-row{grid-template-columns:52px repeat(3,minmax(0,1fr)); font-size:11.5px}
+  .pb-head{font-size:9.5px}
+}
 
 /* ---------- image save ---------- */
 .img-cta{display:flex; align-items:center; gap:10px; background:linear-gradient(135deg,#fff 45%,#fff7e6 100%)}
@@ -2327,7 +2388,7 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
           8. 「📰 ニュース」タブは、右上のチップで「📅 カレンダー」と「📋 リスト」を切り替えられます。カレンダーは月ごと（◀ ▶ で前後の月、タイトルの「今月へ」で戻る）で、期間のある予定は開始日から終了日（未定なら「１弾稼働終了まで」など）まで横に伸びる帯と右端の▶矢印で「いつからいつまで」が分かります。単日の発売・配布日は丸い点で出ます。日付か帯をタップすると下にその日の予定が出て、「リストで見る」でリストの該当カードへ移動します。リストでは日付が過ぎたものは自動で「終了」に変わります。<br>
           9. 「📸 マイショット」タブは、写真を端末の中だけ（IndexedDB・目安100MB）にたっぷり保存できる自分用のプレイ日記。選んだ写真は長辺720px・JPEGに自動で軽くなります。念のためたまにJSONにバックアップしておくと安心だよ。<br>
           10. 「👗 コーデ」タブのいちばん上に「✨ 手持ちで組めるおすすめコーデ」。いま持っているカードだけで全身そろうコーデをAPの高い順に表示します。「🎯 高AP 3,000〜」でスコア狙い、「あと1枚」で足りない1枚を確認できます。<br>
-          11. 「🎤 アイドル」タブの下の「🎮 プレイ回数＆金額メモ」は、1プレイ＝100円でワンタップ記録。日付ピッカーで過去の日も選べるので、記録し忘れた日もあとから足せます（今日以外を選んでいるあいだは「◯◯ を編集中」と出て、「今日に戻す」でいつでも今日に戻せます）。今日・今月・累計の回数と金額、「さいきんの記録」7日分（「もっと見る（全◯日）」で全件、日ごとに削除）が見られて、JSONでバックアップもできます（スタンプの進み具合と一緒に振り返れます）。
+          11. 「🎀 イベント」タブの下の「🎮 プレイ回数＆金額メモ」は、区分を選んで記録できます。「🎮 筐体プレイ」は1プレイ＝100円のワンタップ記録（回数と金額の手入力もOK）。「🛒 メルカリ・買取」「🎁 プロモ・グッズ」は1円単位の金額とひとことメモ（任意）で追加でき、カードやグッズに使ったお金も同じところにまとまります。日付ピッカーで過去の日も選べるので、記録し忘れた日もあとから足せます（今日以外を選んでいるあいだは「◯◯ を編集中」と出て、「今日に戻す」でいつでも今日に戻せます）。今日・今月・累計の合計金額とプレイ回数、区分ごとの内訳、「さいきんの記録」7件（「もっと見る（全◯件）」で全件、日ごと・明細ごとに×で削除）が見られて、JSONでバックアップもできます（スタンプの進み具合と一緒に振り返れます）。
           12. 右上の 🎨（または「💾 データ」タブの「着せ替え」）から、見た目を6種類に切り替えられます（🌸シンプル／🎀エンジェリーシュガー風／💎フューチャリングガール風／🖤ロリゴシック風／🦋スパイシーアゲハ風／🌙ラブムーンライズ風）。選んだテーマはこの端末に保存されます。<br>
           13. ホームの「🏪 遊べるお店・公式X」で都道府県・市区町村をえらぶと、公式サイトの取扱店舗リストをその範囲で絞って開けます（えらばなければ全国）。下の「🔍 公式の取扱店舗をさがす」では、全国47都道府県の公式取扱店舗をこの画面のままキーワード（店名・市区町村・住所）でえらべ、「＋ メモに追加」で「📝 よく行くお店のXメモ」に保存できます（何もえらばず2文字未満のときは案内だけを出し、候補は10件ずつ「もっと見る」で増やせます）。メモは店名・住所・公式リンクを持ち、Xの欄はあとから書きかえて「保存」できます（「Xをひらく」は@ならアカウントへ、ことばか未設定なら店名の検索へ）。×で削除。メモもえらんだ都道府県・市区町村もこの端末の中だけに保存され、どこにも送られません。
         </div>
@@ -2419,12 +2480,13 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
 
     <div class="panel" id="playPanel">
       <h2><span class="ico">🎮</span>プレイ回数＆金額メモ<span class="right">この端末に保存</span></h2>
-      <p class="muted" style="margin:0 0 9px">100円で1回。遊んだぶんをワンタップでメモできます（スタンプ・ポイントと一緒にここで記録）。日付を変えれば、過去の日もあとから記録・修正できます。</p>
+      <p class="muted" style="margin:0 0 9px">遊んだぶん（筐体）も、メルカリ・買取やプロモ・グッズに使ったぶんも、ここでまとめてメモできます。日付を変えれば、過去の日もあとから記録・修正できます。</p>
       <div class="play-stats">
-        <div class="play-stat"><span>今日</span><b id="playToday">0<i>回</i></b><small id="playTodayYen">¥0</small></div>
-        <div class="play-stat"><span>今月</span><b id="playMonth">0<i>回</i></b><small id="playMonthYen">¥0</small></div>
-        <div class="play-stat"><span>累計</span><b id="playTotal">0<i>回</i></b><small id="playTotalYen">¥0</small></div>
+        <div class="play-stat"><span>今日</span><b id="playToday">¥0</b><small id="playTodayPlays">0回</small></div>
+        <div class="play-stat"><span>今月</span><b id="playMonth">¥0</b><small id="playMonthPlays">0回</small></div>
+        <div class="play-stat"><span>累計</span><b id="playTotal">¥0</b><small id="playTotalPlays">0回</small></div>
       </div>
+      <div class="play-break" id="playBreak"></div>
       <div class="play-date" id="playDateRow">
         <label for="playDate">記録する日</label>
         <input type="date" id="playDate">
@@ -2433,21 +2495,36 @@ body:is(.theme-future,.theme-gothic,.theme-spicy,.theme-moon) :is(.song-tags,.sd
           <button class="chip" id="playDateToday" type="button">今日に戻す</button>
         </div>
       </div>
-      <div class="play-quick">
-        <button class="btn sm" id="playPlus1">＋1回（100円）</button>
-        <button class="btn ghost sm" id="playPlus5">＋5回（500円）</button>
+      <div class="play-cats" id="playCats" role="group" aria-label="記録する区分">
+        <button class="chip" type="button" data-play-cat="arcade" aria-pressed="true">🎮 筐体プレイ</button>
+        <button class="chip" type="button" data-play-cat="mercari" aria-pressed="false">🛒 メルカリ・買取</button>
+        <button class="chip" type="button" data-play-cat="goods" aria-pressed="false">🎁 プロモ・グッズ</button>
       </div>
-      <div class="play-mini">
-        <button class="chip" id="playPlus100">＋100円</button>
-        <button class="chip" id="playMinus1">−1回（100円）</button>
-        <button class="chip" id="playMinus100">−100円</button>
+      <div class="play-pane" id="playPaneArcade">
+        <div class="play-quick">
+          <button class="btn sm" id="playPlus1">＋1回（100円）</button>
+          <button class="btn ghost sm" id="playPlus5">＋5回（500円）</button>
+        </div>
+        <div class="play-mini">
+          <button class="chip" id="playPlus100">＋100円</button>
+          <button class="chip" id="playMinus1">−1回（100円）</button>
+          <button class="chip" id="playMinus100">−100円</button>
+        </div>
+        <div class="play-form">
+          <label for="playInPlays">回数<input type="number" id="playInPlays" min="0" step="1" inputmode="numeric" placeholder="0"></label>
+          <label for="playInYen">金額（円）<input type="number" id="playInYen" min="0" step="100" inputmode="numeric" placeholder="0"></label>
+          <button class="btn sm" id="playAdd">追加</button>
+        </div>
+        <p class="muted" style="margin:6px 0 0">100円で1回。まとめ買いは「5回・500円」のように手入力してね。</p>
       </div>
-      <div class="play-form">
-        <label for="playInPlays">回数<input type="number" id="playInPlays" min="0" step="1" inputmode="numeric" placeholder="0"></label>
-        <label for="playInYen">金額（円）<input type="number" id="playInYen" min="0" step="100" inputmode="numeric" placeholder="0"></label>
-        <button class="btn sm" id="playAdd">追加</button>
+      <div class="play-pane" id="playPaneBuy" hidden>
+        <div class="play-buy-form">
+          <label for="playBuyYen">金額（円）<input type="number" id="playBuyYen" min="0" step="1" inputmode="numeric" placeholder="0"></label>
+          <button class="btn sm" id="playBuyAdd" type="button">追加</button>
+          <label class="wide" for="playBuyMemo">ひとことメモ（任意）<input type="text" id="playBuyMemo" maxlength="60" placeholder="メモ（任意・例：カード名、グッズ名）" autocomplete="off"></label>
+        </div>
+        <p class="muted" style="margin:6px 0 0" id="playBuyHint">1円単位で入れられます。何に使ったかはメモに残すと、あとから見返せます。</p>
       </div>
-      <p class="muted" style="margin:6px 0 0">まとめ買いは「5回・500円」のように手入力してね。</p>
       <div class="sec-title" id="playRecentTitle">さいきんの記録</div>
       <div class="play-days" id="playRecent"></div>
       <button class="btn ghost sm play-more" id="playMore" type="button" hidden>もっと見る</button>
@@ -3725,7 +3802,7 @@ function exportObject(){
     counts: state.counts,
     extraCards: state.extraCards,
     progress: PROG,
-    play: PLAY,
+    play: {days:PLAY.days, buys:BUYS.items, updated:PLAY.updated},
     shops: { pref: SHOPS.pref, city: SHOPS.city, list: SHOPS.list }
   };
 }
@@ -3773,8 +3850,8 @@ function applyImport(text){
   let obj;
   try{ obj = JSON.parse(text); }catch(e){ toast('JSONとして読み取れませんでした'); return false; }
   if(Array.isArray(obj)) return mergeCards(obj);
-  if(obj && obj.type === 'aikatsu-encore-play' && obj.days){
-    if(importPlayDays(obj.days, true)){ toast('プレイメモを読み込みました'); return true; }
+  if(obj && obj.type === 'aikatsu-encore-play' && (obj.days || Array.isArray(obj.buys))){
+    if(importPlayData(obj.days, Array.isArray(obj.buys) ? obj.buys : undefined, true)){ toast('プレイメモを読み込みました'); return true; }
     toast('このデータには記録が入っていません'); return false;
   }
   if(obj && Array.isArray(obj.cards)) {
@@ -3792,7 +3869,8 @@ function applyImport(text){
               event:normEventProg(obj.progress.event), updated:obj.progress.updated||null};
       saveProg();
     }
-    if(obj.play && typeof obj.play==='object' && obj.play.days) importPlayDays(obj.play.days, true);
+    if(obj.play && typeof obj.play==='object' && (obj.play.days || Array.isArray(obj.play.buys)))
+      importPlayData(obj.play.days, Array.isArray(obj.play.buys) ? obj.play.buys : undefined, true);
     if(obj.shops) importShops(obj.shops);
     rebuildAll(); buildFilters(); save(); refreshAll(); toast('所持データを読み込みました'); return true;
   }
@@ -5649,7 +5727,15 @@ async function importShots(text){
 
 /* ---------- 🎮 プレイ回数＆金額メモ（第3弾） ---------- */
 const PLAY_KEY = 'aikatsu-encore-checker.play.v1';
+const BUY_KEY = 'aikatsu-encore-checker.buy.v1';
+const PLAY_CATS = {
+  arcade:  {label:'筐体プレイ',    cls:'arcade',  ico:'🎮'},
+  mercari: {label:'メルカリ・買取', cls:'mercari', ico:'🛒'},
+  goods:   {label:'プロモ・グッズ', cls:'goods',   ico:'🎁'}
+};
+const PLAY_CAT_KEYS = ['arcade', 'mercari', 'goods'];
 function blankPlay(){ return {days:{}, updated:null}; }
+function blankBuys(){ return {items:[], updated:null}; }
 function normPlayDays(days){
   const out = {};
   if(!days || typeof days !== 'object') return out;
@@ -5662,6 +5748,26 @@ function normPlayDays(days){
   });
   return out;
 }
+/* 購入の明細：{id, date:'YYYY-MM-DD', cat:'mercari'|'goods', yen, memo, ts} */
+function normBuys(items){
+  const out = [];
+  if(!Array.isArray(items)) return out;
+  const seen = new Set();
+  items.forEach((it, i)=>{
+    if(!it || typeof it !== 'object') return;
+    const date = String(it.date || '').trim();
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(date)) return;
+    const yen = Math.max(0, Math.round(Number(it.yen) || 0));
+    if(!yen) return;
+    const cat = PLAY_CATS[it.cat] && it.cat !== 'arcade' ? it.cat : 'mercari';
+    let id = it.id ? String(it.id) : ('b' + date.replace(/-/g,'') + '-' + (i+1));
+    if(seen.has(id)) id = id + '-' + (i+1);
+    seen.add(id);
+    out.push({id:id, date:date, cat:cat, yen:yen,
+      memo:String(it.memo == null ? '' : it.memo).slice(0, 60), ts:it.ts || ''});
+  });
+  return out;
+}
 function loadPlay(){
   try{
     const o = JSON.parse(localStorage.getItem(PLAY_KEY) || 'null');
@@ -5669,7 +5775,15 @@ function loadPlay(){
     return {days:normPlayDays(o.days), updated:o.updated || null};
   }catch(e){ return blankPlay(); }
 }
+function loadBuys(){
+  try{
+    const o = JSON.parse(localStorage.getItem(BUY_KEY) || 'null');
+    if(!o || typeof o !== 'object') return blankBuys();
+    return {items:normBuys(o.items || o.buys), updated:o.updated || null};
+  }catch(e){ return blankBuys(); }
+}
 let PLAY = loadPlay();
+let BUYS = loadBuys();
 let playWarned = false;
 function savePlay(){
   PLAY.updated = new Date().toISOString();
@@ -5677,10 +5791,17 @@ function savePlay(){
   catch(e){ if(!playWarned){ playWarned = true; toast('この環境ではメモを自動保存できません'); } }
   renderPlayMemo(); updateHomeMini();
 }
+function saveBuys(){
+  BUYS.updated = new Date().toISOString();
+  try{ localStorage.setItem(BUY_KEY, JSON.stringify({items:BUYS.items, updated:BUYS.updated})); }
+  catch(e){ if(!playWarned){ playWarned = true; toast('この環境ではメモを自動保存できません'); } }
+  renderPlayMemo(); updateHomeMini();
+}
 function playOf(iso){ const d = PLAY.days[iso]; return {plays:(d && d.plays) || 0, yen:(d && d.yen) || 0}; }
 function fmtJPMD(s){ const d = parseISO(s); if(!d) return s; return `${d.getMonth()+1}/${d.getDate()}(${WD[d.getDay()]})`; }
 const PLAY_RECENT_DAYS = 7;
 let playShowAll = false;
+let playCat = 'arcade';
 function playTarget(){
   const inp = $('#playDate');
   const v = inp ? inp.value : '';
@@ -5708,51 +5829,141 @@ function addPlay(dPlays, dYen, iso){
   if(next.plays || next.yen) PLAY.days[k] = next; else delete PLAY.days[k];
   savePlay();
 }
+function newBuyId(){ return 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function addBuy(cat, yen, memo, iso){
+  const k = iso || playTarget();
+  const y = Math.max(0, Math.round(Number(yen) || 0));
+  if(!y) return false;
+  BUYS.items.push({id:newBuyId(), date:k,
+    cat:(PLAY_CATS[cat] && cat !== 'arcade') ? cat : 'mercari',
+    yen:y, memo:String(memo == null ? '' : memo).trim().slice(0, 60), ts:new Date().toISOString()});
+  saveBuys();
+  return true;
+}
+function buyTotalsByDate(){
+  const out = {};
+  BUYS.items.forEach(b=>{
+    const o = out[b.date] || (out[b.date] = {mercari:0, goods:0, n:0});
+    o[b.cat] = (o[b.cat] || 0) + b.yen; o.n++;
+  });
+  return out;
+}
 function playTotals(){
   const today = todayISO(), ym = today.slice(0,7);
-  const all = {plays:0, yen:0}, month = {plays:0, yen:0};
+  const mk = ()=>({plays:0, arcade:0, mercari:0, goods:0, buys:0, yen:0});
+  const out = {today:mk(), month:mk(), all:mk()};
+  const put = (bucket, plays, arcade, buys)=>{
+    bucket.plays += plays; bucket.arcade += arcade; bucket.buys += buys;
+    bucket.yen = bucket.arcade + bucket.mercari + bucket.goods;
+  };
+  const putBuy = (bucket, b)=>{
+    if(b.cat === 'goods') bucket.goods += b.yen; else bucket.mercari += b.yen;
+    bucket.buys += 1; bucket.yen = bucket.arcade + bucket.mercari + bucket.goods;
+  };
   Object.keys(PLAY.days).forEach(k=>{
-    const d = PLAY.days[k];
-    all.plays += d.plays; all.yen += d.yen;
-    if(k.slice(0,7) === ym){ month.plays += d.plays; month.yen += d.yen; }
+    const d = PLAY.days[k]; if(!d) return;
+    put(out.all, d.plays, d.yen, 0);
+    if(k.slice(0,7) === ym) put(out.month, d.plays, d.yen, 0);
+    if(k === today) put(out.today, d.plays, d.yen, 0);
   });
-  return {today:playOf(today), month:month, all:all};
+  BUYS.items.forEach(b=>{
+    putBuy(out.all, b);
+    if(b.date.slice(0,7) === ym) putBuy(out.month, b);
+    if(b.date === today) putBuy(out.today, b);
+  });
+  return out;
 }
 function yenText(n){ return '¥' + fmt(n); }
+function playCatOf(cat){ return PLAY_CATS[cat] || PLAY_CATS.mercari; }
+function playHistoryEntries(){
+  const out = [];
+  Object.keys(PLAY.days).forEach(k=>{
+    const d = PLAY.days[k]; if(!d) return;
+    out.push({kind:'day', date:k, plays:d.plays, yen:d.yen});
+  });
+  BUYS.items.forEach(b=>{
+    out.push({kind:'buy', id:b.id, date:b.date, cat:b.cat, yen:b.yen, memo:b.memo, ts:b.ts || ''});
+  });
+  out.sort((a,b)=>{
+    if(a.date !== b.date) return a.date < b.date ? 1 : -1;
+    if(a.kind !== b.kind) return a.kind === 'day' ? -1 : 1;
+    if(a.kind === 'buy' && b.kind === 'buy' && a.ts !== b.ts) return a.ts < b.ts ? 1 : -1;
+    return 0;
+  });
+  return out;
+}
+function playRowHtml(e, today, sel){
+  const isDay = e.kind === 'day';
+  const c = isDay ? PLAY_CATS.arcade : playCatOf(e.cat);
+  const cls = ['play-row', isDay ? 'play-day' : 'play-buy', c.cls];
+  if(e.date === today) cls.push('today');
+  if(!isDay && e.date === sel && e.date !== today) cls.push('sel');
+  const x = isDay
+    ? '<button class="x" type="button" data-play-del="' + esc(e.date) + '" aria-label="' + esc(fmtJP(e.date)) + 'の記録を消す">×</button>'
+    : '<button class="x" type="button" data-buy-del="' + esc(e.id) + '" aria-label="' + esc(fmtJP(e.date)) + 'の' + esc(c.label) + 'の記録を消す">×</button>';
+  return '<div class="' + cls.join(' ') + '">'
+    + '<span class="tag ' + c.cls + '">' + c.ico + ' ' + esc(c.label) + '</span>'
+    + '<span class="v">' + (isDay ? e.plays + '回' : '') + '</span>'
+    + '<span class="v">' + yenText(e.yen) + '</span>'
+    + x
+    + '<span class="meta"><span class="d">' + esc(fmtJPMD(e.date)) + (e.date === today ? '・今日' : '') + '</span>'
+    + (isDay ? '' : '<span class="memo' + (e.memo ? '' : ' none') + '">' + (e.memo ? esc(e.memo) : 'メモなし') + '</span>')
+    + '</span>'
+    + '</div>';
+}
+function pbRowHtml(label, b, cls){
+  return '<div class="pb-row' + (cls ? ' ' + cls : '') + '"><span class="pb-k">' + label + '</span>'
+    + PLAY_CAT_KEYS.map(c=>{
+        const v = b[c] || 0;
+        return '<span class="pb-v' + (v ? '' : ' zero') + '">' + yenText(v) + '</span>';
+      }).join('')
+    + '</div>';
+}
+function syncPlayCat(){
+  if($('#playCats')) $$('#playCats [data-play-cat]').forEach(x=>x.setAttribute('aria-pressed', String(x.dataset.playCat === playCat)));
+  const arc = $('#playPaneArcade'), buy = $('#playPaneBuy');
+  if(arc) arc.hidden = playCat !== 'arcade';
+  if(buy) buy.hidden = playCat === 'arcade';
+  const hint = $('#playBuyHint');
+  if(hint && playCat !== 'arcade') hint.textContent = playCat === 'goods'
+    ? 'プロモカードやグッズを買ったぶんを、1円単位で記録できます。何を買ったかはメモに残せます。'
+    : 'メルカリで買ったぶん・お店で買い取ってもらったぶんを、1円単位で記録できます。何に使ったかはメモに残せます。';
+}
 function renderPlayMemo(){
   if(!$('#playToday')) return;
   const t = playTotals();
-  $('#playToday').innerHTML = t.today.plays + '<i>回</i>';
-  $('#playTodayYen').textContent = yenText(t.today.yen);
-  $('#playMonth').innerHTML = t.month.plays + '<i>回</i>';
-  $('#playMonthYen').textContent = yenText(t.month.yen);
-  $('#playTotal').innerHTML = t.all.plays + '<i>回</i>';
-  $('#playTotalYen').textContent = yenText(t.all.yen);
+  $('#playToday').textContent = yenText(t.today.yen);
+  $('#playTodayPlays').textContent = t.today.plays + '回';
+  $('#playMonth').textContent = yenText(t.month.yen);
+  $('#playMonthPlays').textContent = t.month.plays + '回';
+  $('#playTotal').textContent = yenText(t.all.yen);
+  $('#playTotalPlays').textContent = t.all.plays + '回';
+  const br = $('#playBreak');
+  if(br){
+    br.innerHTML = '<div class="pb-row pb-head"><span>きろく</span>'
+      + PLAY_CAT_KEYS.map(c=>'<span>' + esc(PLAY_CATS[c].label) + '</span>').join('')
+      + '</div>' + pbRowHtml('今日', t.today) + pbRowHtml('今月', t.month) + pbRowHtml('累計', t.all, 'pb-total');
+  }
   refreshPlayDateUI();
   const today = todayISO(), sel = playTarget();
-  const all = Object.keys(PLAY.days).sort().reverse();
-  const keys = playShowAll ? all : all.slice(0, PLAY_RECENT_DAYS);
-  $('#playRecent').innerHTML = keys.length ? keys.map(k=>{
-    const d = PLAY.days[k];
-    return '<div class="play-day ' + (k===today?'today':'') + (k===sel && k!==today?' sel':'') + '">'
-      + '<span class="d">' + esc(fmtJP(k)) + (k===today?'・今日':'') + '</span>'
-      + '<span class="v">' + d.plays + '回</span>'
-      + '<span class="v">' + yenText(d.yen) + '</span>'
-      + '<button class="x" data-play-del="' + esc(k) + '" aria-label="' + esc(fmtJP(k)) + 'の記録を消す">×</button>'
-      + '</div>';
-  }).join('') : '<div class="muted" style="margin-top:7px">まだ記録がないよ。「＋1回（100円）」を押すと今日の記録がつきます。</div>';
+  const entries = playHistoryEntries();
+  const shown = playShowAll ? entries : entries.slice(0, PLAY_RECENT_DAYS);
+  $('#playRecent').innerHTML = shown.length
+    ? shown.map(e=>playRowHtml(e, today, sel)).join('')
+    : '<div class="muted" style="margin-top:7px">まだ記録がないよ。「🎮 筐体プレイ」の「＋1回（100円）」か、上の区分を「🛒 メルカリ・買取」「🎁 プロモ・グッズ」に切りかえて金額を入れると記録できます。</div>';
   const more = $('#playMore');
   if(more){
-    more.hidden = all.length <= PLAY_RECENT_DAYS;
-    more.textContent = playShowAll ? `さいきん${PLAY_RECENT_DAYS}日だけ表示` : `もっと見る（全${all.length}日）`;
+    more.hidden = entries.length <= PLAY_RECENT_DAYS;
+    more.textContent = playShowAll ? `さいきん${PLAY_RECENT_DAYS}件だけ表示` : `もっと見る（全${entries.length}件）`;
   }
   const title = $('#playRecentTitle');
-  if(title) title.textContent = playShowAll ? `ぜんぶの記録（${all.length}日）` : 'さいきんの記録';
+  if(title) title.textContent = playShowAll ? `ぜんぶの記録（${entries.length}件）` : 'さいきんの記録';
+  syncPlayCat();
 }
 function playExportObject(){
-  return {type:'aikatsu-encore-play', version:1,
+  return {type:'aikatsu-encore-play', version:2,
     app:'アイカツ！アンコール 所持率チェッカー（プレイメモ）',
-    exportedAt:new Date().toISOString(), days:PLAY.days};
+    exportedAt:new Date().toISOString(), days:PLAY.days, buys:BUYS.items};
 }
 function exportPlayJson(){
   const blob = new Blob([JSON.stringify(playExportObject(), null, 1)], {type:'application/json'});
@@ -5765,18 +5976,30 @@ function exportPlayJson(){
   setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
   toast('プレイメモを書き出しました');
 }
-function importPlayDays(days, quiet){
-  const next = normPlayDays(days);
-  if(!Object.keys(next).length){ if(!quiet) toast('このデータには記録が入っていません'); return false; }
-  if(Object.keys(PLAY.days).length && !quiet && !confirm('いまのメモと置きかわります。読み込む？')) return false;
-  PLAY.days = next; savePlay(); return true;
+function importPlayData(days, items, quiet){
+  const nextDays = (days === undefined || days === null) ? null : normPlayDays(days);
+  const nextBuys = (items === undefined || items === null) ? null : normBuys(items);
+  const dayN = nextDays ? Object.keys(nextDays).length : 0;
+  if(!dayN && !(nextBuys && nextBuys.length)){
+    if(!quiet) toast('このデータには記録が入っていません');
+    return false;
+  }
+  if((Object.keys(PLAY.days).length || BUYS.items.length) && !quiet && !confirm('いまのメモと置きかわります。読み込む？')) return false;
+  if(nextDays) PLAY.days = nextDays;
+  if(nextBuys) BUYS.items = nextBuys;
+  savePlay(); saveBuys();
+  return true;
 }
+function importPlayDays(days, quiet){ return importPlayData(days, undefined, quiet); }
 function importPlayText(text){
   let obj;
   try{ obj = JSON.parse(text); }catch(e){ toast('JSONとして読み取れませんでした'); return false; }
-  const days = (obj && obj.days) || (obj && obj.play && obj.play.days);
-  if(!days){ toast('プレイメモのJSONではありません'); return false; }
-  if(importPlayDays(days)){ toast('プレイメモを読み込みました'); return true; }
+  const src = (obj && obj.play && typeof obj.play === 'object') ? obj.play : obj;
+  if(!src || typeof src !== 'object'){ toast('プレイメモのJSONではありません'); return false; }
+  const days = src.days;
+  const items = Array.isArray(src.buys) ? src.buys : (Array.isArray(src.items) ? src.items : undefined);
+  if(!days && items === undefined){ toast('プレイメモのJSONではありません'); return false; }
+  if(importPlayData(days, items)){ toast('プレイメモを読み込みました'); return true; }
   return false;
 }
 
@@ -5906,20 +6129,55 @@ $('#playAdd').addEventListener('click', ()=>{
   $('#playInPlays').value = ''; $('#playInYen').value = '';
   toast(playWhere(k)+'記録しました');
 });
+$('#playCats').addEventListener('click', (e)=>{
+  const b = e.target.closest('[data-play-cat]'); if(!b) return;
+  const cat = b.dataset.playCat;
+  if(!PLAY_CATS[cat] || cat === playCat) return;
+  playCat = cat;
+  syncPlayCat();
+  if(cat !== 'arcade'){ const y = $('#playBuyYen'); if(y && !y.value) setTimeout(()=>{ try{ y.focus(); }catch(err){} }, 30); }
+});
+$('#playBuyAdd').addEventListener('click', ()=>{
+  const el = $('#playBuyYen'), memoEl = $('#playBuyMemo');
+  const y = Math.max(0, Math.round(Number(el.value) || 0));
+  if(!y){ toast('金額を入れてね'); try{ el.focus(); }catch(e){} return; }
+  const cat = playCat === 'goods' ? 'goods' : 'mercari';
+  const k = playTarget();
+  addBuy(cat, y, memoEl.value, k);
+  el.value = ''; memoEl.value = '';
+  toast(playWhere(k) + PLAY_CATS[cat].label + ' ' + yenText(y) + ' を記録しました');
+});
+['#playBuyYen', '#playBuyMemo'].forEach(sel=>{
+  $(sel).addEventListener('keydown', (e)=>{
+    if(e.key !== 'Enter' || e.isComposing) return;
+    e.preventDefault();
+    $('#playBuyAdd').click();
+  });
+});
 $('#playDate').addEventListener('change', ()=>{ refreshPlayDateUI(); renderPlayMemo(); });
 $('#playDate').addEventListener('input', ()=>{ refreshPlayDateUI(); renderPlayMemo(); });
 $('#playDateToday').addEventListener('click', ()=>{ setPlayDate(todayISO()); toast('今日の記録にもどしました'); });
 $('#playMore').addEventListener('click', ()=>{ playShowAll = !playShowAll; renderPlayMemo(); });
 $('#playRecent').addEventListener('click', (e)=>{
+  const bd = e.target.closest('[data-buy-del]');
+  if(bd){
+    const id = bd.dataset.buyDel;
+    const it = BUYS.items.find(x=>x.id === id); if(!it) return;
+    const c = playCatOf(it.cat);
+    if(!confirm(`${fmtJP(it.date)}の${c.label}（${yenText(it.yen)}${it.memo ? '・' + it.memo : ''}）を消す？`)) return;
+    BUYS.items = BUYS.items.filter(x=>x.id !== id); saveBuys(); toast('記録を消しました');
+    return;
+  }
   const b = e.target.closest('[data-play-del]'); if(!b) return;
   const k = b.dataset.playDel, d = PLAY.days[k]; if(!d) return;
-  if(!confirm(`${fmtJP(k)}の記録（${d.plays}回・${yenText(d.yen)}）を消す？`)) return;
+  if(!confirm(`${fmtJP(k)}の筐体プレイの記録（${d.plays}回・${yenText(d.yen)}）を消す？`)) return;
   delete PLAY.days[k]; savePlay(); toast('記録を消しました');
 });
 $('#playClear').addEventListener('click', ()=>{
-  if(!Object.keys(PLAY.days).length){ toast('まだメモがないよ'); return; }
-  if(!confirm('プレイ回数＆金額メモをぜんぶ消す？（元に戻せません）')) return;
-  PLAY.days = {}; savePlay(); toast('ぜんぶ消しました');
+  if(!Object.keys(PLAY.days).length && !BUYS.items.length){ toast('まだメモがないよ'); return; }
+  if(!confirm('プレイ回数＆金額メモ（筐体プレイ・メルカリ・買取・プロモ・グッズ）をぜんぶ消す？（元に戻せません）')) return;
+  PLAY.days = {}; BUYS.items = [];
+  savePlay(); saveBuys(); toast('ぜんぶ消しました');
 });
 $('#playExport').addEventListener('click', exportPlayJson);
 $('#playImport').addEventListener('change', (e)=>{
